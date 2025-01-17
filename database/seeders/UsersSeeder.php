@@ -19,7 +19,7 @@ class UsersSeeder extends Seeder
             'id' => Str::uuid(),
             'name' => 'Developer',
             'role' => 'superadmin',
-            'email' => 'alpatester@siap.app',
+            'email' => 'alpatester@posnas.app',
             'password' => bcrypt('081279329132')
         ]);
     }

@@ -1,3 +1,3 @@
 <title>
-    SIAP &mdash; Sistem Informasi Agenda Pimpinan
+    POSNAS &mdash; Pendukung Operasional Sekretariat Dinas
 </title>
