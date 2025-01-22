@@ -26,7 +26,7 @@ class PermissionRoleSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::updateOrCreate(['name' => $permission]);
             // Permission::create(['uuid' => Str::uuid(),'name' => $permission]);
         }
 

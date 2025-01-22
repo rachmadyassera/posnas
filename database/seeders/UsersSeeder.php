@@ -18,21 +18,19 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        // $admin = DB::table('users')->insert([
-        //     'id' => Str::uuid(),
-        //     'name' => 'Developer',
-        //     'role' => 'superadmin',
-        //     'email' => 'alpatester@posnas.app',
-        //     'password' => bcrypt('081279329132')
-        // ]);
 
-        $admin = User::updateOrCreate([
-            'id' => Str::uuid(),
-            'name' => 'Developer',
-            'role' => 'superadmin',
-            'email' => 'alpatester@posnas.app',
-            'password' => bcrypt('081279329132'),
-        ]);
+        $admin = User::updateOrCreate(
+
+            ['email' => 'alpatester@posnas.app'],
+            ['name' => 'Developer', 'role' => 'superadmin', 'password' => bcrypt('081279329132')]
+            // [
+            // 'id' => Str::uuid(),
+            // 'name' => 'Developer',
+            // 'role' => 'superadmin',
+            // 'email' => 'alpatester@posnas.app',
+            // 'password' => bcrypt('081279329132'),
+            // ]
+        );
 
 
         // $permissions = Permission::whereIn('id', [1,2,3])->pluck('id','id')->all();

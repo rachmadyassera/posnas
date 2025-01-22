@@ -14,22 +14,17 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create([
 
-            // 'uuid' => Str::uuid(),
-            'name' => 'admin'
-        ]);
+        $roles = [
+            'admin',
+            'operator',
+            'superadmin'
+        ];
 
-        Role::create([
 
-            // 'uuid' => Str::uuid(),
-            'name' => 'operator'
-        ]);
-
-        Role::create([
-
-            // 'uuid' => Str::uuid(),
-            'name' => 'superadmin'
-        ]);
+        foreach ($roles as $roles) {
+            Role::updateOrCreate(['name' => $roles]);
+            // Permission::create(['uuid' => Str::uuid(),'name' => $permission]);
+        }
     }
 }

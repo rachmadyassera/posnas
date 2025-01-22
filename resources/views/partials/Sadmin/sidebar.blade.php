@@ -22,7 +22,7 @@
         <li class="menu-header">Main Menu</li>
 
         <li class="dropdown">
-            <a href="{{ url('/scheduler') }}" class="nav-link "><i class="fas fa-list"></i><span>Agenda</span></a>
+            <a href="{{ url('/activity') }}" class="nav-link "><i class="fas fa-list"></i><span>Agenda</span></a>
         </li>
 
     </ul>

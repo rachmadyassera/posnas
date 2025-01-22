@@ -49,6 +49,7 @@ Route::resource('organization', OrganizationController::class)->middleware('can:
 
 Route::get('/organization/disable/{id}', 'App\Http\Controllers\OrganizationController@disable')->middleware('can:isSAdmin');
 
+Route::resource('activity', ActivityController::class)->middleware('can:isAdmin');
 
 //========================== ADMIN ====================================
 Route::get('/operator', 'App\Http\Controllers\UserController@operator')->name('operator')->middleware('can:isAdmin');
