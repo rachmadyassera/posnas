@@ -6,7 +6,7 @@
       <div class="sidebar-brand sidebar-brand-sm">
         <a href="{{ url('/dashboard') }}">POS</a>
       </div>
-      <ul class="sidebar-menu">
+    <ul class="sidebar-menu">
         <li class="menu-header">Main Menu</li>
 
         <li class="dropdown">
@@ -15,13 +15,17 @@
         <li class="dropdown">
             <a href="{{ url('/organization') }}" class="nav-link "><i class="fas fa-building"></i><span>Organisasi</span></a>
         </li>
-          </li>
         <li class="dropdown">
             <a href="{{ url('/user') }}" class="nav-link "><i class="fas fa-users"></i><span>Pengguna</span></a>
+        </li>
+
+        <li class="menu-header">Main Menu</li>
+
         <li class="dropdown">
             <a href="{{ url('/scheduler') }}" class="nav-link "><i class="fas fa-list"></i><span>Agenda</span></a>
         </li>
-      </ul>
+
+    </ul>
 
     </aside>
   </div>

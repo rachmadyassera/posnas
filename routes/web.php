@@ -7,6 +7,7 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,8 @@ Route::get('/', function () {
     return view('auth/login');
 });
 Auth::routes();
+Auth::routes(['register'=> false,'reset'=> false,'confirm'=> false,'verify'=> false]);
+
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // Route::get('/user/json', [\App\Http\Controllers\UserController::class, 'json'])->name('user.json');
@@ -76,3 +79,16 @@ Route::get('/activity-detail/{id}', 'App\Http\Controllers\ActivityController@det
 Route::post('/add-notes-evaluation', 'App\Http\Controllers\ActivityController@store_notes')->name('activity.store-notes')->middleware('can:isOperator');
 Route::get('/delete-note/{id}', 'App\Http\Controllers\ActivityController@deleteNote')->name('activity.delete-note')->middleware('can:isOperator');
 
+
+
+//=======================================================================
+
+Route::group(['middleware' => ['auth']], function() {
+
+    Route::resource('roles', RoleController::class);
+
+    Route::resource('users', UserController::class);
+
+    Route::resource('products', ProductController::class);
+
+});

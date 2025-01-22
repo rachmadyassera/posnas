@@ -3,8 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Support\Str;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UsersSeeder extends Seeder
 {
@@ -15,12 +18,33 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
+        // $admin = DB::table('users')->insert([
+        //     'id' => Str::uuid(),
+        //     'name' => 'Developer',
+        //     'role' => 'superadmin',
+        //     'email' => 'alpatester@posnas.app',
+        //     'password' => bcrypt('081279329132')
+        // ]);
+
+        $admin = User::updateOrCreate([
             'id' => Str::uuid(),
             'name' => 'Developer',
             'role' => 'superadmin',
             'email' => 'alpatester@posnas.app',
-            'password' => bcrypt('081279329132')
+            'password' => bcrypt('081279329132'),
         ]);
+
+
+        // $permissions = Permission::whereIn('id', [1,2,3])->pluck('id','id')->all();
+        $permissions = Permission::pluck('id','id')->all();
+        // $permissions = Permission::pluck('uuid')->toArray();
+        // $permissions = Permission::pluck('uuid')->toArray();
+        // dd($permissions);
+        $role = Role::findByName($admin->role);
+        // dd($role->id);
+        $role->syncPermissions($permissions);
+
+        $admin->assignRole('superadmin');
+
     }
 }
