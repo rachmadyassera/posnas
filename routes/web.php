@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\CategoryController;
@@ -41,15 +42,21 @@ Route::put('/profil/change-password', 'App\Http\Controllers\ProfilController@cha
 
 //========================= SUPER ADMIN ===============================
 
-Route::resource('user', UserController::class)->middleware('can:isSAdmin');
-Route::get('/user/destroy/{id}', 'App\Http\Controllers\UserController@destroy')->name('user.destroy')->middleware('can:isSAdmin');
-Route::get('/user/reset-pass/{id}', 'App\Http\Controllers\UserController@reset_pass')->name('user.reset-pass')->middleware('can:isSAdmin');
 
-Route::resource('organization', OrganizationController::class)->middleware('can:isSAdmin');
+Route::group(['middleware' => ['role:superadmin','permission:user-list']], function () {
+ });
+ Route::get('/all-activity', 'App\Http\Controllers\ActivityController@all_activity')->name('all-activity');
+ Route::get('/user/destroy/{id}', 'App\Http\Controllers\UserController@destroy')->name('user.destroy');
+ Route::get('/user/reset-pass/{id}', 'App\Http\Controllers\UserController@reset_pass')->name('user.reset-pass');
+ Route::get('/organization/disable/{id}', 'App\Http\Controllers\OrganizationController@disable');
 
-Route::get('/organization/disable/{id}', 'App\Http\Controllers\OrganizationController@disable')->middleware('can:isSAdmin');
+ Route::resource('user', UserController::class)->middleware(['role:superadmin','permission:user-list']);
+ Route::resource('permission', PermissionController::class)->middleware(['role:superadmin']);
+//  Route::resource('permission', PermissionController::class)->middleware(['role_or_permission:superadmin|permission-list']);
 
-Route::resource('activity', ActivityController::class)->middleware('can:isAdmin');
+ Route::resource('organization', OrganizationController::class)->middleware(['role:superadmin','permission:user-list']);
+
+
 
 //========================== ADMIN ====================================
 Route::get('/operator', 'App\Http\Controllers\UserController@operator')->name('operator')->middleware('can:isAdmin');

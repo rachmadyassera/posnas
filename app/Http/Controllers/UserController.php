@@ -9,6 +9,8 @@ use App\Models\Organization;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class UserController extends Controller
@@ -25,8 +27,21 @@ class UserController extends Controller
 
     public function index()
     {
+        // $role = Role::findByName(Auth::user()->role);
+        // $permissions = Permission::whereIn('id', [5])->pluck('name','name')->all();
+        // $role->revokePermissionTo($permissions);
+        // // $role->syncPermissions($permissions);
+        // $userId = User::find(Auth::user()->id);
+
         $datauser = User::with('organization')->whereNot('name','developer')->latest()->get()->whereNotIn('email','alpatester@siap.app');
         return view('SAdmin.User.index', compact('datauser'));
+
+        // if($userId->can('user-create')){
+        //     $datauser = User::with('organization')->whereNot('name','developer')->latest()->get()->whereNotIn('email','alpatester@siap.app');
+        //     return view('SAdmin.User.index', compact('datauser'));
+
+        // };
+
     }
 
     /**
@@ -36,6 +51,7 @@ class UserController extends Controller
      */
     public function create()
     {
+
         $org = Organization::latest()->get()->where('status','enable');
         return view('SAdmin.User.add', compact('org'));
     }

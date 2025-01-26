@@ -414,4 +414,12 @@ class ActivityController extends Controller
 
     }
 
+
+
+    public function all_activity()
+    {
+        $activity = Activity::with('organization','user')->reorder('date_activity','desc')->get();
+        return view('Sadmin.Agenda.index', compact('activity'));
+    }
+
 }
