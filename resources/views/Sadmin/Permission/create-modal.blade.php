@@ -17,6 +17,11 @@
                         <input type="text" name="name" class="form-control" required>
                     </div>
 
+                    <div class="form-group">
+                        <label>Name Module </label>
+                        <input type="text" name="module" class="form-control" required>
+                    </div>
+
                     <div class="text-right">
                     <input type="submit" value="Save" class="btn btn-success">
                     </div>

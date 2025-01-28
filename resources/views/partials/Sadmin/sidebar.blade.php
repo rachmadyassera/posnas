@@ -13,13 +13,19 @@
             <a href="{{ url('/dashboard') }}" class="nav-link "><i class="fas fa-home"></i><span>Dashboard</span></a>
         </li>
 
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown
+                    @if(Request::segment(1) == 'permission' ) active
+                    @elseif(Request::segment(1) == 'role') active
+                    @elseif(Request::segment(1) == 'organization' ) active
+                    @elseif(Request::segment(1) == 'user' ) active
+                    @else
+                    @endif">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-users-cog"></i><span>User</span></a>
             <ul class="dropdown-menu">
-            <li><a class="nav-link" href="{{ url('/permission') }}"><span>Permission Role</span></a></li>
-            <li><a class="nav-link" href="{{ url('/user') }}"><span>Role User</span></a></li>
-            <li><a class="nav-link" href="{{ url('/organization') }}"><span>Organization</span></a></li>
-            <li><a class="nav-link" href="{{ url('/user') }}"><span>Users</span></a></li>
+            <li @if(Request::segment(1) == 'permission') class="active" @endif> <a class="nav-link" href="{{ url('/permission') }}"><span>Permission Role</span></a></li>
+            <li @if(Request::segment(1) == 'role') class="active" @endif><a class="nav-link" href="{{ url('/role') }}"><span>Role User</span></a></li>
+            <li @if(Request::segment(1) == 'organization') class="active" @endif><a class="nav-link" href="{{ url('/organization') }}"><span>Organization</span></a></li>
+            <li @if(Request::segment(1) == 'user') class="active" @endif><a class="nav-link" href="{{ url('/user') }}"><span>Users</span></a></li>
             </ul>
         </li>
 

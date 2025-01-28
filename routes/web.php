@@ -52,6 +52,7 @@ Route::group(['middleware' => ['role:superadmin','permission:user-list']], funct
 
  Route::resource('user', UserController::class)->middleware(['role:superadmin','permission:user-list']);
  Route::resource('permission', PermissionController::class)->middleware(['role:superadmin']);
+ Route::resource('role', RoleController::class)->middleware(['role:superadmin']);
 //  Route::resource('permission', PermissionController::class)->middleware(['role_or_permission:superadmin|permission-list']);
 
  Route::resource('organization', OrganizationController::class)->middleware(['role:superadmin','permission:user-list']);

@@ -33,7 +33,7 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         //
-        Permission::create(['name' => $request->name]);
+        Permission::create(['name' => $request->name,'module' => $request->module]);
 
         Alert::success('Success', 'Permission has been successfully added. ');
         return back();
@@ -64,6 +64,7 @@ class PermissionController extends Controller
         //
         $permission = Permission::find($id);
         $permission->name = $request->name;
+        $permission->module = $request->module;
         $permission->save();
 
         Alert::success('Success', 'Permission has been successfully updated');

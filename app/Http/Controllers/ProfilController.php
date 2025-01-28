@@ -11,7 +11,7 @@ class ProfilController extends Controller
 {
     public function index()
     {
-        $title_frm = "Profil data diri";
+        $title_frm = "My Profile";
         $iduser = Auth::user()->id;
         $datauser = User::find($iduser);
 
