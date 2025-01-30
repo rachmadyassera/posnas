@@ -3,7 +3,7 @@
 <div class="container">
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="card-title">Data Role User</h4>
+                <h4 class="card-title">List Role User</h4>
                 <div class="card-header-action">
                     <div class="buttons">
                         <a href="{{route ('role.create')}}"  class="btn btn-icon btn-success"><i class="fas fa-plus-circle"></i> Role</a>

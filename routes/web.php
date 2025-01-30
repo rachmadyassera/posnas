@@ -43,19 +43,22 @@ Route::put('/profil/change-password', 'App\Http\Controllers\ProfilController@cha
 //========================= SUPER ADMIN ===============================
 
 
-Route::group(['middleware' => ['role:superadmin','permission:user-list']], function () {
- });
- Route::get('/all-activity', 'App\Http\Controllers\ActivityController@all_activity')->name('all-activity');
+Route::group(['middleware' => ['role:superadmin']], function () {
+
+ Route::resource('user', UserController::class);
+ Route::resource('permission', PermissionController::class);
+ Route::resource('role', RoleController::class);
  Route::get('/user/destroy/{id}', 'App\Http\Controllers\UserController@destroy')->name('user.destroy');
  Route::get('/user/reset-pass/{id}', 'App\Http\Controllers\UserController@reset_pass')->name('user.reset-pass');
  Route::get('/organization/disable/{id}', 'App\Http\Controllers\OrganizationController@disable');
+ Route::resource('organization', OrganizationController::class);
 
- Route::resource('user', UserController::class)->middleware(['role:superadmin','permission:user-list']);
- Route::resource('permission', PermissionController::class)->middleware(['role:superadmin']);
- Route::resource('role', RoleController::class)->middleware(['role:superadmin']);
+
+ });
+ Route::get('/all-activity', 'App\Http\Controllers\ActivityController@all_activity')->name('all-activity');
+
 //  Route::resource('permission', PermissionController::class)->middleware(['role_or_permission:superadmin|permission-list']);
 
- Route::resource('organization', OrganizationController::class)->middleware(['role:superadmin','permission:user-list']);
 
 
 

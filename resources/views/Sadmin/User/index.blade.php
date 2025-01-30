@@ -3,10 +3,10 @@
 <div class="container">
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="card-title">Data pengguna aplikasi</h4>
+                <h4 class="card-title">List User </h4>
                 <div class="card-header-action">
                     <div class="buttons">
-                        <a href="{{route ('user.create')}}"  class="btn btn-icon btn-success"><i class="fas fa-plus-circle"></i> Pengguna</a>
+                        <a href="{{route ('user.create')}}"  class="btn btn-icon btn-success"><i class="fas fa-plus-circle"></i> User</a>
                     </div>
                 </div>
             </div>
@@ -16,7 +16,7 @@
                     <table id="datatables" class="table table-hover table-bordered table-striped">
                         <thead>
                             <tr>
-                                <td>Nama</td>
+                                <td>Name</td>
                                 <td>Role</td>
                                 <td>Email</td>
                                 <td>Status</td>

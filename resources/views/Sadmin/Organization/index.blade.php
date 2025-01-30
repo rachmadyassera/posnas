@@ -3,10 +3,10 @@
 <div class="container">
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="card-title">Data Organisasi Perangkat Daerah</h4>
+                <h4 class="card-title">List Organization</h4>
                 <div class="card-header-action">
                     <div class="buttons">
-                        <a href="{{route ('organization.create')}}"  class="btn btn-icon btn-success"><i class="fas fa-plus-circle"></i> Organisasi baru</a>
+                        <a href="{{route ('organization.create')}}"  class="btn btn-icon btn-success"><i class="fas fa-plus-circle"></i> Organization</a>
                     </div>
                 </div>
             </div>
@@ -16,8 +16,8 @@
                     <table id="datatables" class="table table-hover table-bordered table-striped">
                         <thead>
                             <tr>
-                                <td>Nama </td>
-                                <td>Alamat </td>
+                                <td>Name Organization </td>
+                                <td>Address </td>
                                 <td>Longitude </td>
                                 <td>Latitude </td>
                                 <td>Status </td>

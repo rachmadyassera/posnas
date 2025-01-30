@@ -1,7 +1,7 @@
 @extends('layouts.main')
 @section('content')
     <div class="container">
-        <div class="card shadow">
+        <div class="card shadow col-md-6">
             <div class="card-header">
                 <h4 class="card-title">Create new admin</h4>
                 <div class="card-header-action">
