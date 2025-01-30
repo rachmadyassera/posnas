@@ -3,7 +3,7 @@
     <div class="container">
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="card-title">Formulir Pendaftaran Admin Organisasi</h4>
+                <h4 class="card-title">Create new admin</h4>
                 <div class="card-header-action">
                     <div class="buttons">
                     </div>
@@ -13,7 +13,7 @@
                 <form action="{{route('user.store')}}" method="POST">
                     @csrf
                     <div class="form-group">
-                        <label>Nama </label>
+                        <label>Name </label>
                         <input type="text" name="name" class="form-control" required>
                     </div>
                     <div class="form-group">
@@ -25,7 +25,7 @@
                         <input type="text" name="nip" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label>Jabatan </label>
+                        <label>Position </label>
                         <input type="text" name="jabatan" class="form-control" required>
                     </div>
                     <div class="form-group">
@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Organisasi</label>
+                        <label>Organization</label>
                         <select class="form-control select2" name="org" required>
                             <option value = ""> Pilih </option>
                             @foreach ($org as $o)
@@ -43,7 +43,7 @@
                         </select>
                     </div>
                     <div class="text-right">
-                        <input type="submit" value="Simpan Data" class="btn btn-success">
+                        <input type="submit" value="Save" class="btn btn-success">
                     </div>
                 </form>
             </div>

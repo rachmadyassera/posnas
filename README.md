@@ -9,12 +9,4 @@ Starter laravel dibuat untuk mempercepat proses pembuatan aplikasi, starter ini 
 - Yajra Datable. 
 
 
-## Akses Project
-
-Anda dapat menggunakan akun yang telah dibuat menggunakan data seeder,
-
-- Username : admin@sepatumonza.com
-- Password : 1234
-  
-
 ## Semoga Bermanfaat 

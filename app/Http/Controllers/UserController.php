@@ -85,11 +85,13 @@ class UserController extends Controller
                 'nohp' => $request->nohp
             ]);
 
-            Alert::success('Berhasil', 'Akun pengguna berhasil didaftarkan');
+            $newData->assignRole( $newData->role);
+
+            Alert::success('Success', 'New admin has been successfully added');
             return back();
 
         }else{
-            Alert::warning('Oops', 'Emailnya sudah terdaftar, silahkan gunakan email yang lain.');
+            Alert::warning('Error', 'Email already use.');
             return back();
         }
 
@@ -143,7 +145,9 @@ class UserController extends Controller
         $profil->nohp = $request->nohp;
         $profil->save();
 
-        Alert::success('Berhasil', 'Akun pengguna berhasil diperbaharui');
+        $user->syncRoles($user->role);
+
+        Alert::success('Success', 'User has been successfully updated');
         return back();
     }
 

@@ -3,7 +3,7 @@
     <div class="container">
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="card-title">Pembaharuan data pengguna organisasi</h4>
+                <h4 class="card-title">Update user data</h4>
                 <div class="card-header-action">
                     <div class="buttons">
                     </div>
@@ -73,7 +73,7 @@
                         <input type="text" name="nohp" class="form-control" required value="{{$user->profil->nohp}}">
                     </div>
                     <div class="text-right">
-                        <input type="submit" value="Simpan Data" class="btn btn-success">
+                        <input type="submit" value="Save" class="btn btn-success">
                     </div>
                 </form>
             </div>
