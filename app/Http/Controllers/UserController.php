@@ -117,9 +117,10 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+        $roles = Role::get()->whereNotIn('name',['superadmin']);
         $org = Organization::latest()->get()->where('status','enable');
 
-        return view('SAdmin.User.edit', compact('org','user'));
+        return view('SAdmin.User.edit', compact('org','user','roles'));
     }
 
     /**
@@ -189,13 +190,16 @@ class UserController extends Controller
 
     public function operator()
     {
-        $datauser = User::with('organization','profil')->where('role','operator')->latest()->get()->where('profil.organization_id',Auth::user()->profil->organization_id);
+        $datauser = User::with('organization','profil')->whereNotIn('role',['admin'])->latest()->get()->where('profil.organization_id',Auth::user()->profil->organization_id);
         return view('Admin.User.index', compact('datauser'));
     }
 
     public function create_operator()
     {
-        return view('Admin.User.add');
+
+        //menampilkan semua data role
+        $roles = Role::get()->whereNotIn('name',['superadmin','admin']);
+        return view('Admin.User.add',compact('roles'));
     }
 
     public function store_operator(Request $request)
@@ -220,6 +224,8 @@ class UserController extends Controller
                 'jabatan' => $request->jabatan,
                 'nohp' => $request->nohp
             ]);
+            $newData->assignRole( $request->role);
+
 
             Alert::success('Berhasil', 'Akun operator berhasil didaftarkan');
             return back();
@@ -233,8 +239,10 @@ class UserController extends Controller
 
     public function edit_operator($id)
     {
+        //menampilkan semua data role
+        $roles = Role::get()->whereNotIn('name',['superadmin','admin']);
         $user = User::find($id);
-        return view('Admin.User.edit', compact('user'));
+        return view('Admin.User.edit', compact('user','roles'));
     }
 
     public function update_operator(Request $request)
@@ -250,6 +258,8 @@ class UserController extends Controller
         $profil->jabatan = $request->jabatan;
         $profil->nohp = $request->nohp;
         $profil->save();
+
+        $user->syncRoles($request->role);
 
         Alert::success('Berhasil', 'Data operator berhasil diperbaharui');
         return back();

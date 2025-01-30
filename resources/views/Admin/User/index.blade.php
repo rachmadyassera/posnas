@@ -3,7 +3,7 @@
 <div class="container">
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="card-title">Data Operator {{ Auth::user()->profil->organization->name }}</h4>
+                <h4 class="card-title">List Operator {{ Auth::user()->profil->organization->name }}</h4>
                 <div class="card-header-action">
                     <div class="buttons">
                         <a href="{{route ('create-operator')}}"  class="btn btn-icon btn-success"><i class="fas fa-plus-circle"></i> Operator</a>
@@ -27,7 +27,8 @@
 
                             @foreach ($datauser as $user )
                             <tr>
-                                <td style="vertical-align: middle; ">{{$user->name}}</td>
+                                <td style="vertical-align: middle; ">{{$user->name}}<br>
+                                    Role : {{$user->getRoleNames()->first()}}</td>
                                 <td style="vertical-align: middle; ">{{$user->email}}</td>
                                 <td style="vertical-align: middle; ">
                                     @if ($user->status =='enable')

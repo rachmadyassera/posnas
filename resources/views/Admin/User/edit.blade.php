@@ -48,8 +48,21 @@
                             @endif
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label>Role</label>
+                        <select class="form-control" name="role" required>
+                            @foreach ($roles as $role)
+                                @if ($user->getRoleNames()->first() ==  $role->name)
+                                    <option value = "{{ $role->name }}" selected>  {{ $role->name }} </option>
+                                @else
+                                    <option value = "{{ $role->name }}">  {{ $role->name }}  </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
                     <div class="text-right">
-                        <input type="submit" value="Simpan Data" class="btn btn-success">
+                        <input type="submit" value="Simpan" class="btn btn-success">
                     </div>
                 </form>
             </div>

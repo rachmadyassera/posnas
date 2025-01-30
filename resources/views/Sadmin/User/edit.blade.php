@@ -25,13 +25,13 @@
                     <div class="form-group">
                         <label>Role</label>
                         <select class="form-control" name="role" required>
-                            @if ($user->role =='admin')
-                            <option value = "admin" selected> Admin </option>
-                            <option value = "operator"> Operator </option>
-                            @else
-                            <option value = "admin"> Admin </option>
-                            <option value = "operator" selected> Operator </option>
-                            @endif
+                            @foreach ($roles as $role)
+                                @if ($user->role ==  $role->name)
+                                    <option value = "{{ $role->name }}" selected>  {{ $role->name }} </option>
+                                @else
+                                    <option value = "{{ $role->name }}">  {{ $role->name }}  </option>
+                                @endif
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">

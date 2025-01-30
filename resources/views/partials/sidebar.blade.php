@@ -11,7 +11,7 @@
         <li class="dropdown">
           <a href="dashboard" class="nav-link "><i class="fas fa-fire"></i><span>Dashboard</span></a>
           <li class="dropdown">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-users"></i> <span>Users</span></a>
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-user-tie"></i> <span>Users</span></a>
             <ul class="dropdown-menu">
               <li><a class="nav-link" href="{{ route('user.create')}}">Add User</a></li>
               <li><a class="nav-link" href="{{ url('/user')}}">Data Users</a></li>

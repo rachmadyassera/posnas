@@ -52,10 +52,8 @@ Route::group(['middleware' => ['role:superadmin']], function () {
  Route::get('/user/reset-pass/{id}', 'App\Http\Controllers\UserController@reset_pass')->name('user.reset-pass');
  Route::get('/organization/disable/{id}', 'App\Http\Controllers\OrganizationController@disable');
  Route::resource('organization', OrganizationController::class);
-
-
- });
  Route::get('/all-activity', 'App\Http\Controllers\ActivityController@all_activity')->name('all-activity');
+ });
 
 //  Route::resource('permission', PermissionController::class)->middleware(['role_or_permission:superadmin|permission-list']);
 
@@ -63,25 +61,30 @@ Route::group(['middleware' => ['role:superadmin']], function () {
 
 
 //========================== ADMIN ====================================
-Route::get('/operator', 'App\Http\Controllers\UserController@operator')->name('operator')->middleware('can:isAdmin');
-Route::get('/create-operator', 'App\Http\Controllers\UserController@create_operator')->name('create-operator')->middleware('can:isAdmin');
-Route::post('/store-operator', 'App\Http\Controllers\UserController@store_operator')->name('store-operator')->middleware('can:isAdmin');
-Route::get('/edit-operator/{id}', 'App\Http\Controllers\UserController@edit_operator')->name('edit-operator')->middleware('can:isAdmin');
-Route::put('/update-operator', 'App\Http\Controllers\UserController@update_operator')->name('update-operator')->middleware('can:isAdmin');
-Route::get('/disable-operator/{id}', 'App\Http\Controllers\UserController@disable_operator')->name('disable-operator')->middleware('can:isAdmin');
-Route::get('/user/reset-pass-operator/{id}', 'App\Http\Controllers\UserController@reset_pass_operator')->name('reset-pass-operator')->middleware('can:isAdmin');
+Route::group(['middleware' => ['role:admin']], function () {
 
-Route::put('/activity/approve-activity', 'App\Http\Controllers\ActivityController@approve_activity')->name('activity.approve-activity')->middleware('can:isAdmin');
-Route::get('/cancel-activity/{id}', 'App\Http\Controllers\ActivityController@cancel_activity')->name('activity.cancel-activity')->middleware('can:isAdminOperator');
-Route::get('/search-activity', 'App\Http\Controllers\ActivityController@search_activity')->name('activity.search')->middleware('can:isAdmin');
-Route::post('/get-activity', 'App\Http\Controllers\ActivityController@get_activity')->name('activity.searching')->middleware('can:isAdmin');
-Route::get('/full-detail-activity/{id}', 'App\Http\Controllers\ActivityController@detail_master_activity')->name('activity.full-detail-activity')->middleware('can:isAdmin');
-Route::get('/savepdf/{id}', 'App\Http\Controllers\ActivityController@savePdf')->name('activity.savepdf')->middleware('can:isAdmin');
-Route::get('/report-activity', 'App\Http\Controllers\ActivityController@report_activity')->name('activity.report')->middleware('can:isAdmin');
-Route::post('/download-report', 'App\Http\Controllers\ActivityController@downloadReport')->name('activity.download')->middleware('can:isAdmin');
-Route::get('/timeline-activity', 'App\Http\Controllers\ActivityController@timelineActivity')->name('activity.timeline')->middleware('can:isAdmin');
-Route::post('/download-timeline', 'App\Http\Controllers\ActivityController@downloadTimeline')->name('activity.downloadTimeline')->middleware('can:isAdmin');
-Route::resource('activity', ActivityController::class)->middleware('can:isAdmin');
+    Route::get('/operator', 'App\Http\Controllers\UserController@operator')->name('operator');
+    Route::get('/operator/create-operator', 'App\Http\Controllers\UserController@create_operator')->name('create-operator');
+    Route::post('/store-operator', 'App\Http\Controllers\UserController@store_operator')->name('store-operator');
+    Route::get('/operator/edit-operator/{id}', 'App\Http\Controllers\UserController@edit_operator')->name('edit-operator');
+    Route::put('/update-operator', 'App\Http\Controllers\UserController@update_operator')->name('update-operator');
+    Route::get('/disable-operator/{id}', 'App\Http\Controllers\UserController@disable_operator')->name('disable-operator');
+    Route::get('/user/reset-pass-operator/{id}', 'App\Http\Controllers\UserController@reset_pass_operator')->name('reset-pass-operator');
+
+    Route::put('/activity/approve-activity', 'App\Http\Controllers\ActivityController@approve_activity')->name('activity.approve-activity');
+    Route::get('/cancel-activity/{id}', 'App\Http\Controllers\ActivityController@cancel_activity')->name('activity.cancel-activity')->middleware('can:isAdminOperator');
+    Route::get('/search-activity', 'App\Http\Controllers\ActivityController@search_activity')->name('activity.search');
+    Route::post('/get-activity', 'App\Http\Controllers\ActivityController@get_activity')->name('activity.searching');
+    Route::get('/full-detail-activity/{id}', 'App\Http\Controllers\ActivityController@detail_master_activity')->name('activity.full-detail-activity');
+    Route::get('/savepdf/{id}', 'App\Http\Controllers\ActivityController@savePdf')->name('activity.savepdf');
+    Route::get('/report-activity', 'App\Http\Controllers\ActivityController@report_activity')->name('activity.report');
+    Route::post('/download-report', 'App\Http\Controllers\ActivityController@downloadReport')->name('activity.download');
+    Route::get('/timeline-activity', 'App\Http\Controllers\ActivityController@timelineActivity')->name('activity.timeline');
+    Route::post('/download-timeline', 'App\Http\Controllers\ActivityController@downloadTimeline')->name('activity.downloadTimeline');
+    Route::resource('activity', ActivityController::class);
+
+
+ });
 
 
 

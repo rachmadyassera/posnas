@@ -31,11 +31,11 @@
 
         <li class="menu-header">Agenda</li>
 
-        <li class="dropdown">
+        <li @if(Request::segment(1) == 'all-activity') class="active" @endif>
             <a href="{{ url('/all-activity') }}" class="nav-link "><i class="fas fa-th-list"></i><span>Agenda</span></a>
         </li>
         <li class="nav-item dropdown">
-            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-print"></i> <span>Cetak</span></a>
+            <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-print"></i> <span>Export</span></a>
             <ul class="dropdown-menu">
             <li><a class="nav-link" href="{{ route('activity.timeline') }}"><span>Jadwal Kegiatan</span></a></li>
             <li><a class="nav-link" href="{{ route('activity.report') }}"><span>Laporan Kegiatan</span></a></li>

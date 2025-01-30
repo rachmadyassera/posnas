@@ -18,14 +18,18 @@ class PermissionRoleSeeder extends Seeder
         //
 
         $permissions = [
-            'user-create',
-            'user-edit',
-            'user-delete',
-            'user-list'
+            ['name' => 'operator-create','module' => 'user'],
+            ['name' => 'operator-edit','module' => 'user'],
+            ['name' => 'operator-delete','module' => 'user'],
+            ['name' => 'operator-list','module' => 'user'],
+            ['name' => 'agenda-create','module' => 'agenda'],
+            ['name' => 'agenda-edit','module' => 'agenda'],
+            ['name' => 'agenda-delete','module' => 'agenda'],
+            ['name' => 'agenda-list','module' => 'agenda']
         ];
 
         foreach ($permissions as $permission) {
-            Permission::updateOrCreate(['name' => $permission,'module' => 'user']);
+            Permission::updateOrCreate($permission);
             // Permission::create(['uuid' => Str::uuid(),'name' => $permission]);
         }
 
