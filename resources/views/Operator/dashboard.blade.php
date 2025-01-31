@@ -6,6 +6,7 @@
     </div>
     <div class="section-body">
         <div class="row">
+            @can('agenda-list')
             <div class="col-lg-12 col-md-12 col-12 col-sm-12">
                 <div class="card shadow-lg">
                   <div class="card-header">
@@ -29,14 +30,14 @@
 
                           <tr>
                               <td>
-                                  @if ($td->status_activity == 'complete')
-                                  <div class="badge badge-success"><i class="fas fa-check"></i></div>
-                                  @elseif ($td->status_activity == 'cancel')
-                                  <div class="badge badge-danger"><i class="fas fa-window-close"></i></div>
-                                  @else
-                                  @endif
                                 {{$td->name_activity}}
 
+                                @if ($td->status_activity == 'complete')
+                                <div class="badge badge-success"><i class="fas fa-check"></i></div>
+                                @elseif ($td->status_activity == 'cancel')
+                                <div class="badge badge-danger"><i class="fas fa-window-close"></i></div>
+                                @else
+                                @endif
                                 @if ($td->is_private == 'true')
                                 <div class="badge badge-danger">Private</div>
                                 @endif
@@ -130,6 +131,8 @@
                   </div>
                 </div>
             </div>
+            @endcan
+
         </div>
     </div>
   </section>

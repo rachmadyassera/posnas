@@ -5,7 +5,7 @@
         @if ($arround_act->count() > 0)
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="card-title">Data kegiatan 1 jam sebelum dan sesudah pada waktu kegiatan yang akan didaftarkan </h4>
+                <h4 class="card-title">List Kegiatan Diantara Jadwal Kegiatan (1 Jam Sebelum/Sesudah )</h4>
                 <div class="card-header-action">
                     <div class="buttons">
                     </div>
@@ -32,7 +32,7 @@
                             <tr>
                                 <td style="vertical-align: middle; ">{{$ar_act->date_activity}}</td>
                                 <td style="vertical-align: middle; ">{{$ar_act->name_activity}}
-                                    @if ($user->is_private =='true')
+                                    @if ($ar_act->is_private =='true')
                                     <div class="badge badge-danger">Private</div>
                                     @endif
                                 </td>
@@ -53,7 +53,7 @@
         @endif
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="card-title">Konfirmasi Penjadwalan Kegiatan {{ Auth::user()->profil->organization->name }}</h4>
+                <h4 class="card-title">Konfirmasi Penjadwalan Kegiatan </h4>
                 <div class="card-header-action">
                     <div class="buttons">
                     </div>

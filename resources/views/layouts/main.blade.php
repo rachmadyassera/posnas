@@ -56,11 +56,13 @@
 
 </head>
 
-    @if (Auth::user()->role == 'operator')
+    {{-- @if (Auth::user()->role == 'operator')
         <body class="sidebar-mini">
     @else
         <body>
-    @endif
+    @endif --}}
+<body>
+
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
       <div class="navbar-bg bg-success"></div>

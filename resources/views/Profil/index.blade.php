@@ -24,7 +24,7 @@
                         </div>
                     @else
 
-                            <div class="author-box-job">{{ $datauser->role }}</div>
+                            <div class="author-box-job">Role : {{$datauser->getRoleNames()->first()}}</div>
                             <div class="author-box-description">
                             <p>Email : {{ $datauser->email }}<br>
                             NIP :  {{ $datauser->profil->nip }}<br>

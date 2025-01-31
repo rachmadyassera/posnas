@@ -42,7 +42,7 @@
                         </select>
                     </div>
                     <div class="text-right">
-                        <input type="submit" value="Simpan Data" class="btn btn-success">
+                        <input type="submit" value="Simpan" class="btn btn-success">
                     </div>
                 </form>
             </div>

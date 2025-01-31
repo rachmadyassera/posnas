@@ -5,7 +5,7 @@
         <div class="col-12">
             <div class="card shadow">
               <div class="card-header">
-                <h4>Cetak jadwal kegiatan</h4>
+                <h4>Export jadwal kegiatan</h4>
               </div>
               <div class="card-body">
                 <form action="{{route('activity.downloadTimeline')}}" method="POST">
@@ -32,7 +32,7 @@
 
                 <div class="form-group">
                     <div class="text-right">
-                        <input type="submit" value="Search" onClick="this.form.submit(); this.disabled=true; this.value='Proses…'; "  class="btn btn-success">
+                        <input type="submit" value="Download" onClick="this.form.submit(); this.disabled=true; this.value='Proses…'; "  class="btn btn-success">
                     </div>
                   </div>
 

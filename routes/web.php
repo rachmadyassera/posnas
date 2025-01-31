@@ -57,9 +57,6 @@ Route::group(['middleware' => ['role:superadmin']], function () {
 
 //  Route::resource('permission', PermissionController::class)->middleware(['role_or_permission:superadmin|permission-list']);
 
-
-
-
 //========================== ADMIN ====================================
 Route::group(['middleware' => ['role:admin']], function () {
 
@@ -72,7 +69,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/user/reset-pass-operator/{id}', 'App\Http\Controllers\UserController@reset_pass_operator')->name('reset-pass-operator');
 
     Route::put('/activity/approve-activity', 'App\Http\Controllers\ActivityController@approve_activity')->name('activity.approve-activity');
-    Route::get('/cancel-activity/{id}', 'App\Http\Controllers\ActivityController@cancel_activity')->name('activity.cancel-activity')->middleware('can:isAdminOperator');
+    Route::get('/cancel-activity/{id}', 'App\Http\Controllers\ActivityController@cancel_activity')->name('activity.cancel-activity');
     Route::get('/search-activity', 'App\Http\Controllers\ActivityController@search_activity')->name('activity.search');
     Route::post('/get-activity', 'App\Http\Controllers\ActivityController@get_activity')->name('activity.searching');
     Route::get('/full-detail-activity/{id}', 'App\Http\Controllers\ActivityController@detail_master_activity')->name('activity.full-detail-activity');
@@ -86,24 +83,15 @@ Route::group(['middleware' => ['role:admin']], function () {
 
  });
 
-
-
-
 //========================== OPERATOR =================================
-Route::get('/activity-detail/{id}', 'App\Http\Controllers\ActivityController@detail_activity')->name('activity.detail')->middleware('can:isOperator');
-Route::post('/add-notes-evaluation', 'App\Http\Controllers\ActivityController@store_notes')->name('activity.store-notes')->middleware('can:isOperator');
-Route::get('/delete-note/{id}', 'App\Http\Controllers\ActivityController@deleteNote')->name('activity.delete-note')->middleware('can:isOperator');
 
 
-
-//=======================================================================
-
-Route::group(['middleware' => ['auth']], function() {
-
-    Route::resource('roles', RoleController::class);
-
-    Route::resource('users', UserController::class);
-
-    Route::resource('products', ProductController::class);
+Route::group(['middleware' => ['role:Umum']], function () {
+    Route::get('/activity-detail/{id}', 'App\Http\Controllers\ActivityController@detail_activity')->name('activity.detail');
+    Route::post('/add-notes-evaluation', 'App\Http\Controllers\ActivityController@store_notes')->name('activity.store-notes');
+    Route::get('/delete-note/{id}', 'App\Http\Controllers\ActivityController@deleteNote')->name('activity.delete-note');
 
 });
+
+
+
