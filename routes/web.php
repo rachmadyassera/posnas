@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ConfrenceController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrganizationController;
@@ -29,6 +31,10 @@ Route::get('/', function () {
 Auth::routes();
 Auth::routes(['register'=> false,'reset'=> false,'confirm'=> false,'verify'=> false]);
 
+Route::get('/presence/{id}', 'App\Http\Controllers\ParticipantController@presence')->name('presence.confrence');
+Route::post('participant/store', 'App\Http\Controllers\ParticipantController@store')->name('participant.store');
+
+
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // Route::get('/user/json', [\App\Http\Controllers\UserController::class, 'json'])->name('user.json');
@@ -45,14 +51,21 @@ Route::put('/profil/change-password', 'App\Http\Controllers\ProfilController@cha
 
 Route::group(['middleware' => ['role:superadmin']], function () {
 
- Route::resource('user', UserController::class);
- Route::resource('permission', PermissionController::class);
- Route::resource('role', RoleController::class);
- Route::get('/user/destroy/{id}', 'App\Http\Controllers\UserController@destroy')->name('user.destroy');
- Route::get('/user/reset-pass/{id}', 'App\Http\Controllers\UserController@reset_pass')->name('user.reset-pass');
- Route::get('/organization/disable/{id}', 'App\Http\Controllers\OrganizationController@disable');
- Route::resource('organization', OrganizationController::class);
- Route::get('/all-activity', 'App\Http\Controllers\ActivityController@all_activity')->name('all-activity');
+    //Main Menu
+    Route::resource('user', UserController::class);
+    Route::resource('permission', PermissionController::class);
+    Route::resource('role', RoleController::class);
+    Route::get('/user/destroy/{id}', 'App\Http\Controllers\UserController@destroy')->name('user.destroy');
+    Route::get('/user/reset-pass/{id}', 'App\Http\Controllers\UserController@reset_pass')->name('user.reset-pass');
+    Route::get('/organization/disable/{id}', 'App\Http\Controllers\OrganizationController@disable');
+    Route::resource('organization', OrganizationController::class);
+
+    //Agenda
+    Route::get('/all-activity', 'App\Http\Controllers\ActivityController@all_activity')->name('all-activity');
+
+    //Presensi
+    Route::get('/get-all-location', 'App\Http\Controllers\LocationController@all_location')->name('location.get-all');
+
  });
 
 //  Route::resource('permission', PermissionController::class)->middleware(['role_or_permission:superadmin|permission-list']);
@@ -60,6 +73,8 @@ Route::group(['middleware' => ['role:superadmin']], function () {
 //========================== ADMIN ====================================
 Route::group(['middleware' => ['role:admin']], function () {
 
+
+    //Main Menu
     Route::get('/operator', 'App\Http\Controllers\UserController@operator')->name('operator');
     Route::get('/operator/create-operator', 'App\Http\Controllers\UserController@create_operator')->name('create-operator');
     Route::post('/store-operator', 'App\Http\Controllers\UserController@store_operator')->name('store-operator');
@@ -68,6 +83,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/disable-operator/{id}', 'App\Http\Controllers\UserController@disable_operator')->name('disable-operator');
     Route::get('/user/reset-pass-operator/{id}', 'App\Http\Controllers\UserController@reset_pass_operator')->name('reset-pass-operator');
 
+    //Agenda
     Route::put('/activity/approve-activity', 'App\Http\Controllers\ActivityController@approve_activity')->name('activity.approve-activity');
     Route::get('/cancel-activity/{id}', 'App\Http\Controllers\ActivityController@cancel_activity')->name('activity.cancel-activity');
     Route::get('/search-activity', 'App\Http\Controllers\ActivityController@search_activity')->name('activity.search');
@@ -79,6 +95,15 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/timeline-activity', 'App\Http\Controllers\ActivityController@timelineActivity')->name('activity.timeline');
     Route::post('/download-timeline', 'App\Http\Controllers\ActivityController@downloadTimeline')->name('activity.downloadTimeline');
     Route::resource('activity', ActivityController::class);
+
+    //Presensi
+    Route::resource('location', LocationController::class);
+    Route::get('/generatepdf-participant/{id}', 'App\Http\Controllers\ConfrencesController@generate_pdf')->name('confrence.generatepdf');
+    Route::get('/generatepdf-qrcode/{id}', 'App\Http\Controllers\ConfrencesController@generate_pdf_qrcode')->name('confrence.generatepdf-qrcode');
+    Route::get('/get-all-confrence', 'App\Http\Controllers\ConfrencesController@all_confrence')->name('confrence.get-all');
+    Route::get('/all-participant-confrence/{id}', 'App\Http\Controllers\ConfrencesController@all_participant_confrence')->name('confrence.all-participant-confrence');
+    Route::get('/generate_all_confrence_pdf', 'App\Http\Controllers\ConfrencesController@generate_all_confrence_pdf')->name('confrence.generatepdf-all-confrence');
+
 
 
  });
@@ -92,6 +117,14 @@ Route::group(['middleware' => ['role:Umum']], function () {
     Route::get('/delete-note/{id}', 'App\Http\Controllers\ActivityController@deleteNote')->name('activity.delete-note');
 
 });
+
+
+
+//========================== BY PERMISSION =================================
+Route::get('/location/disable/{id}', 'App\Http\Controllers\LocationController@disable')->middleware('can:isAdminOperator');
+Route::resource('confrence', ConfrenceController::class)->middleware('role:admin');
+Route::get('/confrence/disable/{id}', 'App\Http\Controllers\ConfrencesController@disable')->middleware('can:isAdminOperator');
+Route::get('/confrence/disable-participant/{id}', 'App\Http\Controllers\ConfrencesController@disable_participant')->middleware('can:isAdminOperator');
 
 
 

@@ -32,28 +32,24 @@
                 </ul>
             </li>
 
-            <li class="nav-item dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-print"></i> <span>Presensi</span></a>
+            <li class="nav-item dropdown
+                    @if(Request::segment(1) == 'location') active
+                    @elseif(Request::segment(1) == 'confrence') active
+                    @else
+                    @endif">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-map-marker-alt"></i><span>Presensi</span></a>
                 <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{ route('activity.timeline') }}"><span>Jadwal Kegiatan</span></a></li>
-                <li><a class="nav-link" href="{{ route('activity.report') }}"><span>Laporan Kegiatan</span></a></li>
+                    <li @if(Request::segment(1) == 'location') class="active" @endif>
+                        <a href="{{ url('location') }}" class="nav-link "><span>Lokasi</span></a>
+                    </li>
+
+                    <li @if(Request::segment(1) == 'confrence') class="active" @endif>
+                        <a href="{{ url('confrence') }}" class="nav-link "><span>Rapat</span></a>
+                    </li>
                 </ul>
             </li>
 
             <li class="menu-header">Inventaris Barang</li>
-
-            <li class="dropdown">
-                <a href="{{ url('/activity') }}" class="nav-link "><i class="fas fa-calendar-alt"></i><span>Agenda</span></a>
-            </li>
-            <li class="nav-item dropdown">
-                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-print"></i> <span>Cetak</span></a>
-                <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{ route('activity.timeline') }}"><span>Jadwal Kegiatan</span></a></li>
-                <li><a class="nav-link" href="{{ route('activity.report') }}"><span>Laporan Kegiatan</span></a></li>
-                </ul>
-            </li>
-
-            <li class="menu-header">Sarana & Prasarana</li>
 
             <li class="dropdown">
                 <a href="{{ url('/activity') }}" class="nav-link "><i class="fas fa-calendar-alt"></i><span>Agenda</span></a>

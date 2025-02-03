@@ -28,7 +28,7 @@ class RoleController extends Controller
         //
         $permissions = Permission::all();
         // dd($permissions);
-        return view('SAdmin.Role.add',compact('permissions'));
+        return view('Sadmin.Role.add',compact('permissions'));
     }
 
     /**
@@ -79,7 +79,7 @@ class RoleController extends Controller
         $rolepermission = $role->permissions;
         $allpermissions = Permission::all();
         // dd($permissions);
-        return view('SAdmin.Role.edit',compact('role','rolepermission','allpermissions'));
+        return view('Sadmin.Role.edit',compact('role','rolepermission','allpermissions'));
     }
 
     /**

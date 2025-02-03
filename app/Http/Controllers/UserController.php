@@ -34,7 +34,7 @@ class UserController extends Controller
         // $userId = User::find(Auth::user()->id);
 
         $datauser = User::with('organization')->whereNot('name','developer')->latest()->get()->whereNotIn('email','alpatester@siap.app');
-        return view('SAdmin.User.index', compact('datauser'));
+        return view('Sadmin.User.index', compact('datauser'));
 
         // if($userId->can('user-create')){
         //     $datauser = User::with('organization')->whereNot('name','developer')->latest()->get()->whereNotIn('email','alpatester@siap.app');
@@ -53,7 +53,7 @@ class UserController extends Controller
     {
 
         $org = Organization::latest()->get()->where('status','enable');
-        return view('SAdmin.User.add', compact('org'));
+        return view('Sadmin.User.add', compact('org'));
     }
 
     /**
@@ -120,7 +120,7 @@ class UserController extends Controller
         $roles = Role::get()->whereNotIn('name',['superadmin']);
         $org = Organization::latest()->get()->where('status','enable');
 
-        return view('SAdmin.User.edit', compact('org','user','roles'));
+        return view('Sadmin.User.edit', compact('org','user','roles'));
     }
 
     /**
