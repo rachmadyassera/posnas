@@ -44,7 +44,7 @@
                     </li>
 
                     <li @if(Request::segment(1) == 'confrence') class="active" @endif>
-                        <a href="{{ url('confrence') }}" class="nav-link "><span>Rapat</span></a>
+                        <a href="{{ url('confrence') }}" class="nav-link "><span>Kegiatan</span></a>
                     </li>
                 </ul>
             </li>

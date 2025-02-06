@@ -25,7 +25,15 @@ class PermissionRoleSeeder extends Seeder
             ['name' => 'agenda-create','module' => 'agenda'],
             ['name' => 'agenda-edit','module' => 'agenda'],
             ['name' => 'agenda-delete','module' => 'agenda'],
-            ['name' => 'agenda-list','module' => 'agenda']
+            ['name' => 'agenda-list','module' => 'agenda'],
+            ['name' => 'lokasi-create','module' => 'lokasi'],
+            ['name' => 'lokasi-edit','module' => 'lokasi'],
+            ['name' => 'lokasi-delete','module' => 'lokasi'],
+            ['name' => 'lokasi-list','module' => 'lokasi'],
+            ['name' => 'presensi-create','module' => 'presensi'],
+            ['name' => 'presensi-edit','module' => 'presensi'],
+            ['name' => 'presensi-delete','module' => 'presensi'],
+            ['name' => 'presensi-list','module' => 'presensi']
         ];
 
         foreach ($permissions as $permission) {

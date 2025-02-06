@@ -18,10 +18,11 @@
                 <td style="vertical-align: middle; " class="text-center"><h4>PEMERINTAH KOTA TANJUNGBALAI</h4></td>
             </tr>
             <tr>
-                <td style="vertical-align: middle; " class="text-center"><h3>{{ $rapat->opd->nama }}</h3></td>
+                <td style="vertical-align: middle; " class="text-center"><h3>{{ $presensi->organization->name }}</h3></td>
             </tr>
             <tr>
-                <td style="vertical-align: middle; " class="text-center"><h6>{{ $rapat->opd->alamat }}</h6></td>
+                <td style="vertical-align: middle; " class="text-center"><h6> SISTEM INFORMASI PRESENSI KEGIATAN</h6></td>
+                {{-- <td style="vertical-align: middle; " class="text-center"><h6>{{ $presensi->organization->address }}</h6></td> --}}
             </tr>
         </thead>
     </table>
@@ -29,19 +30,19 @@
     <table>
         <thead>
             <tr>
-                <td style="vertical-align: top; width: 100px;" class="text-left"> Acara </td>
+                <td style="vertical-align: top; width: 100px;" class="text-left"> Kegiatan </td>
                 <td style="vertical-align: top; " class="text-center"> : </td>
-                <td style="vertical-align: top; " class="text-left"> {{ $rapat->judul }}</td>
+                <td style="vertical-align: top; " class="text-left"> {{ $presensi->title }}</td>
             </tr>
             <tr>
                 <td style="vertical-align: top; width: 100px; " class="text-left"> Tanggal </td>
                 <td style="vertical-align: top; " class="text-center"> : </td>
-                <td style="vertical-align: top; " class="text-left"> {{ $carbon::parse($rapat->tanggal)->isoFormat('dddd, D MMMM Y') }}</td>
+                <td style="vertical-align: top; " class="text-left"> {{ $carbon::parse($presensi->date_confrence)->isoFormat('dddd, D MMMM Y') }}</td>
             </tr>
             <tr>
                 <td style="vertical-align: top; width: 100px;" class="text-left"> Keterangan </td>
                 <td style="vertical-align: top; " class="text-center"> : </td>
-                <td style="vertical-align: top; " class="text-left"> {{ $rapat->keterangan }}</td>
+                <td style="vertical-align: top; " class="text-left"> {{ $presensi->description }}</td>
             </tr>
         </thead>
     </table>
@@ -49,6 +50,6 @@
 <h4><center>QR Code Formulir Kehadiran</center></h4>
 <br>
 <br>
-<center><img style="width: 80%"  src="{{ public_path('qrcodes/'. $rapat->id.'.svg') }}" alt=""></center>
+<center><img style="width: 80%"  src="{{ public_path('presensi/qrcodes/'. $presensi->id.'.svg') }}" alt=""></center>
 </body>
 </html>

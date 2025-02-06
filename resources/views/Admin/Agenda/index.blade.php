@@ -2,8 +2,8 @@
 @section('content')
 <div class="container">
         <div class="card shadow">
-            <div class="card-header">
-                <h4 class="card-title">Data Agenda {{ Auth::user()->profil->organization->name }}</h4>
+            <div class="card-header bg-primary">
+                <h4 class="card-title text-white">Data Agenda {{ Auth::user()->profil->organization->name }}</h4>
                 <div class="card-header-action">
                     <div class="buttons">
                         <a href="{{route ('activity.create')}}"  class="btn btn-icon btn-success"><i class="fas fa-plus-circle"></i> Kegiatan</a>

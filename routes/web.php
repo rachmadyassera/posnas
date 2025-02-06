@@ -98,11 +98,11 @@ Route::group(['middleware' => ['role:admin']], function () {
 
     //Presensi
     Route::resource('location', LocationController::class);
-    Route::get('/generatepdf-participant/{id}', 'App\Http\Controllers\ConfrencesController@generate_pdf')->name('confrence.generatepdf');
-    Route::get('/generatepdf-qrcode/{id}', 'App\Http\Controllers\ConfrencesController@generate_pdf_qrcode')->name('confrence.generatepdf-qrcode');
-    Route::get('/get-all-confrence', 'App\Http\Controllers\ConfrencesController@all_confrence')->name('confrence.get-all');
-    Route::get('/all-participant-confrence/{id}', 'App\Http\Controllers\ConfrencesController@all_participant_confrence')->name('confrence.all-participant-confrence');
-    Route::get('/generate_all_confrence_pdf', 'App\Http\Controllers\ConfrencesController@generate_all_confrence_pdf')->name('confrence.generatepdf-all-confrence');
+    Route::get('/generatepdf-participant/{id}', 'App\Http\Controllers\ConfrenceController@generate_pdf')->name('confrence.generatepdf');
+    Route::get('/generatepdf-qrcode/{id}', 'App\Http\Controllers\ConfrenceController@generate_pdf_qrcode')->name('confrence.generatepdf-qrcode');
+    Route::get('/get-all-confrence', 'App\Http\Controllers\ConfrenceController@all_confrence')->name('confrence.get-all');
+    Route::get('/all-participant-confrence/{id}', 'App\Http\Controllers\ConfrenceController@all_participant_confrence')->name('confrence.all-participant-confrence');
+    Route::get('/generate_all_confrence_pdf', 'App\Http\Controllers\ConfrenceController@generate_all_confrence_pdf')->name('confrence.generatepdf-all-confrence');
 
 
 
@@ -123,8 +123,8 @@ Route::group(['middleware' => ['role:Umum']], function () {
 //========================== BY PERMISSION =================================
 Route::get('/location/disable/{id}', 'App\Http\Controllers\LocationController@disable')->middleware('can:isAdminOperator');
 Route::resource('confrence', ConfrenceController::class)->middleware('role:admin');
-Route::get('/confrence/disable/{id}', 'App\Http\Controllers\ConfrencesController@disable')->middleware('can:isAdminOperator');
-Route::get('/confrence/disable-participant/{id}', 'App\Http\Controllers\ConfrencesController@disable_participant')->middleware('can:isAdminOperator');
+Route::get('/confrence/disable/{id}', 'App\Http\Controllers\ConfrenceController@disable')->middleware('can:isAdminOperator');
+Route::get('/confrence/disable-participant/{id}', 'App\Http\Controllers\ConfrenceController@disable_participant')->middleware('can:isAdminOperator');
 
 
 
