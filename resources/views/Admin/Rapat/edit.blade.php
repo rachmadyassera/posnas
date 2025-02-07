@@ -3,7 +3,7 @@
     <div class="container">
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="card-title">Pembaharuan data kegiatan presensi</h4>
+                <h4 class="card-title">Pembaharuan Data Kegiatan Presensi</h4>
                 <div class="card-header-action">
                     <div class="buttons">
                     </div>

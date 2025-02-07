@@ -5,18 +5,19 @@
 <div class="col-12 mb-4">
     <div class="hero bg-info text-white shadow">
       <div class="hero-inner">
-        <h2>{{ $rapat->judul }}</h2>
-        <p class="lead">{{ $carbon::parse($rapat->tanggal)->isoFormat('dddd, D MMMM Y') }} <br>{{ $rapat->location->nama }}</p>
-        <p class="lead"><h5>Jumlah Kehadiran : {{ $peserta->count() }} Peserta</h5></p>
+        <h2>{{ $kegiatan->title }}</h2>
+        <p class="lead">{{ $carbon::parse($kegiatan->date_confrence)->isoFormat('dddd, D MMMM Y') }} <br>{{ $kegiatan->location->nama }}</p>
+        <p class="lead"><h5>Jumlah Kehadiran : {{ $presence->count() }} Peserta</h5></p>
+        <p class="lead"><h5>Laki-laki : {{ $presence->where('gender','Laki-laki')->count() }}, Perempuan : {{ $presence->where('gender','Perempuan')->count() }}</h5></p>
       </div>
     </div>
 </div>
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="card-title">Data kehadiran peserta </h4>
+                <h4 class="card-title">Data Kehadiran Kegiatan </h4>
                 <div class="card-header-action">
                     <div class="buttons">
-                        <a href="{{route ('confrence.generatepdf', $rapat->id)}}"  class="btn btn-icon btn-success"><i class="fas fa-file-pdf"></i> Generate PDF</a>
+                        <a href="{{route ('confrence.generatepdf', $kegiatan->id)}}"  class="btn btn-icon btn-success"><i class="fas fa-file-pdf"></i> Generate PDF</a>
                     </div>
                 </div>
             </div>
@@ -27,22 +28,28 @@
                         <thead>
                             <tr>
                                 <td style="width: 20px">No </td>
-                                <td style="width: 200px">Nama </td>
-                                <td >Instansi </td>
+                                <td>Nama </td>
+                                <td>Jenis Kelamin </td>
+                                <td>Jabatan </td>
+                                <td>NIP / NRP / ID </td>
+                                <td>Instansi </td>
                                 <td>No HP </td>
                                 <td style="width: 50px">Action</td>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @foreach ($peserta as $pst )
+                            @foreach ($presence as $pre )
                             <tr>
                                 <td style="vertical-align: middle; ">{{$loop->iteration}}</td>
-                                <td style="vertical-align: middle; ">{{$pst->nama}}</td>
-                                <td style="vertical-align: middle; ">{{$pst->instansi}}</td>
-                                <td style="vertical-align: middle; ">{{$pst->nohp}}</td>
+                                <td style="vertical-align: middle; ">{{$pre->name}}</td>
+                                <td style="vertical-align: middle; ">{{$pre->gender}}</td>
+                                <td style="vertical-align: middle; ">{{$pre->position}}</td>
+                                <td style="vertical-align: middle; ">{{$pre->id_employee}}</td>
+                                <td style="vertical-align: middle; ">{{$pre->organization}}</td>
+                                <td style="vertical-align: middle; ">{{$pre->nohp}}</td>
                                 <td style="vertical-align: middle;"  class="text-center">
-                                        <a href="/confrence/disable-participant/{{$pst->id}}" class="btn-sm btn-danger" onclick="confirmation_destroy(event)"> <i class="fa fa-trash"></i> </a>
+                                        <a href="/confrence/disable-participant/{{$pre->id}}" class="btn-sm btn-danger" onclick="confirmation_destroy(event)"> <i class="fa fa-trash"></i> </a>
                                 </td>
                             </tr>
 

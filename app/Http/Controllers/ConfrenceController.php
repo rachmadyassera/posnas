@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Confrence;
 use App\Models\Location;
+use App\Models\Presence;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -64,10 +65,10 @@ class ConfrenceController extends Controller
     public function show(string $id)
     {
         //
-        $rapat = Confrence::find($id);
-        $peserta = Participant::with('confrence')->latest()->get()->where('status','enable')->where('confrence_id', $id);
+        $kegiatan = Confrence::find($id);
+        $presence = Presence::with('confrence')->latest()->get()->where('status','enable')->where('confrence_id', $id);
 
-        return view('Admin.Rapat.peserta', compact('rapat','peserta'));
+        return view('Admin.Rapat.peserta', compact('kegiatan','presence'));
     }
 
     /**

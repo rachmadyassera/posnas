@@ -3,7 +3,7 @@
 <div class="container">
         <div class="card shadow">
             <div class="card-header bg-primary">
-                <h4 class="card-title text-white">Data Lokasi Rapat</h4>
+                <h4 class="card-title text-white">Data Lokasi Kegiatan</h4>
                 <div class="card-header-action">
                     <div class="buttons">
                         <button class="btn btn-icon btn-success" id="MybtnModal"><i class="fas fa-plus-circle"></i> Lokasi</button>
