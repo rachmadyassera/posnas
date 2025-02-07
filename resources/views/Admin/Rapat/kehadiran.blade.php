@@ -49,7 +49,7 @@
                                 <td style="vertical-align: middle; ">{{$pre->organization}}</td>
                                 <td style="vertical-align: middle; ">{{$pre->nohp}}</td>
                                 <td style="vertical-align: middle;"  class="text-center">
-                                        <a href="/confrence/disable-participant/{{$pre->id}}" class="btn-sm btn-danger" onclick="confirmation_destroy(event)"> <i class="fa fa-trash"></i> </a>
+                                        <a href="/presence/disable/{{$pre->id}}" class="btn-sm btn-danger" onclick="confirmation_destroy(event)"> <i class="fa fa-trash"></i> </a>
                                 </td>
                             </tr>
 

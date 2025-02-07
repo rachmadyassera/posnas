@@ -1,4 +1,4 @@
-@extends('front-end.main')
+@extends('front-end.presence.main')
 @section('content')
 <section class="section">
     <div class="container mt-5">
@@ -6,7 +6,7 @@
         <div class="page-inner">
           <h1>404</h1>
           <div class="page-description">
-            Kegiatan rapat tidak ditemukan, silahkan hubungi penyelenggara kegiatan.
+            Presensi tidak ditemukan, silahkan hubungi penyelenggara kegiatan.
           </div>
         </div>
       </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Confrence;
 use App\Models\Location;
 use App\Models\Presence;
@@ -68,7 +69,7 @@ class ConfrenceController extends Controller
         $kegiatan = Confrence::find($id);
         $presence = Presence::with('confrence')->latest()->get()->where('status','enable')->where('confrence_id', $id);
 
-        return view('Admin.Rapat.peserta', compact('kegiatan','presence'));
+        return view('Admin.Rapat.kehadiran', compact('kegiatan','presence'));
     }
 
     /**
@@ -161,12 +162,12 @@ class ConfrenceController extends Controller
     public function generate_pdf(string $id)
     {
         $rapat = Confrence::find($id);
-        $peserta = Participant::with('confrence')->latest()->get()->where('status','enable')->where('confrence_id', $id);
-        $title = 'Daftar Kehadiran '.$rapat->judul;
+        $peserta = Presence::with('confrence')->latest()->get()->where('status','enable')->where('confrence_id', $id);
+        $title = 'Daftar Kehadiran '.$rapat->title.' '.Carbon::now()->isoFormat('H:m:s');
         // dd($rapat,$peserta,$title);
         // return view('Admin.Pdf.peserta', compact('rapat','peserta','title'));
 
-        $pdf = PDF::loadview('Admin.Pdf.peserta', compact('rapat','peserta','title'))->setPaper('legal', 'potrait');
+        $pdf = PDF::loadview('Admin.Pdf.peserta', compact('rapat','peserta','title'))->setPaper('A4', 'landscape');
         return $pdf->download($title.'.pdf');
     }
 
@@ -196,7 +197,7 @@ class ConfrenceController extends Controller
     public function generate_all_confrence_pdf()
     {
         $rapat = Confrence::with(['user','opd','location'])->latest()->get()->where('status','enable');
-        $title = 'Data Seluruh Rapat - Siakra';
+        $title = 'Data Seluruh Presensi Kegiatan';
         // dd($rapat,$peserta,$title);
         $pdf = PDF::loadview('Admin.Pdf.rapat', compact('rapat','title'))->setPaper('legal', 'potrait');
         return $pdf->download($title.'.pdf');
@@ -206,7 +207,7 @@ class ConfrenceController extends Controller
     {
         //
         $rapat = Confrence::find($id);
-        $peserta = Participant::with('confrence')->latest()->get()->where('confrence_id', $id);
+        $peserta = Presence::with('confrence')->latest()->get()->where('confrence_id', $id);
 
         return view('Admin.Rapat.peserta', compact('rapat','peserta'));
     }

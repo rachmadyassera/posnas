@@ -31,8 +31,8 @@ Route::get('/', function () {
 Auth::routes();
 Auth::routes(['register'=> false,'reset'=> false,'confirm'=> false,'verify'=> false]);
 
-Route::get('/presence/{id}', 'App\Http\Controllers\ParticipantController@presence')->name('presence.confrence');
-Route::post('participant/store', 'App\Http\Controllers\ParticipantController@store')->name('participant.store');
+Route::get('/presence/check-in/{id}', 'App\Http\Controllers\PresenceController@check_in')->name('presence.check-in');
+Route::post('/presence/store', 'App\Http\Controllers\PresenceController@store')->name('presence.store');
 
 
 
@@ -103,6 +103,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/get-all-confrence', 'App\Http\Controllers\ConfrenceController@all_confrence')->name('confrence.get-all');
     Route::get('/all-participant-confrence/{id}', 'App\Http\Controllers\ConfrenceController@all_participant_confrence')->name('confrence.all-participant-confrence');
     Route::get('/generate_all_confrence_pdf', 'App\Http\Controllers\ConfrenceController@generate_all_confrence_pdf')->name('confrence.generatepdf-all-confrence');
+    Route::resource('confrence', ConfrenceController::class);
 
 
 
@@ -121,10 +122,9 @@ Route::group(['middleware' => ['role:Umum']], function () {
 
 
 //========================== BY PERMISSION =================================
-Route::get('/location/disable/{id}', 'App\Http\Controllers\LocationController@disable')->middleware('can:isAdminOperator');
-Route::resource('confrence', ConfrenceController::class)->middleware('role:admin');
-Route::get('/confrence/disable/{id}', 'App\Http\Controllers\ConfrenceController@disable')->middleware('can:isAdminOperator');
-Route::get('/confrence/disable-participant/{id}', 'App\Http\Controllers\ConfrenceController@disable_participant')->middleware('can:isAdminOperator');
+Route::get('/location/disable/{id}', 'App\Http\Controllers\LocationController@disable')->middleware(['role_or_permission:admin|location-delete']);
+Route::get('/confrence/disable/{id}', 'App\Http\Controllers\ConfrenceController@disable')->middleware('role_or_permission:admin|confrence-delete');
+Route::get('/presence/disable/{id}', 'App\Http\Controllers\PresenceController@disable_participant')->middleware('role_or_permission:admin|presence-delete');
 
 
 

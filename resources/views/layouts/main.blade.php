@@ -156,25 +156,25 @@
     });
 </script> --}}
 <script type="text/javascript">
-    function confirmation(ev) {
+    function confirmation_destroy(ev) {
         ev.preventDefault();
         var urlToRedirect = ev.currentTarget.getAttribute('href'); //use currentTarget because the click may be on the nested i tag and not a tag causing the href to be empty
         console.log(urlToRedirect); // verify if this is the right URL
         Swal.fire({
                 title: 'Apakah Anda Yakin?',
-                text: "Ketika Data Dihapus, kamu tidak dapat mengambalikan datanya!",
+                text: "Setelah dihapus, kamu tidak dapat mengambalikan datanya!",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, Hapus Data !'
+                confirmButtonText: 'Yes !'
             })
             .then((result) => {
                 // redirect with javascript here as per your logic after showing the alert using the urlToRedirect value
                 if (result.isConfirmed) {
                     window.location.href = urlToRedirect;
                 } else {
-                    Swal.fire('Wops, Hampir Saja !',
+                    Swal.fire('Wops !',
                         'Perintah Hapus dibatalkan .',
                         'success');
                 }
@@ -200,7 +200,7 @@ function confirmation(ev) {
             if (result.isConfirmed) {
                 window.location.href = urlToRedirect;
             } else {
-                Swal.fire('Wops, Hampir Saja !',
+                Swal.fire('Wops !',
                     'Konfirmasi dibatalkan.',
                     'success');
             }

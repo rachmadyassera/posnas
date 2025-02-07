@@ -45,7 +45,7 @@
                                                 <a class="dropdown-item has-icon" href="{{route ('confrence.edit', $pre->id)}}"><i class="fa fa-edit"></i> Edit</a>
                                                 <a class="dropdown-item has-icon" href="{{route ('confrence.generatepdf-qrcode', $pre->id)}}"><i class="fa fa-qrcode"></i>Qr Code</a>
                                                 <a class="dropdown-item has-icon" href="{{route ('confrence.show', $pre->id)}}"><i class="fa fa-address-book"></i> Data Peserta</a>
-                                                <a class="dropdown-item has-icon" href="{{route ('presence.confrence', $pre->id)}}" target="_blank"><i class="fa fa-pen-nib"></i>Form Kehadiran</a>
+                                                <a class="dropdown-item has-icon" href="{{route ('presence.check-in', $pre->id)}}" target="_blank"><i class="fa fa-pen-nib"></i>Form Kehadiran</a>
                                                 <a class="dropdown-item has-icon" href="/confrence/disable/{{$pre->id}}" onclick="confirmation_destroy(event)"><i class="fa fa-trash"></i> Hapus</a>
                                             </div>
                                         </div>
