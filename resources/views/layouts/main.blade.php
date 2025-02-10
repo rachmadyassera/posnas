@@ -87,7 +87,7 @@
             Copyright &copy; @php
             echo date('Y')
             @endphp
-         Design By <a href="#">Bidang Aplikasi dan Informatika - Dinas Komunikasi dan Informatika Kota Tanjungbalai</a>
+         Design By <a href="https://tanjungbalaikota.go.id/">Pemerintah Kota Tanjungbalai</a>
         </div>
         <div class="footer-right">
 

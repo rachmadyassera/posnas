@@ -69,7 +69,7 @@
                 Don't have an account? <a href="auth-register.html">Create One</a>
               </div> --}}
               <div class="simple-footer">
-                <a href="#">Bidang Aplikasi Informatika - Dinas Komunikasi dan Informatika Kota Tanjungbalai</a>
+                <a href="#">Pemerintah Kota Tanjungbalai</a>
               </div>
             </div>
           </div>

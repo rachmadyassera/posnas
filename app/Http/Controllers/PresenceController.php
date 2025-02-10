@@ -17,7 +17,7 @@ class PresenceController extends Controller
         //
         $datenow =Carbon::now();
         $rapat = Confrence::find($id);
-        $title = 'Presensi Kegiatan '.$rapat->name;
+        $title = 'Presensi Kegiatan '.$rapat->title;
         if ($rapat->status == 'disable') {
             # code...
             Alert::warning('Oops', 'Daftar hadir tidak ditemukan');

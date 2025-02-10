@@ -13,7 +13,7 @@
           <div class="card card-success shadow">
             <div class="card-header bg-success">
 
-                <h4 class="card-title text-white"> Presensi {{ $rapat->title }} </h4>
+                <h4 class="card-title text-white"> PRESENSI {{ $rapat->title }} </h4>
             </div>
             <div class="card-body">
                 <table>
@@ -46,7 +46,7 @@
                         <input type="text" name="name" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label>Instansi</label>
+                        <label>Instansi / Organisasi</label>
                         <textarea name="organization"  class="form-control" style="height: 60px;" required></textarea>
                     </div>
                     <div class="form-group">
@@ -78,10 +78,35 @@
                         <textarea id="signature64" name="signed" style="display:none" required>
                         </textarea>
                     </div>
-                    <button id="clear" class="btn btn-danger">Hapus
-                        Tandatangan</button>
+                    <center>
+                        <button id="clear" class="btn btn-danger">Hapus
+                            Tandatangan</button>
+
+                    </center>
+
+                    <br>
+                    {{-- <div class="form-group">
+                        <div id="my_camera"></div>
+
+                        <br/>
+                        <center>
+
+                            <input type="button" value="Ambil Gambar" class="btn btn-primary" onClick="take_snapshot()">
+
+                            <input type="hidden" name="image" class="image-tag">
+
+                        </center>
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <div id="results">Your captured image will appear here...</div>
+
+                    </div> --}}
+
                     <div class="text-right">
-                        <input type="submit" value="Kirim" class="btn btn-success">
+                        <input type="submit" value="Kirim Presensi" class="btn btn-success btn-lg btn-block" tabindex="4">
                     </div>
                 </form>
             </div>

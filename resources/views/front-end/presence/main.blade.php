@@ -64,6 +64,7 @@
     <script src="{{ asset('assets/js/dataTables.bootstrap4.min.js') }}"></script>
 
     <!-- Page Specific JS File -->
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script> --}}
 
     <!-- Template JS File -->
     <script src="../assets/js/scripts.js"></script>
@@ -85,6 +86,42 @@
             sig.signature('clear');
             $("#signature64").val('');
         });
+    </script>
+
+
+
+    <script language="JavaScript">
+
+        Webcam.set({
+
+            width: 490,
+
+            height: 350,
+
+            image_format: 'jpeg',
+
+            jpeg_quality: 90
+
+        });
+
+
+
+        Webcam.attach( '#my_camera' );
+
+
+
+        function take_snapshot() {
+
+            Webcam.snap( function(data_uri) {
+
+                $(".image-tag").val(data_uri);
+
+                document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+
+            } );
+
+        }
+
     </script>
 </body>
 </html>
