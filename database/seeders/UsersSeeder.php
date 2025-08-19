@@ -21,7 +21,7 @@ class UsersSeeder extends Seeder
 
         $admin = User::updateOrCreate(
 
-            ['email' => 'alpatester@posnas.app'],
+            ['email' => 'alpatester@lepat.app'],
             ['name' => 'Developer', 'role' => 'superadmin', 'password' => bcrypt('081279329132')]
             // [
             // 'id' => Str::uuid(),

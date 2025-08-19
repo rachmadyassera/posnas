@@ -1,3 +1,3 @@
 <title>
-    POSNAS &mdash; Pendukung Operasional Sekretariat Dinas
+    LEPAT &mdash; Layanan Elektronik Pendukung Administrasi
 </title>

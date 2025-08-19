@@ -55,7 +55,7 @@ class ConfrenceController extends Controller
             'description' => $request->description
         ]);
 
-        QrCode::generate(route ('presence.confrence', $id),  public_path('presensi/qrcodes/'.$id.'.svg'));
+        QrCode::generate(route('presence.check-in', $id),  public_path('presensi/qrcodes/'.$id.'.svg'));
         Alert::success('Berhasil', 'Rapat berhasil didaftarkan');
         return redirect()->route('confrence.index');
     }

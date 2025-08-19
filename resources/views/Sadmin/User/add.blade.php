@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{route('user.store')}}" method="POST">
+                <form action="{{ route('user.store') }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label>Name </label>
@@ -38,7 +38,7 @@
                         <select class="form-control select2" name="org" required>
                             <option value = ""> Pilih </option>
                             @foreach ($org as $o)
-                            <option value = "{{ $o->id }}"> {{ $o->name }}</option>
+                                <option value = "{{ $o->id }}"> {{ $o->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -49,5 +49,4 @@
             </div>
         </div>
     </div>
-
 @endsection
