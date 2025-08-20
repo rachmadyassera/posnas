@@ -5,12 +5,13 @@
     <section class="section">
         <div class="container mt-5">
             <div class="row">
-                <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
-                    {{-- <div class="login-brand">
-            SISTEM INFORMASI PRESENSI KEGIATAN
-          </div> --}}
+                {{-- <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3"> --}}
+                <div class="col-12">
+                    <div class="login-brand">
+                        SISTEM INFORMASI PRESENSI KEGIATAN
+                    </div>
 
-                    <div class="card card-success shadow">
+                    <div class="card card-success shadow rounded-lg">
                         <div class="card-header bg-success">
 
                             <h4 class="card-title text-white"> Presensi {{ $rapat->title }} </h4>
@@ -31,7 +32,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="card card-success shadow ">
+                    <div class="card card-success shadow rounded-lg">
                         <div class="card-header bg-success">
                             <h4 class="card-title text-white"> Formulir Kehadiran</h4>
 
@@ -73,7 +74,8 @@
                                 <div class="form-group">
                                     <label>Tandatangan anda :</label>
                                 </div>
-                                <div class="form-group shadow">
+                                <div
+                                    class="form-group shadow col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
                                     <div id="sig"></div>
                                     <br />
                                     <textarea id="signature64" name="signed" style="display:none" required>
@@ -110,7 +112,8 @@
                     </div>
 
                     <div class="text-right">
-                        <input type="submit" value="Kirim Presensi" class="btn btn-success btn-lg btn-block"
+                        <input type="submit" value="Kirim Presensi"
+                            class="btn btn-success btn-lg btn-block col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3"
                             tabindex="4">
                     </div>
                     </form>

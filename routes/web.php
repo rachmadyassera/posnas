@@ -32,6 +32,7 @@ Auth::routes();
 Auth::routes(['register'=> false,'reset'=> false,'confirm'=> false,'verify'=> false]);
 
 Route::get('/presence/check-in/{id}', 'App\Http\Controllers\PresenceController@check_in')->name('presence.check-in');
+Route::get('/presence/validation/{id}', 'App\Http\Controllers\PresenceController@presence_detail')->name('presence.validation');
 Route::post('/presence/store', 'App\Http\Controllers\PresenceController@store')->name('presence.store');
 
 

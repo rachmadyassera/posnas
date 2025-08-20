@@ -78,17 +78,37 @@ class PresenceController extends Controller
         ]);
 
         Alert::success('Berhasil', 'Terimakasih telah hadir.');
-        return redirect()->route('presence.check-in',$request->confrence);
+        // return redirect()->route('presence.check-in',$request->confrence);
+        return redirect()->route('presence.validation', $uuid);
+
+    }
+
+
+    public function presence_detail($id)
+    {
+        $pres = Presence::find($id);
+        $rapat = Confrence::find($pres->confrence_id);
+        $title = 'Validasi Presensi ';
+
+        if ($rapat->status == 'disable') {
+            # code...
+            Alert::warning('Oops', 'Daftar hadir tidak ditemukan');
+            return view('front-end.presence.rapat-disable', compact('title'));
+        }
+
+            return view('front-end.presence.detail-presensi', compact('pres','rapat','title'));
+
     }
 
 
     public function disable_participant($id)
     {
-        $rpt = Presence::find($id);
+        $rpt = Participant::find($id);
         $rpt->status = 'disable';
         $rpt->save();
 
         Alert::success('Berhasil', 'Peserta berhasil dihapus');
         return back();
     }
+
 }
