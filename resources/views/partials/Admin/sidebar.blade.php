@@ -1,10 +1,10 @@
 <div class="main-sidebar sidebar-style-2">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{ url('/dashboard') }}">POSNAS</a>
+            <a href="{{ url('/dashboard') }}">LEPAT</a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{ url('/dashboard') }}">POS</a>
+            <a href="{{ url('/dashboard') }}">LPT</a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Main Menu</li>
@@ -29,7 +29,7 @@
                         class="fas fa-calendar-alt"></i> <span>Agenda</span></a>
                 <ul class="dropdown-menu">
                     <li @if (Request::segment(1) == 'activity') class="active" @endif><a class="nav-link"
-                            href="{{ url('/activity') }}"><span>List Kegiatan</span></a></li>
+                            href="{{ url('/activity') }}"><span>Data Kegiatan</span></a></li>
                     <li @if (Request::segment(1) == 'timeline-activity') class="active" @endif><a class="nav-link"
                             href="{{ route('activity.timeline') }}"><span>Export Kegiatan</span></a></li>
                     <li @if (Request::segment(1) == 'report-activity') class="active" @endif><a class="nav-link"
@@ -50,7 +50,7 @@
                     </li>
 
                     <li @if (Request::segment(1) == 'confrence') class="active" @endif>
-                        <a href="{{ url('confrence') }}" class="nav-link "><span>Kegiatan</span></a>
+                        <a href="{{ url('confrence') }}" class="nav-link "><span>Data Presensi</span></a>
                     </li>
                 </ul>
             </li>

@@ -59,7 +59,7 @@
                 </tr>
                 <tr>
                     <td style="vertical-align: middle; " class="text-center">
-                        <h6>SISTEM INFORMASI PRESENSI KEGIATAN</h6>
+                        <h6>LAYANAN ELEKTRONIK PENDUKUNG ADMINISTRASI SEKRETARIAT</h6>
                     </td>
                 </tr>
             </thead>
@@ -81,7 +81,7 @@
                 <td style="vertical-align: top; width: 100px; " class="text-left"> Tanggal </td>
                 <td style="vertical-align: top; " class="text-center"> : </td>
                 <td style="vertical-align: top; " class="text-left">
-                    {{ $carbon::parse($rapat->date_confrence)->isoFormat('dddd, D MMMM Y, H:m') }}</td>
+                    {{ $carbon::parse($rapat->date_confrence)->isoFormat('dddd, D MMMM Y, HH:mm') }}</td>
             </tr>
             <tr>
                 <td style="vertical-align: top; width: 100px; " class="text-left"> Lokasi </td>
@@ -151,8 +151,8 @@
                         <td style="vertical-align: middle; border-width: 1px;
             border-color: #000;">
                             <center>
-                                <img style="width: 75%" src="{{ public_path('presensi/signature/' . $pst->signature) }}"
-                                    alt="">
+                                <img style="width: 75%"
+                                    src="{{ public_path('presensi/signature/' . $pst->signature) }}" alt="">
                             </center>
                         </td>
                     </tr>
@@ -163,8 +163,8 @@
     <footer class="text-right">
         <p class="pr-3 m-0 mb-2">
             Printed Date : {{ date('Y-m-d h:i A') }} <br>
-            Daftar kehadiran ini secara otomatis dibuat dari sistem informasi presensi kegiatan Pemerintah Kota
-            Tanjungbalai
+            Daftar kehadiran ini secara otomatis dibuat dari layanan elektronik pendukung administrasi
+            kesekretariatan (LEPAT) Pemerintah Kota Tanjungbalai
         </p>
 
     </footer>

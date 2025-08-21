@@ -1,3 +1,3 @@
 <title>
-    LEPAT &mdash; Layanan Elektronik Pendukung Administrasi
+    Layanan Elektronik Pendukung Administrasi Sekretariat &mdash; (LEPAT)
 </title>

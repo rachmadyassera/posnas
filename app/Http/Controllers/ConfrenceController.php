@@ -197,7 +197,7 @@ class ConfrenceController extends Controller
     public function generate_all_confrence_pdf()
     {
         $rapat = Confrence::with(['user','opd','location'])->latest()->get()->where('status','enable');
-        $title = 'Data Seluruh Presensi Kegiatan';
+        $title = 'Data Presensi Peserta Kegiatan';
         // dd($rapat,$peserta,$title);
         $pdf = PDF::loadview('Admin.Pdf.rapat', compact('rapat','title'))->setPaper('legal', 'potrait');
         return $pdf->download($title.'.pdf');

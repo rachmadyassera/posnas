@@ -113,7 +113,7 @@ Route::group(['middleware' => ['role:admin']], function () {
 //========================== OPERATOR =================================
 
 
-Route::group(['middleware' => ['role:Umum']], function () {
+Route::group(['middleware' => ['role:umum']], function () {
     Route::get('/activity-detail/{id}', 'App\Http\Controllers\ActivityController@detail_activity')->name('activity.detail');
     Route::post('/add-notes-evaluation', 'App\Http\Controllers\ActivityController@store_notes')->name('activity.store-notes');
     Route::get('/delete-note/{id}', 'App\Http\Controllers\ActivityController@deleteNote')->name('activity.delete-note');

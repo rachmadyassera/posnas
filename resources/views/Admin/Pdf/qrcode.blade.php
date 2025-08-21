@@ -28,7 +28,7 @@
             </tr>
             <tr>
                 <td style="vertical-align: middle; " class="text-center">
-                    <h6> SISTEM INFORMASI PRESENSI KEGIATAN</h6>
+                    <h6> LAYANAN ELEKTRONIK PENDUKUNG ADMINISTRASI SEKRETARIAT</h6>
                 </td>
                 {{-- <td style="vertical-align: middle; " class="text-center"><h6>{{ $presensi->organization->address }}</h6></td> --}}
             </tr>
@@ -57,7 +57,7 @@
     </table>
     <br>
     <h4>
-        <center>QR Code Formulir Kehadiran</center>
+        <center>QR Code Formulir Presensi</center>
     </h4>
     <br>
     <br>
