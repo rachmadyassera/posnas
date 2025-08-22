@@ -14,22 +14,27 @@
                     <div class="card card-success shadow rounded-lg">
                         <div class="card-header bg-success">
 
-                            <h4 class="card-title text-white"> {{ $title }} </h4>
+                            <center>
+                                <h4 class="card-title text-white"> {{ $title }}
+                            </center>
+                            </h4>
                         </div>
                         <div class="card-body">
                             <center><img style="width: 20%" class="img-fluid" src="{{ asset('assets/img/checklist.png') }}"
                                     alt=""><br>
-                                <h4 style="color: green">PRESENSI VERIFIED</h4><br>
+                                <h4 style="color: green">PRESENSI VERIFIED</h4>
                                 {{ $carbon::parse($pres->created_at)->isoFormat('dddd, D MMMM Y, HH:mm') }}
-                                <p></p>
-                                <b>{{ $pres->name }} </b> ({{ $pres->gender }})<br>
+                                <p>
+                                <h5>{{ $pres->name }}</h5>
+
                                 {{ $pres->organization }}<br>
                                 {{ $pres->position }} <br>
-                                NIP/NRP/ID : {{ $pres->id_employee }}<br>
-                                <img class="img-fluid" src="{{ asset('presensi/signature/' . $pres->signature) }}"
-                                    alt="">
+                                {{ $pres->id_employee }} <br>
+                                </p>
+                                <p>
+                                    {!! QrCode::size(100)->generate(route('presence.validation', $pres->id)) !!}
 
-                                <br>
+                                </p>
                                 <p>Dalam Kegiatan : </p>
                                 <b>{{ $rapat->title }}</b><br>
                                 {{ $carbon::parse($rapat->date_confrence)->isoFormat('dddd, D MMMM Y, H:mm') }}
