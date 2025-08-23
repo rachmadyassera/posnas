@@ -47,7 +47,7 @@
         <h5> {{ $subTitle }}</h5>
     </center>
     <center>
-        <h5>Dengan jumlah {{ $activity->count() }} kegiatan</h5>
+        <h5>Total {{ $activity->count() }} Kegiatan</h5>
     </center>
     <br>
 
@@ -71,7 +71,7 @@
                         {{ $loop->iteration }}</td>
                     <td style="vertical-align: top; border-width: 1px;
                     border-color: #000;">
-                        {{ $carbon::parse($act->date_activity)->isoFormat('dddd, D MMMM Y h:m A') }}</td>
+                        {{ $carbon::parse($act->date_activity)->isoFormat('dddd, D MMMM Y hh:mm A') }}</td>
                     <td style="vertical-align: top; border-width: 1px;
                     border-color: #000;">
                         {{ $act->name_activity }}

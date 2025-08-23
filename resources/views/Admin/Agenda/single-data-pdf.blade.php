@@ -140,7 +140,7 @@
         <p class="pr-3 m-0 mb-2">
             Printed Date : {{ date('Y-m-d h:i A') }} <br>
             Daftar laporan kegiatan ini secara otomatis dibuat dari layanan elektronik pendukung administrasi
-            kesekretariatan (LEPAT) Pemerintah Kota Tanjungbalai
+            Sekretariat (LEPAT) Pemerintah Kota Tanjungbalai
         </p>
 
     </footer>

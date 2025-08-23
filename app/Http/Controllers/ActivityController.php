@@ -398,7 +398,7 @@ class ActivityController extends Controller
 
         $activity = Activity::with('notesactivity')->whereBetween('date_activity',[$startDate,$endDate] )->where('status','enable')->where('status_activity','pending')->where('organization_id',Auth::user()->profil->organization_id)->reorder('date_activity','asc')->get();
 
-        $title = 'Jadwal Kegiatan '.Auth::user()->profil->organization->name;
+        $title = 'Agenda '.Auth::user()->profil->organization->name;
         $subTitle = 'Pada Hari '.$formatstartDate.' s/d '.$formatendDate;
         // if ($request->private == 'disprivate') {
         //     return view('Admin.Agenda.disprivate-timeline', compact('activity','title','subTitle'));

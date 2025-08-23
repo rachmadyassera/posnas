@@ -164,7 +164,7 @@
         <p class="pr-3 m-0 mb-2">
             Printed Date : {{ date('Y-m-d h:i A') }} <br>
             Daftar kehadiran ini secara otomatis dibuat dari layanan elektronik pendukung administrasi
-            kesekretariatan (LEPAT) Pemerintah Kota Tanjungbalai
+            sekretariat (LEPAT) Pemerintah Kota Tanjungbalai
         </p>
 
     </footer>

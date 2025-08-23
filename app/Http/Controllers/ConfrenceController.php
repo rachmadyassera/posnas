@@ -163,7 +163,7 @@ class ConfrenceController extends Controller
     {
         $rapat = Confrence::find($id);
         $peserta = Presence::with('confrence')->latest()->get()->where('status','enable')->where('confrence_id', $id);
-        $title = 'Daftar Kehadiran '.$rapat->title.' '.Carbon::now()->isoFormat('H:m:s');
+        $title = 'Daftar Presensi Peserta '.$rapat->title.' '.Carbon::now()->isoFormat('H:m:s');
         // dd($rapat,$peserta,$title);
         // return view('Admin.Pdf.peserta', compact('rapat','peserta','title'));
 
@@ -174,7 +174,7 @@ class ConfrenceController extends Controller
     public function generate_pdf_qrcode(string $id)
     {
         $presensi = Confrence::find($id);
-        $title = 'Qr Code Formulir Kehadiran '.$presensi->title;
+        $title = 'Qr Code Formulir Presensi '.$presensi->title;
         // dd($presensi,$peserta,$title);
         $pdf = PDF::loadview('Admin.Pdf.qrcode', compact('presensi','title'))->setPaper('legal', 'potrait');
         return $pdf->download($title.'.pdf');
