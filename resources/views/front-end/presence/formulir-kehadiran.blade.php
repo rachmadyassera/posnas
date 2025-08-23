@@ -53,7 +53,7 @@
 
                                 <div class="form-group">
                                     <label for="organization" class="form-label">Organisasi / Instansi</label>
-                                    <select id="organization" name="organization" class="form-control select2">
+                                    <select id="organization" name="organization" class="form-control select2" required>
                                         <option value=""> Pilih </option>
                                         @foreach ($org as $o)
                                             <option value = "{{ $o->name }}"> {{ $o->name }}</option>
@@ -64,7 +64,7 @@
 
                                 <div class="form-group" id="input-lainnya" style="display:none;">
                                     <textarea name="other_organization" class="form-control" style="height: 60px;"
-                                        placeholder="Masukkan Organisasi atau Instansi Anda disini..." required></textarea>
+                                        placeholder="Masukkan Organisasi atau Instansi Anda disini..."></textarea>
                                 </div>
 
 
@@ -158,5 +158,9 @@
                 }
             });
         });
+
+
+        const textarea = document.getElementById("myTextarea");
+        textarea.style.display = (select.value === "lainnya") ? "block" : "none";
     </script>
 @endsection

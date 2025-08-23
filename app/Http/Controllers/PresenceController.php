@@ -70,14 +70,20 @@ class PresenceController extends Controller
 
         if ( $request->organization === 'Lainnya') {
             # code...
+            if (empty($request->other_organization)) {
+                # code...
 
-        Organization::create([
-            'id' => Str::uuid(),
-            'name' => $request->other_organization,
-            'address' => '-',
-            'longitude' => '-',
-            'latitude' => '-',
-        ]);
+                Alert::warning('Data tidak valid', 'Organisasi belum diisi, silahkan input kembali dengan benar.');
+                return redirect()->route('presence.check-in', $request->confrence);
+            }
+
+            Organization::create([
+                'id' => Str::uuid(),
+                'name' => $request->other_organization,
+                'address' => '-',
+                'longitude' => '-',
+                'latitude' => '-',
+            ]);
         }
 
 
