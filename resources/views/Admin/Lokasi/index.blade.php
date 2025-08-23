@@ -1,12 +1,13 @@
 @extends('layouts.main')
 @section('content')
-<div class="container">
+    <div class="container">
         <div class="card shadow">
             <div class="card-header bg-primary">
                 <h4 class="card-title text-white">Data Lokasi Kegiatan</h4>
                 <div class="card-header-action">
                     <div class="buttons">
-                        <button class="btn btn-icon btn-success" id="MybtnModal"><i class="fas fa-plus-circle"></i> Lokasi</button>
+                        <button class="btn btn-icon btn-success" id="MybtnModal"><i class="fas fa-plus-circle"></i>
+                            Lokasi</button>
                     </div>
                 </div>
             </div>
@@ -24,24 +25,31 @@
                         </thead>
                         <tbody>
 
-                            @foreach ($lokasi as $lks )
-                            <tr>
-                                <td style="vertical-align: middle; ">{{$lks->name}}</td>
-                                <td style="vertical-align: middle; ">{{$lks->address}}</td>
-                                <td style="vertical-align: middle; ">Didaftarkan oleh : <br> {{$lks->user->name}}, <br> {{$lks->user->profil->organization->name}} </td>
-                                <td style="vertical-align: middle; ">
-                                    @if ($lks->user_id == Auth::user()->id)
-                                    <ul class="nav">
-                                        <button type="button" class="btn-sm btn-primary" data-toggle="modal" data-target="#modalUpdate{{$lks->id}}">
-                                            <i class="fa fa-edit"></i>
-                                        </button>
-                                        &nbsp;
-                                        <a href="/location/disable/{{$lks->id}}" class="btn btn-danger" onclick="confirmation_destroy(event)"> <i class="fa fa-trash"></i> </a>
-                                    </ul>
-                                    @endif
-                                </td>
-                            </tr>
-
+                            @foreach ($lokasi as $lks)
+                                <tr>
+                                    <td style="vertical-align: middle; ">{{ $lks->name }}</td>
+                                    <td style="vertical-align: middle; ">{{ $lks->address }}</td>
+                                    <td style="vertical-align: middle; ">Didaftarkan oleh : <br>
+                                        @if ($lks->user_id == '-')
+                                            Sistem
+                                        @else
+                                            {{ $lks->user->name }}, <br> {{ $lks->user->profil->organization->name }}
+                                        @endif
+                                    </td>
+                                    <td style="vertical-align: middle; ">
+                                        @if ($lks->user_id == Auth::user()->id)
+                                            <ul class="nav">
+                                                <button type="button" class="btn-sm btn-primary" data-toggle="modal"
+                                                    data-target="#modalUpdate{{ $lks->id }}">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
+                                                &nbsp;
+                                                <a href="/location/disable/{{ $lks->id }}" class="btn btn-danger"
+                                                    onclick="confirmation_destroy(event)"> <i class="fa fa-trash"></i> </a>
+                                            </ul>
+                                        @endif
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -58,9 +66,8 @@
                 </div>
             </div>
         </div>
-</div>
+    </div>
 
-@include('Admin.Lokasi.create-modal')
-@include('Admin.Lokasi.edit-modal')
-
+    @include('Admin.Lokasi.create-modal')
+    @include('Admin.Lokasi.edit-modal')
 @endsection
