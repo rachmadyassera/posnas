@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Presence;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Models\Presence;
 use App\Models\Confrence;
 use Illuminate\Support\Str;
+use App\Models\Organization;
+use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class PresenceController extends Controller
@@ -17,10 +18,11 @@ class PresenceController extends Controller
         //
         $datenow =Carbon::now();
         $rapat = Confrence::find($id);
+        $org = Organization::orderBy('created_at', 'asc')->get()->where('status','enable');
         $title = 'Presensi Kegiatan '.$rapat->title;
         if ($rapat->status == 'disable') {
             # code...
-            Alert::warning('Oops', 'Daftar hadir tidak ditemukan');
+            Alert::warning('Oops', 'Presensi kegiatan tidak ditemukan');
             return view('front-end.presence.rapat-disable', compact('title'));
         }
         // dd($datenow->toDateString(), Carbon::parse($rapat->date_confrence)->format('Y-m-d'));
@@ -31,7 +33,7 @@ class PresenceController extends Controller
             Alert::warning('Oops', 'Daftar hadir tidak ditemukan');
             return view('front-end.presence.rapat-disable', compact('title'));
         }
-        return view('front-end.presence.formulir-kehadiran', compact('rapat','title'));
+        return view('front-end.presence.formulir-kehadiran', compact('org','rapat','title'));
     }
 
     public function store(Request $request)
@@ -64,12 +66,26 @@ class PresenceController extends Controller
         $image_base64 = base64_decode($image_parts[1]);
         $file = $folderPath . $uuid . '.'.$image_type;
         file_put_contents($file, $image_base64);
+        $organization = $request->organization === 'Lainnya' ? $request->other_organization : $request->organization;
+
+        if ( $request->organization === 'Lainnya') {
+            # code...
+
+        Organization::create([
+            'id' => Str::uuid(),
+            'name' => $request->other_organization,
+            'address' => '-',
+            'longitude' => '-',
+            'latitude' => '-',
+        ]);
+        }
+
 
         Presence::create([
             'id' => $uuid,
             'confrence_id' => $request->confrence,
             'name' => $request->name,
-            'organization' => $request->organization,
+            'organization' => $organization,
             'position' => $request->position,
             'id_employee' => $request->id_employee,
             'gender' => $request->gender,

@@ -1,4 +1,6 @@
 @extends('front-end.presence.main')
+{{-- @extends('layouts.main') --}}
+
 @section('content')
     @inject('carbon', 'Carbon\Carbon')
 
@@ -32,8 +34,8 @@
                             </table>
                         </div>
                     </div>
-                    <div class="card card-success shadow rounded-lg">
-                        <div class="card-header bg-success">
+                    <div class="card card-primary shadow rounded-lg">
+                        <div class="card-header bg-primary">
                             <h4 class="card-title text-white"> Formulir Kehadiran</h4>
 
                         </div>
@@ -47,10 +49,25 @@
                                     <label>Nama Lengkap</label>
                                     <input type="text" name="name" class="form-control" required>
                                 </div>
+
+
                                 <div class="form-group">
-                                    <label>Instansi / Organisasi</label>
-                                    <textarea name="organization" class="form-control" style="height: 60px;" required></textarea>
+                                    <label for="organization" class="form-label">Organisasi / Instansi</label>
+                                    <select id="organization" name="organization" class="form-control select2">
+                                        <option value=""> Pilih </option>
+                                        @foreach ($org as $o)
+                                            <option value = "{{ $o->name }}"> {{ $o->name }}</option>
+                                        @endforeach
+                                        <option value="Lainnya">Lainnya</option>
+                                    </select>
                                 </div>
+
+                                <div class="form-group" id="input-lainnya" style="display:none;">
+                                    <textarea name="other_organization" class="form-control" style="height: 60px;"
+                                        placeholder="Masukkan Organisasi atau Instansi Anda disini..." required></textarea>
+                                </div>
+
+
                                 <div class="form-group">
                                     <label>Jabatan</label>
                                     <input type="text" name="position" class="form-control" required>
@@ -61,7 +78,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Jenis Kelamin</label>
-                                    <select class="form-control" name="gender" required>
+                                    <select class="form-control select2" name="gender" required>
                                         <option value = ""> Pilih </option>
                                         <option value = "Laki-laki"> Laki-laki </option>
                                         <option value = "Perempuan"> Perempuan </option>
@@ -125,4 +142,21 @@
             </div>
         </div>
     </section>
+
+
+    <script>
+        $(document).ready(function() {
+            // Inisialisasi Select2
+            $('#organization').select2();
+
+            // Event Change Select2
+            $('#organization').on('change', function() {
+                if ($(this).val() === 'Lainnya') {
+                    $('#input-lainnya').show();
+                } else {
+                    $('#input-lainnya').hide();
+                }
+            });
+        });
+    </script>
 @endsection
