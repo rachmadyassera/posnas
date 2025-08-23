@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('activitys', function (Blueprint $table) {
            // Menambahkan composite index pada kolom user_id dan status dengan nama khusus
-            $table->index(['status','date_activity','created_at'],'activitys_status_dateactivity_createdate_index');
+            $table->index(['created_at','date_activity','status'],'activitys_status_dateactivity_createdate_index');
             $table->unique(['id','user_id', 'organization_id'],'activitys_id_userid_organizationid_unique');
         });
     }
