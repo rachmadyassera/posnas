@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title> LEPAT &mdash; Layanan Elektronik Pendukung Administrasi</title>
+    @include('partials.title-page')
+
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -27,8 +28,12 @@
                     <div
                         class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
                         <div class="login-brand">
-                            <img src="assets/img/stisla-fill.svg" alt="logo" width="100"
+                            <img src="{{ asset('assets/img/copy-writing.png') }}" alt="logo" width="100"
                                 class="shadow rounded-circle">
+                            <br>
+                            <br>
+                            <b>L E P A T</b>
+
                         </div>
 
                         <div class="card card-primary shadow">
@@ -81,7 +86,7 @@
                 Don't have an account? <a href="auth-register.html">Create One</a>
               </div> --}}
                         <div class="simple-footer">
-                            <a href="#">Pemerintah Kota Tanjungbalai</a>
+                            <a href="https://portal.tanjungbalaikota.go.id/">Pemerintah Kota Tanjungbalai</a>
                         </div>
                     </div>
                 </div>
