@@ -3,14 +3,14 @@
     <div class="container">
         <div class="card shadow">
             <div class="card-header">
-                <h4 class="card-title">Formulir Pendaftaran Kegiatan Pimpinan - {{ Auth::user()->profil->organization->name }}</h4>
+                <h4 class="card-title">Formulir Pendaftaran Kegiatan {{ Auth::user()->profil->organization->name }}</h4>
                 <div class="card-header-action">
                     <div class="buttons">
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <form action="{{route('activity.store')}}" method="POST">
+                <form action="{{ route('activity.store') }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label>Tanggal </label>
@@ -22,15 +22,15 @@
                     </div>
                     <div class="form-group">
                         <label>Lokasi </label>
-                        <textarea name="location"  class="form-control" style="height: 100px;" ></textarea>
+                        <textarea name="location" class="form-control" style="height: 100px;"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Deskripsi </label>
-                        <textarea name="description"  class="form-control" style="height: 100px;" ></textarea>
+                        <textarea name="description" class="form-control" style="height: 100px;"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Pejabat Pendamping </label>
-                        <textarea name="accompanying_officer"  class="form-control" style="height: 100px;" ></textarea>
+                        <textarea name="accompanying_officer" class="form-control" style="height: 100px;"></textarea>
                     </div>
 
                     <div class="form-group">
@@ -48,5 +48,4 @@
             </div>
         </div>
     </div>
-
 @endsection

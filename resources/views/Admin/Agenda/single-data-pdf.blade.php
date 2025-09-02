@@ -45,7 +45,7 @@
                 <tr>
                     <td style="vertical-align: middle; " rowspan="2" style="width:150px">
                         <div class="text-left">
-                            <img style="width: 120%" src="{{ public_path('logo/logo-pemko.png') }}" alt="">
+                            <img style="width: 175px" src="{{ public_path('logo/logo-pemko.png') }}" alt="">
                         </div>
                     </td>
                     <td style="vertical-align: middle; " class="text-center">
@@ -68,7 +68,12 @@
             <tr>
                 <td style="vertical-align: top; width: 200px;" class="text-left"> Nama Kegiatan </td>
                 <td style="vertical-align: top; width: 50px;" class="text-center"> : </td>
-                <td style="vertical-align: top; " class="text-left"> {{ $act->name_activity }}</td>
+                <td style="vertical-align: top; " class="text-left">
+                    @if ($act->is_private == 'true')
+                        (Private)
+                    @endif
+                    {{ $act->name_activity }}
+                </td>
             </tr>
             <tr>
                 <td style="vertical-align: top; width: 200px; " class="text-left"> Tanggal </td>
@@ -96,51 +101,53 @@
     <br>
 
     <center>
-        <h4> Catatan/Laporan Kegiatan </h4>
+        <h4> Catatan Kegiatan </h4>
     </center>
     @foreach ($act->notesactivity as $note)
-        <table style="border-width: 1px; border-color: #000;" class="table table-bordered">
-            <thead class="thead-dark">
-                <tr>
-                    <th>Petugas </th>
-                    <th>Catatan</th>
-                    <th>Tanggal</th>
-                </tr>
-            </thead>
+        @if ($note->status === 'enable')
+            <table style="border-width: 1px; border-color: #000;" class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Petugas </th>
+                        <th>Catatan</th>
+                        <th>Tanggal</th>
+                    </tr>
+                </thead>
 
-            <tbody>
-                <tr>
-                    <td style="vertical-align: top; border-width: 1px;
+                <tbody>
+                    <tr>
+                        <td style="vertical-align: top; border-width: 1px;
                 border-color: #000;">
-                        {{ $note->user->name }}</td>
-                    <td style="vertical-align: top; border-width: 1px;
+                            {{ $note->user->name }} ({{ $note->user->profil->jabatan }})</td>
+                        <td style="vertical-align: top; border-width: 1px;
                 border-color: #000;">
-                        {{ $note->notes }}</td>
-                    <td style="vertical-align: top; border-width: 1px;
+                            {{ $note->notes }}</td>
+                        <td style="vertical-align: top; border-width: 1px;
                 border-color: #000;">
-                        {{ $note->created_at }}</td>
-                </tr>
-                <tr>
-                    <td style="vertical-align: middle; border-width: 1px;
+                            {{ $note->created_at }}</td>
+                    </tr>
+                    <tr>
+                        <td style="vertical-align: middle; border-width: 1px;
                     border-color: #000;"
-                        align="center" colspan="3">
-                        <center> DOKUMENTASI </center><br>
-                        @foreach ($note->documentation as $doc)
-                            <img style="width: 40%" src="{{ public_path('images/') }}{{ $doc->picture }}"
-                                alt="">
-                        @endforeach
-                    </td>
-                </tr>
+                            align="center" colspan="3">
+                            <center> DOKUMENTASI </center><br>
+                            @foreach ($note->documentation as $doc)
+                                <img style="width: 40%" src="{{ public_path('images/') }}{{ $doc->picture }}"
+                                    alt="">
+                            @endforeach
+                        </td>
+                    </tr>
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        @endif
     @endforeach
 
     <footer class="text-right">
         <p class="pr-3 m-0 mb-2">
             Printed Date : {{ date('Y-m-d h:i A') }} <br>
             Daftar laporan kegiatan ini secara otomatis dibuat dari layanan elektronik pendukung administrasi
-            Sekretariat (LEPAT) Pemerintah Kota Tanjungbalai
+            sekretariat (LEPAT) Pemerintah Kota Tanjungbalai
         </p>
 
     </footer>
