@@ -15,7 +15,7 @@ class PermissionController extends Controller
     public function index()
     {
        //menampilkan semua data permission
-       $datas = Permission::all();
+       $datas = Permission::orderBy('name', 'asc')->get();
        return view('Sadmin.Permission.index',compact('datas'));
     }
 

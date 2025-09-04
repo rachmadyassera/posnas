@@ -16,30 +16,95 @@
                         <label>Name Role</label>
                         <input type="text" name="name" class="form-control" required>
                     </div>
+                    <div class="form-group ">
+                        <center>
+                            <h6>Permissions</h6>
+                        </center>
+                        <div class="row">
+                            @foreach ($groupedPermissions as $module => $perms)
+                                @php $moduleSlug = Str::slug($module, '_'); @endphp
 
-                    <div class="form-group">
-                        <label class="d-block">Permission Role</label>
-                        <div class="container-fluid">
-                            <div class="row">
-                                @foreach($permissions as $perm)
-                                    <div class="col-md-offset-1 col-md-3 col-sm-3 col-xs-4">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="permissions{{$perm->id}}" name="permissions[]"
-                                            value="{{ $perm->name }}" >
-                                            <label class="form-check-label" for="permissions{{$perm->id}}">{{ $perm->name }}</label>
+                                <div class="col-md-4">
+                                    <div class="card mb-3 shadow" id="module-card-{{ $moduleSlug }}">
+                                        <div class="card-header bg-primary text-white fw-bold d-flex justify-content-between align-items-center">
+                                            Modul: {{ ucfirst($module) }}
+
+                                            {{-- master checkbox (select all) --}}
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input select-all"
+                                                    id="select-all-{{ $moduleSlug }}"
+                                                    data-module="{{ $moduleSlug }}">
+                                                <label class="form-check-label small" for="select-all-{{ $moduleSlug }}">
+                                                    Checked All
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-body">
+                                            @foreach ($perms as $permission)
+                                                <div class="form-check mb-2">
+                                                    <input class="form-check-input perm-checkbox"
+                                                        type="checkbox"
+                                                        name="permissions[]"
+                                                        value="{{ $permission->id }}"
+                                                        id="perm-{{ $permission->id }}"
+                                                        data-module="{{ $moduleSlug }}">
+                                                    <label class="form-check-label" for="perm-{{ $permission->id }}">
+                                                        {{ ucfirst($permission->name) }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
 
-                    <div class="text-right">
+                    <div class="text-center">
                         <input type="submit" value="Save" class="btn btn-success">
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.select-all').forEach(master => {
+            const module = master.dataset.module;
+            const childSelector = `input.perm-checkbox[data-module="${module}"]`;
+            const children = Array.from(document.querySelectorAll(childSelector));
+
+            const updateMasterState = () => {
+                if (children.length === 0) {
+                    master.checked = false;
+                    master.indeterminate = false;
+                    return;
+                }
+                const allChecked = children.every(cb => cb.checked === true);
+                const someChecked = children.some(cb => cb.checked === true);
+
+                master.checked = allChecked;
+                master.indeterminate = !allChecked && someChecked;
+            };
+
+            // Inisialisasi state master saat load
+            updateMasterState();
+
+            // Jika master di-toggle
+            master.addEventListener('change', () => {
+                children.forEach(cb => cb.checked = master.checked);
+                updateMasterState();
+            });
+
+            // Jika salah satu anak berubah
+            children.forEach(cb => {
+                cb.addEventListener('change', updateMasterState);
+            });
+        });
+    });
+    </script>
 
 @endsection

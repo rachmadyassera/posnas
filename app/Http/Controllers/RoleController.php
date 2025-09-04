@@ -28,7 +28,12 @@ class RoleController extends Controller
         //
         $permissions = Permission::all();
         // dd($permissions);
-        return view('Sadmin.Role.add',compact('permissions'));
+
+        $groupedPermissions = Permission::all()->groupBy('module');
+        // $groupedPermissions = $permissions->groupBy(function ($permission) {
+        // return explode('-', $permission->name)[0]; // ambil nama modul
+        // });
+        return view('Sadmin.Role.add',compact('groupedPermissions'));
     }
 
     /**
@@ -44,18 +49,23 @@ class RoleController extends Controller
             $request->validate([
 
                 'name' => 'required',
-                'permissions' => 'required|array'
+                'permissions' => 'nullable|array', // jangan required
+                'permissions.*' => 'exists:permissions,id'
             ]);
 
             // dd($request->permissions);
 
 
             $role = Role::create(['name' => $request->name]);
-            $role->syncPermissions($request->permissions);
+            // $role->syncPermissions($request->permissions);
+            $permissions = Permission::whereIn('id', $request->permissions)->get();
+            $role->syncPermissions($permissions);
 
             Alert::success('Success', 'Role and setting permission has been successfully added. ');
             return back();
+
         } catch (\Throwable $th) {
+            // dd($th->getMessage());
             Alert::warning('Error', 'Something wrong, please try again.');
             return back();
         }
@@ -75,11 +85,13 @@ class RoleController extends Controller
     public function edit(string $id)
     {
         //
-        $role = role::find($id);
-        $rolepermission = $role->permissions;
-        $allpermissions = Permission::all();
+        $role = role::findOrFail($id);
+        // $rolepermission = $role->permissions;
+        // $allpermissions = Permission::all();
+        $groupedPermissions = Permission::all()->groupBy('module');
+
         // dd($permissions);
-        return view('Sadmin.Role.edit',compact('role','rolepermission','allpermissions'));
+        return view('Sadmin.Role.edit',compact('role','groupedPermissions'));
     }
 
     /**
@@ -91,19 +103,28 @@ class RoleController extends Controller
         try {
             //code...
             $request->validate([
-
-                'name' => 'required',
-                'permissions' => 'required|array'
+                'name' => 'required|string|unique:roles,name,' . $id, // unik kecuali role ini
+                'permissions' => 'nullable|array',
+                'permissions.*' => 'exists:permissions,id',
             ]);
 
-            // dd($request->permissions);
+            $role = Role::findOrFail($id);
 
-            $role = Role::find($id);
-            $role->name = $request->name;
-            $role->save();
-            $role->syncPermissions($request->permissions);
+            // Update nama role
+            $role->update([
+                'name' => $request->name,
+            ]);
 
-            Alert::success('Success', 'Role and setting permission has been successfully added. ');
+            // Update permission
+            if ($request->filled('permissions')) {
+                $permissions = Permission::whereIn('id', $request->permissions)->get();
+                $role->syncPermissions($permissions);
+            } else {
+                // kalau tidak ada permission dicentang, kosongkan semua
+                $role->syncPermissions([]);
+            }
+
+            Alert::success('Success', 'Role and setting permission has been successfully updated. ');
             return back();
         } catch (\Throwable $th) {
             Alert::warning('Error', 'Something wrong, please try again.');

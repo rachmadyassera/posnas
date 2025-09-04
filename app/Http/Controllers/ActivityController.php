@@ -246,7 +246,7 @@ class ActivityController extends Controller
                 return back();
             }
         } else {
-            Alert::warning('Oops', 'Akses ditolak, silahkan coba lagi nanti.');
+            Alert::warning('Oops', 'Akses ditolak, data bukan milik anda.');
 
             return back();
         }

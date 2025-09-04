@@ -41,13 +41,13 @@ Route::post('/presence/store', 'App\Http\Controllers\PresenceController@store')-
 // Route::get('/user/json', [\App\Http\Controllers\UserController::class, 'json'])->name('user.json');
 // Route::resource('catalog', CatalogController::class)->only('index');
 
-// ======================= ALL ROLE ==================================
+// ======================= ALL ROLE ===================================
 Route::resource('dashboard', DashboardController::class)->middleware('can:isAdminOperator');
 Route::get('/profil', 'App\Http\Controllers\ProfilController@index')->name('profil.index')->middleware('can:isAdminOperator');
 Route::put('/profil/change-password', 'App\Http\Controllers\ProfilController@change_password')->name('profil.change-password')->middleware('can:isAdminOperator');
 
 
-//========================= SUPER ADMIN ===============================
+// ========================= SUPER ADMIN ==============================
 
 
 Route::group(['middleware' => ['role:superadmin']], function () {
@@ -87,11 +87,8 @@ Route::group(['middleware' => ['role:admin']], function () {
     //Agenda
     Route::get('/search-activity', 'App\Http\Controllers\ActivityController@search_activity')->name('activity.search');
     Route::get('/detail-activity/{id}', 'App\Http\Controllers\ActivityController@detail_master_activity')->name('activity.show-detail');
-    Route::get('/savepdf/{id}', 'App\Http\Controllers\ActivityController@savePdf')->name('activity.savepdf');
     Route::get('/report-activity', 'App\Http\Controllers\ActivityController@report_activity')->name('activity.report');
-    Route::post('/download-report', 'App\Http\Controllers\ActivityController@downloadReport')->name('activity.download');
     Route::get('/timeline-activity', 'App\Http\Controllers\ActivityController@timelineActivity')->name('activity.timeline');
-    Route::post('/download-timeline', 'App\Http\Controllers\ActivityController@downloadTimeline')->name('activity.downloadTimeline');
 
     //Presensi
     Route::resource('location', LocationController::class);
@@ -103,35 +100,44 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::resource('confrence', ConfrenceController::class);
 
 
-
  });
 
-//========================== OPERATOR =================================
+//================================= OPERATOR =======================================
 
+    Route::group(['middleware' => ['role:umum']], function () {
 
-Route::group(['middleware' => ['role:umum']], function () {
-    Route::get('/my-activity', 'App\Http\Controllers\ActivityController@index')->name('myactivity');
-    Route::get('/my-activity', 'App\Http\Controllers\ActivityController@index')->name('myactivity');
-    Route::get('/show-activity/{id}', 'App\Http\Controllers\ActivityController@detail_activity')->name('show-activity');
-    Route::post('/add-notes-evaluation', 'App\Http\Controllers\ActivityController@store_notes')->name('activity.store-notes');
-    Route::get('/delete-note/{id}', 'App\Http\Controllers\ActivityController@deleteNote')->name('activity.delete-note');
 
 });
 
 
 
-//========================== BY PERMISSION =================================
-Route::get('/location/disable/{id}', 'App\Http\Controllers\LocationController@disable')->middleware(['role_or_permission:admin|location-delete']);
-Route::get('/confrence/disable/{id}', 'App\Http\Controllers\ConfrenceController@disable')->middleware('role_or_permission:admin|confrence-delete');
-Route::get('/presence/disable/{id}', 'App\Http\Controllers\PresenceController@disable_participant')->middleware('role_or_permission:admin|presence-delete');
+//========================== BY PERMISSION MIX ROLE =================================
+
+    //AGENDA
+    Route::get('/cancel-activity/{id}', 'App\Http\Controllers\ActivityController@cancel_activity')->name('activity.cancel-activity')->middleware(['role_or_permission:admin|agenda-cancel']);
+    Route::get('/savepdf/{id}', 'App\Http\Controllers\ActivityController@savePdf')->name('activity.savepdf')->middleware('role_or_permission:admin|agenda-download');
+    Route::post('/download-report', 'App\Http\Controllers\ActivityController@downloadReport')->name('activity.download')->middleware('role_or_permission:admin|agenda-download');
+    Route::post('/download-timeline', 'App\Http\Controllers\ActivityController@downloadTimeline')->name('activity.downloadTimeline')->middleware('role_or_permission:admin|agenda-download');
+    Route::post('/get-activity', 'App\Http\Controllers\ActivityController@get_activity')->name('activity.searching')->middleware('role_or_permission:admin|agenda-search');
+    Route::get('/activity/approve/{id}', 'App\Http\Controllers\ActivityController@approve_activity')->name('activity.approve')->middleware('role_or_permission:admin|agenda-edit');
+    Route::get('/my-activity', 'App\Http\Controllers\ActivityController@index')->name('myactivity')->middleware('role_or_permission:admin|agenda-list');
+    Route::get('/show-activity/{id}', 'App\Http\Controllers\ActivityController@detail_activity')->name('show-activity')->middleware('role_or_permission:admin|agenda-read');
+    Route::post('/add-notes-evaluation', 'App\Http\Controllers\ActivityController@store_notes')->name('activity.store-notes')->middleware('role_or_permission:admin|note-create');
+    Route::get('/delete-note/{id}', 'App\Http\Controllers\ActivityController@deleteNote')->name('activity.delete-note')->middleware('role_or_permission:admin|note-delete');
+
+
+
+    //PRESENSI
+    Route::get('/confrence/disable/{id}', 'App\Http\Controllers\ConfrenceController@disable')->middleware('role_or_permission:admin|presensi-delete');
+    Route::get('/presence/disable/{id}', 'App\Http\Controllers\PresenceController@disable_participant')->middleware('role_or_permission:admin|participant-delete');
+    Route::get('/location/disable/{id}', 'App\Http\Controllers\LocationController@disable')->middleware(['role_or_permission:admin|location-delete']);
+
+
 
 
 //========================== BY MIX ROLES =================================
 
-    // ACTIVITY
-    Route::get('/cancel-activity/{id}', 'App\Http\Controllers\ActivityController@cancel_activity')->name('activity.cancel-activity')->middleware(['role:admin|umum']);
+    //AGENDA
     Route::resource('activity', ActivityController::class)->middleware(['role:admin|umum']);
-    Route::get('/activity/approve/{id}', 'App\Http\Controllers\ActivityController@approve_activity')->name('activity.approve')->middleware(['role:admin|umum']);
-    Route::post('/get-activity', 'App\Http\Controllers\ActivityController@get_activity')->name('activity.searching')->middleware(['role:admin|umum']);
 
 
