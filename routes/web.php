@@ -85,10 +85,10 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/user/reset-pass-operator/{id}', 'App\Http\Controllers\UserController@reset_pass_operator')->name('reset-pass-operator');
 
     //Agenda
-    Route::get('/search-activity', 'App\Http\Controllers\ActivityController@search_activity')->name('activity.search');
-    Route::get('/detail-activity/{id}', 'App\Http\Controllers\ActivityController@detail_master_activity')->name('activity.show-detail');
-    Route::get('/report-activity', 'App\Http\Controllers\ActivityController@report_activity')->name('activity.report');
-    Route::get('/timeline-activity', 'App\Http\Controllers\ActivityController@timelineActivity')->name('activity.timeline');
+    Route::get('/activity/search', 'App\Http\Controllers\ActivityController@search_activity')->name('activity.search');
+    Route::get('/activity/detail/{id}', 'App\Http\Controllers\ActivityController@detail_master_activity')->name('activity.show-detail');
+    Route::get('/activity/report', 'App\Http\Controllers\ActivityController@report_activity')->name('activity.report');
+    Route::get('/activity/export', 'App\Http\Controllers\ActivityController@timelineActivity')->name('activity.timeline');
 
     //Presensi
     Route::resource('location', LocationController::class);
@@ -114,16 +114,16 @@ Route::group(['middleware' => ['role:admin']], function () {
 //========================== BY PERMISSION MIX ROLE =================================
 
     //AGENDA
-    Route::get('/cancel-activity/{id}', 'App\Http\Controllers\ActivityController@cancel_activity')->name('activity.cancel-activity')->middleware(['role_or_permission:admin|agenda-cancel']);
-    Route::get('/savepdf/{id}', 'App\Http\Controllers\ActivityController@savePdf')->name('activity.savepdf')->middleware('role_or_permission:admin|agenda-download');
-    Route::post('/download-report', 'App\Http\Controllers\ActivityController@downloadReport')->name('activity.download')->middleware('role_or_permission:admin|agenda-download');
-    Route::post('/download-timeline', 'App\Http\Controllers\ActivityController@downloadTimeline')->name('activity.downloadTimeline')->middleware('role_or_permission:admin|agenda-download');
-    Route::post('/get-activity', 'App\Http\Controllers\ActivityController@get_activity')->name('activity.searching')->middleware('role_or_permission:admin|agenda-search');
+    Route::get('/activity/cancel/{id}', 'App\Http\Controllers\ActivityController@cancel_activity')->name('activity.cancel-activity')->middleware(['role_or_permission:admin|agenda-cancel']);
+    Route::get('/activity/savepdf/{id}', 'App\Http\Controllers\ActivityController@savePdf')->name('activity.savepdf')->middleware('role_or_permission:admin|agenda-download');
+    Route::post('/activity/download-report', 'App\Http\Controllers\ActivityController@downloadReport')->name('activity.download')->middleware('role_or_permission:admin|agenda-download');
+    Route::post('/activity/download-timeline', 'App\Http\Controllers\ActivityController@downloadTimeline')->name('activity.downloadTimeline')->middleware('role_or_permission:admin|agenda-download');
+    Route::post('/activity/search-result', 'App\Http\Controllers\ActivityController@get_activity')->name('activity.searching')->middleware('role_or_permission:admin|agenda-search');
     Route::get('/activity/approve/{id}', 'App\Http\Controllers\ActivityController@approve_activity')->name('activity.approve')->middleware('role_or_permission:admin|agenda-edit');
-    Route::get('/my-activity', 'App\Http\Controllers\ActivityController@index')->name('myactivity')->middleware('role_or_permission:admin|agenda-list');
-    Route::get('/show-activity/{id}', 'App\Http\Controllers\ActivityController@detail_activity')->name('show-activity')->middleware('role_or_permission:admin|agenda-read');
-    Route::post('/add-notes-evaluation', 'App\Http\Controllers\ActivityController@store_notes')->name('activity.store-notes')->middleware('role_or_permission:admin|note-create');
-    Route::get('/delete-note/{id}', 'App\Http\Controllers\ActivityController@deleteNote')->name('activity.delete-note')->middleware('role_or_permission:admin|note-delete');
+    Route::get('/activity/my', 'App\Http\Controllers\ActivityController@index')->name('myactivity')->middleware('role_or_permission:admin|agenda-list');
+    Route::get('/activity/show/{id}', 'App\Http\Controllers\ActivityController@detail_activity')->name('show-activity')->middleware('role_or_permission:admin|agenda-read');
+    Route::post('/activity/add-notes', 'App\Http\Controllers\ActivityController@store_notes')->name('activity.store-notes')->middleware('role_or_permission:admin|note-create');
+    Route::get('/activity/delete-note/{id}', 'App\Http\Controllers\ActivityController@deleteNote')->name('activity.delete-note')->middleware('role_or_permission:admin|note-delete');
 
 
 
