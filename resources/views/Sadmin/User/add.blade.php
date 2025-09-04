@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('content')
-    <div class="container">
+    <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card shadow col-md-6">
             <div class="card-header">
                 <h4 class="card-title">Create new admin</h4>
@@ -43,7 +43,7 @@
                         </select>
                     </div>
                     <div class="text-right">
-                        <input type="submit" value="Save" class="btn btn-success">
+                        <input type="submit" value="Save" class="btn btn-success w-100">
                     </div>
                 </form>
             </div>
