@@ -79,7 +79,7 @@
                 <td style="vertical-align: top; width: 200px; " class="text-left"> Tanggal </td>
                 <td style="vertical-align: top; width: 50px;" class="text-center"> : </td>
                 <td style="vertical-align: top; " class="text-left">
-                    {{ $carbon::parse($act->date_activity)->isoFormat('dddd, D MMMM Y') }}</td>
+                    {{ $carbon::parse($act->date_activity)->isoFormat('dddd, D MMMM Y, hh:mm') }}</td>
             </tr>
             <tr>
                 <td style="vertical-align: top; width: 200px; " class="text-left"> Lokasi </td>

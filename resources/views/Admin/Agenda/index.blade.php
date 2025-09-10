@@ -72,18 +72,16 @@
                                                             class="fa fa-window-close"></i></a>
                                                 @else
                                                 @endif
-                                            @elseif ($act->status_activity == 'complete')
-                                                @if ($role == 'admin')
-                                                    <a href="{{ route('activity.show-detail', $act->id) }}"
-                                                        class="btn-sm btn-primary"><i class="fa fa-search-location"></i></a>
-                                                @else
-                                                    &nbsp;
-                                                    <a href="{{ route('show-activity', $act->id) }}"
-                                                        class="btn-sm btn-primary"><i class="fa fa-search-location"></i></a>
-                                                @endif
                                             @else
                                             @endif
 
+                                            @if (in_array($act->status_activity, ['complete', 'pending']))
+
+                                                    &nbsp;
+                                                    <a href="{{ route('show-activity', $act->id) }}"
+                                                        class="btn-sm btn-success"><i class="fa fa-eye"></i></a>
+
+                                            @endif
                                         </ul>
                                     </td>
                                 </tr>

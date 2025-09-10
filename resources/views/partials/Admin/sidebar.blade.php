@@ -22,17 +22,15 @@
             <li
                 class="nav-item dropdown
                     @if (Request::segment(1) == 'activity') active
-                    @elseif(Request::segment(1) == 'timeline-activity') active
-                    @elseif(Request::segment(1) == 'report-activity') active
                     @else @endif">
                 <a href="#" class="nav-link has-dropdown " data-toggle="dropdown"><i
                         class="fas fa-calendar-alt"></i> <span>Agenda</span></a>
                 <ul class="dropdown-menu">
-                    <li @if (Request::segment(1) == 'activity') class="active" @endif><a class="nav-link"
-                            href="{{ url('/activity') }}"><span>Data Kegiatan</span></a></li>
-                    <li @if (Request::segment(1) == 'timeline-activity') class="active" @endif><a class="nav-link"
-                            href="{{ route('activity.timeline') }}"><span>Export Kegiatan</span></a></li>
-                    <li @if (Request::segment(1) == 'report-activity') class="active" @endif><a class="nav-link"
+                    <li @if (Request::segment(1) == 'activity' && empty(Request::segment(2))) class="active" @endif><a class="nav-link"
+                            href="{{ url('activity') }}"><span>Data Kegiatan</span></a></li>
+                    <li @if (Request::segment(2) == 'export') class="active" @endif><a class="nav-link"
+                            href="{{ route('activity.search') }}"><span>Export Kegiatan</span></a></li>
+                    <li @if (Request::segment(2) == 'report') class="active" @endif><a class="nav-link"
                             href="{{ route('activity.report') }}"><span>Export Laporan</span></a></li>
                 </ul>
             </li>

@@ -86,7 +86,7 @@
                     <td style="vertical-align: top; width: 200px; " class="text-left"> Tanggal </td>
                     <td style="vertical-align: top; width: 50px;" class="text-center"> : </td>
                     <td style="vertical-align: top; " class="text-left">
-                        {{ $carbon::parse($act->date_activity)->isoFormat('dddd, D MMMM Y') }}</td>
+                        {{ $carbon::parse($act->date_activity)->isoFormat('dddd, D MMMM Y, hh:mm') }}</td>
                 </tr>
                 <tr>
                     <td style="vertical-align: top; width: 200px; " class="text-left"> Lokasi </td>
@@ -110,11 +110,12 @@
         <center>
             <h4> Laporan Evaluasi/Monitoring Kegiatan </h4>
         </center>
-        @foreach ($act->notesactivity as $note)
+
+        @foreach ($act->notesactivity->where('status', '=', 'enable') as $note)
             <table style="border-width: 1px; border-color: #000;" class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Petugas </th>
+                        <th>Author </th>
                         <th>Catatan</th>
                         <th>Tanggal</th>
                     </tr>

@@ -48,6 +48,7 @@
     </center>
     <center>
         <h5>Total {{ $activity->count() }} Kegiatan</h5>
+        <h5>Terlaksana {{ $activity->where('status_activity', '=', 'complete')->count() }}  | Pending {{ $activity->where('status_activity', '=', 'pending')->count() }}  | Batal  {{ $activity->where('status_activity', '=', 'cancel')->count() }}  </h5>
     </center>
     <br>
 
@@ -71,7 +72,7 @@
                         {{ $loop->iteration }}</td>
                     <td style="vertical-align: top; border-width: 1px;
                     border-color: #000;">
-                        {{ $carbon::parse($act->date_activity)->isoFormat('dddd, D MMMM Y hh:mm A') }}</td>
+                        {{ $carbon::parse($act->date_activity)->isoFormat('dddd, D MMMM Y hh:mm A') }} ({{ $act->status_activity }})</td>
                     <td style="vertical-align: top; border-width: 1px;
                     border-color: #000;">
                         {{ $act->name_activity }}

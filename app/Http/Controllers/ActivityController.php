@@ -164,6 +164,7 @@ class ActivityController extends Controller
         ])
             ->where('status', 'enable')
             ->where('organization_id', Auth::user()->profil->organization_id)
+            ->whereNot('id',$act->id)
             ->get();
 
         if ($arround_act->count() > 0) {
@@ -303,8 +304,14 @@ class ActivityController extends Controller
             ->get();
         // dd($act, $notes[0]->documentation);
 
+        $logs = Historyactivity::with('activity')
+            ->where('activity_id', $id)
+            ->reorder('created_at', 'desc')
+            ->limit(10)
+            ->get();
+
         // if ($act->status == 'disable' OR $act->status_activity == 'cancel' ) {
-        if ($act->status == 'disable') {
+        if ($act->status == 'disable' OR $act->status_activity == 'cancel' ) {
             # code...
             Alert::warning(
                 'Oops',
@@ -312,7 +319,7 @@ class ActivityController extends Controller
             );
             return redirect()->route('dashboard.index');
         }
-        return view('Operator.Agenda.konfirmasi', compact('act', 'notes'));
+        return view('Operator.Agenda.detail', compact('act', 'notes', 'logs'));
     }
 
     public function store_notes(Request $request)
@@ -339,7 +346,7 @@ class ActivityController extends Controller
         $request->validate([
             'images' => 'required',
 
-            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
         $images = [];
         if ($request->images) {
@@ -477,8 +484,7 @@ class ActivityController extends Controller
         $subTitle = 'Pada Hari ' . $formatstartDate . ' s/d ' . $formatendDate;
         // return view('Admin.Agenda.pdf', compact('activity','title','subTitle'));
 
-        $pdf = PDF::loadview(
-            'Admin.Agenda.pdf',
+        $pdf = PDF::loadview('Admin.Agenda.pdf',
             compact('activity', 'title', 'subTitle'),
         )->setPaper('legal', 'potrait');
         return $pdf->download($title . '.pdf');
@@ -493,17 +499,18 @@ class ActivityController extends Controller
             ->where('organization_id', Auth::user()->profil->organization_id)
             ->first();
 
+            // dd($id,$act);
+
         $title = 'Laporan Kegiatan ' . Auth::user()->profil->organization->name;
         // return view('Admin.Agenda.single-data-pdf', compact('act','title'));
 
-        $pdf = PDF::loadview(
-            'Admin.Agenda.single-data-pdf',
+        $pdf = PDF::loadview('Admin.Agenda.single-data-pdf',
             compact('act', 'title'),
         )->setPaper('legal', 'potrait');
         return $pdf->download($title . '.pdf');
     }
 
-    public function timelineActivity()
+    public function searchActivity()
     {
         return view('Admin.Agenda.timeline-agenda');
     }
@@ -522,10 +529,11 @@ class ActivityController extends Controller
         $activity = Activity::with('notesactivity')
             ->whereBetween('date_activity', [$startDate, $endDate])
             ->where('status', 'enable')
-            ->where('status_activity', 'pending')
             ->where('organization_id', Auth::user()->profil->organization_id)
             ->reorder('date_activity', 'asc')
             ->get();
+
+        // dd($activity);
 
         $title = 'Agenda ' . Auth::user()->profil->organization->name;
         $subTitle = 'Pada Hari ' . $formatstartDate . ' s/d ' . $formatendDate;
@@ -535,13 +543,11 @@ class ActivityController extends Controller
         // return view('Admin.Agenda.timeline', compact('activity','title','subTitle'));
 
         if ($request->private == 'disprivate') {
-            $pdf = PDF::loadview(
-                'Admin.Agenda.disprivate-timeline',
+            $pdf = PDF::loadview('Admin.Agenda.disprivate-timeline',
                 compact('activity', 'title', 'subTitle'),
             )->setPaper('legal', 'landscape');
         } else {
-            $pdf = PDF::loadview(
-                'Admin.Agenda.timeline',
+            $pdf = PDF::loadview('Admin.Agenda.timeline',
                 compact('activity', 'title', 'subTitle'),
             )->setPaper('legal', 'landscape');
         }
