@@ -47,4 +47,9 @@ class Activity extends Model
         return $this->hasMany(Notesactivity::class);
     }
 
+    public function historyactivity()
+    {
+        return $this->hasMany(Historyactivity::class);
+    }
+
 }

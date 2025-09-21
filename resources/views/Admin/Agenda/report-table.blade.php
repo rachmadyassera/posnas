@@ -60,8 +60,6 @@
                 <th>No</th>
                 <th>Waktu</th>
                 <th>Nama Kegiatan </th>
-                <th>Keterangan</th>
-                <th>Pendamping </th>
             </tr>
         </thead>
 
@@ -71,15 +69,14 @@
                 <tr>
                     <td style="vertical-align: top; border-width: 1px; border-color: #000;">
                     {{ $loop->iteration }}</td>
-                    <td colspan="4" style="vertical-align: top; border-width: 1px; border-color: #000;">
+                    <td colspan="2" style="vertical-align: top; border-width: 1px; border-color: #000;">
                         {{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }} ({{ $items->count() }})
                     </td>
                 </tr>
                 @foreach($items as $item)
                     <tr>
-                        <td style="vertical-align: top; border-width: 1px; border-color: #000;"></td>
-                        <td style="vertical-align: top; border-width: 1px; border-color: #000;">
-                            {{ $carbon::parse($item->date_activity)->isoFormat('hh:mm A') }} ({{ ucfirst($item->status_activity) }})</td>
+                        <td style="vertical-align: top; border-width: 1px; border-color: #000;"> K{{ $loop->iteration }}</td>
+                        <td style="vertical-align: top; border-width: 1px; border-color: #000;"> {{ $carbon::parse($item->date_activity)->isoFormat('hh:mm A') }} ({{ ucfirst($item->status_activity) }})</td>
                         <td style="vertical-align: top; border-width: 1px; border-color: #000;">
                             {{ $item->name_activity }},
                             @if ($item->is_private == 'true')
@@ -88,15 +85,22 @@
                             <br>
                             Di {{ $item->location }}
                         </td>
-                        <td style="vertical-align: top; border-width: 1px; border-color: #000;">
-                            @if ($item->status_activity == 'cancel')
-                            Di {{ ucfirst($item->historyactivity->first()->log) }}
-                            @else
-                            {{ $item->description }}
-                            @endif
-                        </td>
-                        <td style="vertical-align: top; border-width: 1px; border-color: #000;">
-                            {{ $item->accompanying_officer }}</td>
+                    </tr>
+                    <tr>
+                        <th  style="vertical-align: top; border-width: 1px; border-color: #000;"></th>
+                        <th  style="vertical-align: top; border-width: 1px; border-color: #000; " class="bg-secondary text-white">Pelapor ({{ $item->notesactivity->count() }})</th>
+                        <th  style="vertical-align: top; border-width: 1px; border-color: #000; " class="bg-secondary text-white">Catatan </th>
+                    </tr>
+                    @foreach($item->notesactivity as $note)
+
+                        <tr>
+                            <td style="vertical-align: top; border-width: 1px; border-color: #000;"></td>
+                            <td style="vertical-align: top; border-width: 1px; border-color: #000;"> {{ $note->user->name }}</td>
+                            <td style="vertical-align: top; border-width: 1px; border-color: #000;">{{ $note->notes }} ({{ \Carbon\Carbon::parse($note->created_at)->translatedFormat('d F Y') }})</td>
+                        </tr>
+                    @endforeach
+                    <tr>
+                        <td colspan="3" style="vertical-align: top; border-width: 1px; border-color: #000;"> </td>
                     </tr>
                 @endforeach
             @endforeach

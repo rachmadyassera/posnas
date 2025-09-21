@@ -16,6 +16,12 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use File;
+use Illuminate\Support\Arr;
+use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+
+
 class ActivityController extends Controller
 {
     /**
@@ -221,7 +227,7 @@ class ActivityController extends Controller
         $newData = new Historyactivity();
         $newData->id = Str::uuid();
         $newData->activity_id = $id;
-        $newData->log = $act->status_activity . ' Oleh ' . Auth::user()->name;
+        $newData->log = 'Kegiatan ini telah di'.$act->status_activity . ' Oleh ' . Auth::user()->name;
 
         if (Auth::user()->profil->organization_id == $act->organization_id) {
             # code...
@@ -300,92 +306,139 @@ class ActivityController extends Controller
         $act = Activity::find($id);
         $notes = Notesactivity::with('user', 'activity', 'documentation')
             ->where('activity_id', $id)
+            ->reorder('created_at', 'asc')
             ->where('status', 'enable')
             ->get();
         // dd($act, $notes[0]->documentation);
 
         $logs = Historyactivity::with('activity')
             ->where('activity_id', $id)
-            ->reorder('created_at', 'desc')
+            ->reorder('created_at', 'asc')
             ->limit(10)
             ->get();
 
         // if ($act->status == 'disable' OR $act->status_activity == 'cancel' ) {
-        if ($act->status == 'disable' OR $act->status_activity == 'cancel' ) {
-            # code...
-            Alert::warning(
-                'Oops',
-                'Kegiatan telah dihapus, atau telah dibatalkan.',
-            );
-            return redirect()->route('dashboard.index');
-        }
+        // if ($act->status == 'disable' OR $act->status_activity == 'cancel' ) {
+        //     # code...
+        //     Alert::warning(
+        //         'Oops',
+        //         'Kegiatan telah dihapus, atau telah dibatalkan.',
+        //     );
+        //     return redirect()->route('dashboard.index');
+        // }
         return view('Operator.Agenda.detail', compact('act', 'notes', 'logs'));
     }
 
     public function store_notes(Request $request)
     {
-        //
-        $idact = $request->idactivity;
-        $act = Activity::find($idact);
 
-        if ($act->status == 'disable' or $act->status_activity == 'cancel') {
-            # code...
-            Alert::warning(
+
+        $validator = Validator::make($request->all(), [
+            'notes'      => 'required|string',
+            'images'     => 'required|array',
+            'images.*'   => 'required|image|mimes:jpeg,png,jpg',
+        ],  [
+            'notes.required'    => 'Catatan masih kosong',
+            'images.required'    => 'Minimal satu file gambar harus diunggah',
+            'images.*.mimes'     => 'Format file harus berupa JPG atau PNG',
+            'images.*.image'     => 'File yang diunggah harus berupa gambar',
+        ]);
+
+        // dd($request->file('images'));
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+
+            // Jika mau pakai Alert
+            Alert::warning('Gagal Menyimpan Catatan', implode(', ', $errors->all()));
+
+            // Redirect back dengan input + pesan error
+            return back();
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $idact = $request->idactivity;
+            $act = Activity::find($idact);
+
+            if (!$act) {
+                 Alert::warning(
                 'Oops',
                 'Kegiatan telah dibatalkan atau dihapus, tidak dapat menambahkan komentar.',
-            );
-            return redirect()->route('dashboard.index');
-        }
-
-        $newData = new Notesactivity();
-        $newData->id = Str::uuid();
-        $newData->activity_id = $idact;
-        $newData->user_id = Auth::user()->id;
-        $newData->notes = $request->notes;
-
-        $request->validate([
-            'images' => 'required',
-
-            'images.*' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-        $images = [];
-        if ($request->images) {
-            foreach ($request->images as $key => $image) {
-                $imageName = time() . rand(1, 99) . '.' . $image->extension();
-                $image->move(public_path('images'), $imageName);
-
-                $images[]['name'] = $imageName;
+                );
+                return redirect()->route('show-activity', $idact);
             }
+
+            if ($act->status === 'disable' || $act->status_activity === 'cancel') {
+                 Alert::warning(
+                'Oops',
+                'Kegiatan telah dibatalkan atau dihapus, tidak dapat menambahkan komentar.',
+                );
+                return redirect()->route('show-activity', $idact);
+            }
+
+            // Simpan Notesactivity lebih dulu
+            $newData = new Notesactivity();
+            $newData->id = Str::uuid();
+            $newData->activity_id = $idact;
+            $newData->user_id = Auth::id();
+            $newData->notes = $request->notes;
+            $newData->save();
+
+            // Loop file images (baik 1 atau banyak)
+            foreach (Arr::wrap($request->file('images')) as $file) {
+                $filename = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+                // Resize & compress
+                $img = Image::read($file->getRealPath());
+                // $img->resize(800, null, function ($constraint) {
+                //     $constraint->aspectRatio();
+                //     $constraint->upsize();
+                // });
+
+                $path = public_path('images/' . $filename);
+
+                $img->toJpeg(20)->save($path); // kualitas 80%
+                // $img->save($path, quality: 25);
+
+                // Simpan ke Documentation
+                Documentation::create([
+                    'id' => Str::uuid(),
+                    'notesactivity_id' => $newData->id,
+                    'user_id' => Auth::id(),
+                    'picture' => $filename,
+                ]);
+            }
+
+            // Update Activity
+            $act->status_activity = 'complete';
+            $act->save();
+
+            // Tambahkan ke History
+            Historyactivity::create([
+                'id' => Str::uuid(),
+                'activity_id' => $idact,
+                'log' => 'Add Note By ' . Auth::user()->name,
+            ]);
+
+            DB::commit();
+            Alert::success(
+                        'Berhasil',
+                        'Catatan dan Dokumentasi berhasil didaftarkan',
+                    );
+            return redirect()->route('show-activity', $idact);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Alert::warning(
+                        'Error',
+                         'Gagal menyimpan data: '.$e->getMessage(),
+                    );
+
+            return back();
         }
 
-        foreach ($images as $key => $image) {
-            // Image::create($image);
-            $newImage = new Documentation();
-            $newImage->id = Str::uuid();
-            $newImage->notesactivity_id = $newData->id;
-            $newImage->user_id = Auth::id();
-            $newImage->picture = $image['name'];
-            // dd($image['name']);
-            $newImage->save();
-        }
-
-        $newData->save();
-
-        $act = Activity::find($idact);
-        $act->status_activity = 'complete';
-        $act->save();
-
-        $newLog = new Historyactivity();
-        $newLog->id = Str::uuid();
-        $newLog->activity_id = $idact;
-        $newLog->log = 'Add Note By ' . Auth::user()->name;
-        $newLog->save();
-
-        Alert::success(
-            'Berhasil',
-            'Catatan dan Dokumentasi berhasil didaftarkan',
-        );
-        return redirect()->route('show-activity', $idact);
     }
 
     public function deleteNote(string $id)
@@ -472,21 +525,44 @@ class ActivityController extends Controller
             'dddd, D MMMM Y',
         );
 
-        $activity = Activity::with('notesactivity')
-            ->whereBetween('date_activity', [$startDate, $endDate])
-            ->where('status', 'enable')
-            ->where('status_activity', 'complete')
-            ->where('organization_id', Auth::user()->profil->organization_id)
-            ->reorder('date_activity', 'asc')
-            ->get();
+        if ($role = Auth::user()->getRoleNames()->first() == 'admin') {
+            # code...
+            $activity = Activity::with('notesactivity')
+                ->whereBetween('date_activity', [$startDate, $endDate])
+                ->where('status', 'enable')
+                ->where('status_activity', 'complete')
+                ->where('organization_id', Auth::user()->profil->organization_id)
+                ->reorder('date_activity', 'asc')
+                ->get()
+                ->groupBy(function($item) {
+                // Format tanggal biar lebih rapi
+                return Carbon::parse($item->date_activity)->format('Y-m-d');
+                });
+        } else {
+            # code...
+
+            $activity = Activity::with('notesactivity')
+                ->whereBetween('date_activity', [$startDate, $endDate])
+                ->where('status', 'enable')
+                ->where('status_activity', 'complete')
+                ->where('organization_id', Auth::user()->profil->organization_id)
+                ->where('user_id', Auth::user()->id)
+                ->reorder('date_activity', 'asc')
+                ->get()
+                ->groupBy(function($item) {
+                // Format tanggal biar lebih rapi
+                return Carbon::parse($item->date_activity)->format('Y-m-d');
+                });
+        }
+
 
         $title = 'Laporan Kegiatan ' . Auth::user()->profil->organization->name;
         $subTitle = 'Pada Hari ' . $formatstartDate . ' s/d ' . $formatendDate;
-        // return view('Admin.Agenda.pdf', compact('activity','title','subTitle'));
+        // return view('Admin.Agenda.report-table', compact('activity','title','subTitle'));
 
-        $pdf = PDF::loadview('Admin.Agenda.pdf',
+        $pdf = PDF::loadview('Admin.Agenda.report-table',
             compact('activity', 'title', 'subTitle'),
-        )->setPaper('legal', 'potrait');
+        )->setPaper('legal', 'landscape');
         return $pdf->download($title . '.pdf');
     }
 
@@ -502,11 +578,19 @@ class ActivityController extends Controller
             // dd($id,$act);
 
         $title = 'Laporan Kegiatan ' . Auth::user()->profil->organization->name;
-        // return view('Admin.Agenda.single-data-pdf', compact('act','title'));
+        $options = [
+                    'dpi' => 150, // Mengurangi DPI dari default (biasanya 150 atau 300)
+                    'isHtml5ParserEnabled' => true,
+                    'isRemoteEnabled' => true, // Nonaktifkan jika tidak butuh gambar/CSS dari luar
+                ];
+        $pdf = PDF::loadView('Admin.Agenda.single-data-pdf',
+             compact('act', 'title'))
+            ->setPaper('legal', 'portrait');
 
-        $pdf = PDF::loadview('Admin.Agenda.single-data-pdf',
-            compact('act', 'title'),
-        )->setPaper('legal', 'potrait');
+        // $pdf->setOptions($options);
+
+
+        // return view('Admin.Agenda.single-data-pdf',compact('act', 'title'));
         return $pdf->download($title . '.pdf');
     }
 
@@ -526,21 +610,39 @@ class ActivityController extends Controller
             'dddd, D MMMM Y',
         );
 
-        $activity = Activity::with('notesactivity')
+        if ($role = Auth::user()->getRoleNames()->first() == 'admin')
+        {
+            # code...
+            $activity = Activity::with('historyactivity')
             ->whereBetween('date_activity', [$startDate, $endDate])
             ->where('status', 'enable')
             ->where('organization_id', Auth::user()->profil->organization_id)
             ->reorder('date_activity', 'asc')
-            ->get();
+            ->get()
+            ->groupBy(function($item) {
+            // Format tanggal biar lebih rapi
+            return Carbon::parse($item->date_activity)->format('Y-m-d');
+            });
 
-        // dd($activity);
+        } else {
+            # code...
+            $activity = Activity::with('historyactivity')
+            ->whereBetween('date_activity', [$startDate, $endDate])
+            ->where('status', 'enable')
+            ->where('organization_id', Auth::user()->profil->organization_id)
+            ->where('user_id', Auth::user()->id)
+            ->reorder('date_activity', 'asc')
+            ->get()
+            ->groupBy(function($item) {
+            // Format tanggal biar lebih rapi
+            return Carbon::parse($item->date_activity)->format('Y-m-d');
+            });
+
+        }
 
         $title = 'Agenda ' . Auth::user()->profil->organization->name;
         $subTitle = 'Pada Hari ' . $formatstartDate . ' s/d ' . $formatendDate;
-        // if ($request->private == 'disprivate') {
-        //     return view('Admin.Agenda.disprivate-timeline', compact('activity','title','subTitle'));
-        // }
-        // return view('Admin.Agenda.timeline', compact('activity','title','subTitle'));
+
 
         if ($request->private == 'disprivate') {
             $pdf = PDF::loadview('Admin.Agenda.disprivate-timeline',

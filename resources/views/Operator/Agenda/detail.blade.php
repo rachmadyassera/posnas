@@ -6,7 +6,8 @@
               <div class="card card-hero shadow-lg">
                 <div class="card-header">
                   <div class="card-icon">
-                    <i class="fas fa-handshake"></i>
+                    @if ($act->status_activity == 'cancel') <i class="far fa-window-close"></i> @else <i class="fas fa-handshake"></i> @endif
+
                   </div>
                   <h5>{{ $act->name_activity }}</h5>
                   <div class="card-description">{{ $act->organization->name }}
@@ -129,6 +130,8 @@
         </div>
 
         <div class="row">
+
+            @if (in_array($act->status_activity, ['complete', 'pending']))
             <div class="col-md-6">
               <div class="card card-hero shadow-lg">
                 <div class="card-header">
@@ -158,7 +161,9 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+            @else
+            @endif
+            <div class="@if ($act->status_activity == 'cancel') col-md-12 @else col-md-6 @endif">
                 <section class="section">
                 <div class="section-body">
                     <h2 class="section-title">Riwayat Catatan</h2>

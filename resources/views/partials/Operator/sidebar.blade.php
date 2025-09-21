@@ -24,14 +24,15 @@
                 <ul class="dropdown-menu">
                     <li
                         @if (Request::segment(1) == 'my-activity') class="active"
-                        @elseif(Request::segment(1) == 'activity'  && empty(Request::segment(2))) class="active"
+                        @elseif(Request::segment(1) == 'activity'  && Request::segment(2) == 'my') class="active"
                         @elseif(Request::segment(1) == 'get-activity') class="active"
+                        @elseif(Request::segment(2) == 'show') class="active"
                         @else @endif>
                         <a class="nav-link" href="{{ route('my.activity') }}"><span>Data Kegiatan</span></a>
                     </li>
-                    <li @if (Request::segment(1) == '/activity/export') class="active" @endif><a class="nav-link"
+                    <li @if (Request::segment(2) == 'export') class="active" @endif><a class="nav-link"
                             href="{{ route('activity.search') }}"><span>Export Kegiatan</span></a></li>
-                    <li @if (Request::segment(1) == '/activity/report') class="active" @endif><a class="nav-link"
+                    <li @if (Request::segment(2) == 'report') class="active" @endif><a class="nav-link"
                             href="{{ route('activity.report') }}"><span>Export Laporan</span></a></li>
                 </ul>
             </li>

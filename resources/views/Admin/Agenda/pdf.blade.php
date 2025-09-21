@@ -115,7 +115,7 @@
             <table style="border-width: 1px; border-color: #000;" class="table table-bordered">
                 <thead class="thead-dark">
                     <tr>
-                        <th>Author </th>
+                        <th>Pelapor </th>
                         <th>Catatan</th>
                         <th>Tanggal</th>
                     </tr>

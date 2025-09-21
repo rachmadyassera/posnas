@@ -45,7 +45,8 @@
                 <tr>
                     <td style="vertical-align: middle; " rowspan="2" style="width:150px">
                         <div class="text-left">
-                            <img style="width: 175px" src="{{ public_path('logo/logo-pemko.png') }}" alt="">
+                            {{-- <img style="width: 175px" src="{{ public_path('logo/logo-pemko.png') }}" alt=""> --}}
+                            <img src="{{ str_replace('\\', '/', public_path('logo/logo-pemko.png')) }}" width="120">
                         </div>
                     </td>
                     <td style="vertical-align: middle; " class="text-center">
@@ -61,6 +62,8 @@
         </table>
     </header>
     <hr style="height:2px;border-width:0;color:gray;background-color:gray">
+
+    {{-- {{ dd(asset('logo/logo-pemko.png'), public_path('logo/logo-pemko.png')) }} --}}
 
 
     <table>

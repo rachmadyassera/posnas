@@ -75,13 +75,11 @@
                                             @else
                                             @endif
 
-                                            @if (in_array($act->status_activity, ['complete', 'pending']))
 
-                                                    &nbsp;
-                                                    <a href="{{ route('show-activity', $act->id) }}"
-                                                        class="btn-sm btn-success"><i class="fa fa-eye"></i></a>
+                                            &nbsp;
+                                            <a href="{{ route('show-activity', $act->id) }}"
+                                                class="btn-sm btn-success"><i class="fa fa-eye"></i></a>
 
-                                            @endif
                                         </ul>
                                     </td>
                                 </tr>
