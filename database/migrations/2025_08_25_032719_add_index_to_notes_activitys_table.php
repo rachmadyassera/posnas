@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('notes_activitys', function (Blueprint $table) {
             //
-            $table->unique(['id','activity_id','user_id'],'notes_activitys_id_activityid_userid_unique');
+            $table->unique(['id', 'activity_id', 'user_id'], 'notes_activitys_id_activityid_userid_unique');
         });
     }
 

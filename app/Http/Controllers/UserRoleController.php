@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserRoleController extends Controller
 {
@@ -17,15 +16,16 @@ class UserRoleController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->get('search');
-        $datas = \App\User::where('name', 'LIKE', '%' . $keyword . '%')
+        $datas = \App\User::where('name', 'LIKE', '%'.$keyword.'%')
             ->paginate();
 
         $datas->withPath('user_role');
         $datas->appends($request->all());
         if ($request->ajax()) {
-            return \Response::json(\View::make('user_role.list', array('datas' => $datas))->render());
+            return \Response::json(\View::make('user_role.list', ['datas' => $datas])->render());
         }
-        return view('user_role.index',compact('datas', 'keyword'));
+
+        return view('user_role.index', compact('datas', 'keyword'));
     }
 
     /**
@@ -39,13 +39,14 @@ class UserRoleController extends Controller
         $model = \App\User::find($id);
         $all_roles = Role::all();
         $all_permissions = Permission::all();
-        return view('user_role.edit',compact('model','id',
+
+        return view('user_role.edit', compact('model', 'id',
             'all_roles', 'all_permissions'));
     }
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -55,7 +56,6 @@ class UserRoleController extends Controller
 
         $model->syncPermissions($request['optpermission']);
         $model->syncRoles($request['optrole']);
-
 
         return redirect('user_role');
     }

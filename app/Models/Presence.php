@@ -5,11 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperPresence
+ */
 class Presence extends Model
 {
     use HasFactory;
 
     protected $table = 'presence';
+
     protected $fillable = [
         'id',
         'confrence_id',
@@ -20,15 +24,16 @@ class Presence extends Model
         'gender',
         'nohp',
         'signature',
-        'status'
+        'status',
     ];
 
-
-    public function getIncrementing(){
+    public function getIncrementing()
+    {
         return false;
     }
 
-    public function getKeyType(){
+    public function getKeyType()
+    {
         return 'string';
     }
 

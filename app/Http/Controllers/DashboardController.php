@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Activity;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,27 +17,27 @@ class DashboardController extends Controller
     public function index()
     {
         if (Auth::user()->role == 'superadmin') {
-            # code...
+            // code...
             return view('dashboard');
         } elseif (Auth::user()->role == 'admin') {
-            # code...
+            // code...
 
             $datenow = Carbon::now();
-            $act_complete = Activity::with('organization','user')->where('status','enable')->where('status_activity','complete')->where('organization_id',Auth::user()->profil->organization_id)->whereDate('date_activity',$datenow)->reorder('date_activity','asc')->get();
-            $act_pending = Activity::with('organization','user')->where('status','enable')->where('status_activity','pending')->where('organization_id',Auth::user()->profil->organization_id)->whereDate('date_activity',$datenow)->reorder('date_activity','asc')->get();
-            $act_count = Activity::with('organization','user')->where('status','enable')->whereNot('status_activity','cancel')->where('organization_id',Auth::user()->profil->organization_id)->whereDate('date_activity',$datenow)->reorder('date_activity','asc')->get();
-            $all_act = Activity::with('organization','user')->where('status','enable')->whereNot('status_activity','cancel')->where('organization_id',Auth::user()->profil->organization_id)->reorder('date_activity','asc')->get();
+            $act_complete = Activity::with('organization', 'user')->where('status', 'enable')->where('status_activity', 'complete')->where('organization_id', Auth::user()->profil->organization_id)->whereDate('date_activity', $datenow)->reorder('date_activity', 'asc')->get();
+            $act_pending = Activity::with('organization', 'user')->where('status', 'enable')->where('status_activity', 'pending')->where('organization_id', Auth::user()->profil->organization_id)->whereDate('date_activity', $datenow)->reorder('date_activity', 'asc')->get();
+            $act_count = Activity::with('organization', 'user')->where('status', 'enable')->whereNot('status_activity', 'cancel')->where('organization_id', Auth::user()->profil->organization_id)->whereDate('date_activity', $datenow)->reorder('date_activity', 'asc')->get();
+            $all_act = Activity::with('organization', 'user')->where('status', 'enable')->whereNot('status_activity', 'cancel')->where('organization_id', Auth::user()->profil->organization_id)->reorder('date_activity', 'asc')->get();
 
-            return view('Admin.dashboard', compact('act_complete','act_pending','act_count','all_act'));
+            return view('Admin.dashboard', compact('act_complete', 'act_pending', 'act_count', 'all_act'));
 
         } else {
-            # code...
+            // code...
 
-            $datenow =Carbon::now();
-            $today = Activity::with('organization','user')->where('status','enable')->where('organization_id',Auth::user()->profil->organization_id)->whereDate('date_activity',$datenow)->reorder('date_activity','asc')->get();
-            $tomorrow = Activity::with('organization','user')->where('status','enable')->where('organization_id',Auth::user()->profil->organization_id)->whereDate('date_activity',$datenow->addDay())->reorder('date_activity','asc')->get();
+            $datenow = Carbon::now();
+            $today = Activity::with('organization', 'user')->where('status', 'enable')->where('organization_id', Auth::user()->profil->organization_id)->whereDate('date_activity', $datenow)->reorder('date_activity', 'asc')->get();
+            $tomorrow = Activity::with('organization', 'user')->where('status', 'enable')->where('organization_id', Auth::user()->profil->organization_id)->whereDate('date_activity', $datenow->addDay())->reorder('date_activity', 'asc')->get();
 
-            return view('Operator.dashboard', compact('today','tomorrow'));
+            return view('Operator.dashboard', compact('today', 'tomorrow'));
         }
 
     }
@@ -56,7 +55,6 @@ class DashboardController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -89,7 +87,6 @@ class DashboardController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

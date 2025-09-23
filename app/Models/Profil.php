@@ -5,9 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperProfil
+ */
 class Profil extends Model
 {
     use HasFactory;
+
     public $table = 'profil_users';
 
     protected $fillable = [
@@ -19,11 +23,13 @@ class Profil extends Model
         'nohp',
     ];
 
-    public function getIncrementing(){
+    public function getIncrementing()
+    {
         return false;
     }
 
-    public function getKeyType(){
+    public function getKeyType()
+    {
         return 'string';
     }
 
@@ -36,5 +42,4 @@ class Profil extends Model
     {
         return $this->belongsTo(Organization::class);
     }
-
 }

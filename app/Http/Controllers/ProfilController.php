@@ -11,11 +11,11 @@ class ProfilController extends Controller
 {
     public function index()
     {
-        $title_frm = "My Profile";
+        $title_frm = 'My Profile';
         $iduser = Auth::user()->id;
         $datauser = User::find($iduser);
 
-        return view('Profil.index', compact('datauser','title_frm'));
+        return view('Profil.index', compact('datauser', 'title_frm'));
     }
 
     public function change_password(Request $request)
@@ -25,6 +25,7 @@ class ProfilController extends Controller
         $user->save();
 
         Alert::success('Berhasil', 'Password berhasil diperbaharui');
+
         return back();
     }
 }

@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class LocationSeeder extends Seeder
 {
@@ -23,7 +22,7 @@ class LocationSeeder extends Seeder
             'address' => 'JL. Jend.Sudirman, KM.5.5, Kel. Pantai Johor, Kec. Datuk Bandar, Kota Tanjungbalai',
             'description' => '-',
             'longitude' => '-',
-            'latitude' => '-'
+            'latitude' => '-',
         ]);
         DB::table('locations')->insert([
             'id' => Str::uuid(),
@@ -33,7 +32,7 @@ class LocationSeeder extends Seeder
             'address' => 'JL. Jend.Sudirman, KM.5.5, Kel. Pantai Johor, Kec. Datuk Bandar, Kota Tanjungbalai',
             'description' => '-',
             'longitude' => '-',
-            'latitude' => '-'
+            'latitude' => '-',
         ]);
     }
 }

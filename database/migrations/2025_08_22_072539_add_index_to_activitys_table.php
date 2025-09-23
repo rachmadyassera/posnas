@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('activitys', function (Blueprint $table) {
-           // Menambahkan composite index pada kolom user_id dan status dengan nama khusus
-            $table->index(['created_at','date_activity','status'],'activitys_status_dateactivity_createdate_index');
-            $table->unique(['id','user_id', 'organization_id'],'activitys_id_userid_organizationid_unique');
+            // Menambahkan composite index pada kolom user_id dan status dengan nama khusus
+            $table->index(['created_at', 'date_activity', 'status'], 'activitys_status_dateactivity_createdate_index');
+            $table->unique(['id', 'user_id', 'organization_id'], 'activitys_id_userid_organizationid_unique');
         });
     }
 
@@ -24,9 +24,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('activitys', function (Blueprint $table) {
-        // Menghapus composite index menggunakan nama index khusus
-        $table->dropIndex('activitys_status_dateactivity_createdate_index');
-        $table->dropUnique('activitys_id_userid_organizationid_unique');
+            // Menghapus composite index menggunakan nama index khusus
+            $table->dropIndex('activitys_status_dateactivity_createdate_index');
+            $table->dropUnique('activitys_id_userid_organizationid_unique');
             //
         });
     }

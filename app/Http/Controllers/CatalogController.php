@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Product;
-use App\Models\Category;
 use Illuminate\Support\Facades\DB; // library agar dapat menjalankan query kedatabase pada saat dibutuhkan
 
 class CatalogController extends Controller
@@ -17,9 +15,10 @@ class CatalogController extends Controller
     public function index()
     {
         $catalog = DB::table('product')
-                ->join('category', 'product.category_id', '=', 'category.id')
-                ->select('product.*', 'category.nama')
-                ->get();
+            ->join('category', 'product.category_id', '=', 'category.id')
+            ->select('product.*', 'category.nama')
+            ->get();
+
         return view('front-end.catalog', compact('catalog'));
     }
 
@@ -36,7 +35,6 @@ class CatalogController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -69,7 +67,6 @@ class CatalogController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

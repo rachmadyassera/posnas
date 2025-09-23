@@ -19,7 +19,7 @@ class ProductSeeder extends Seeder
             'name' => 'Louis Vuiton Z1',
             'image' => '',
             'size' => '40',
-            'price' => '850000'
+            'price' => '850000',
 
         ]);
         DB::table('product')->insert([
@@ -27,7 +27,7 @@ class ProductSeeder extends Seeder
             'name' => 'Diadora Dd99',
             'image' => '',
             'size' => '43',
-            'price' => '975000'
+            'price' => '975000',
 
         ]);
         DB::table('product')->insert([
@@ -35,7 +35,7 @@ class ProductSeeder extends Seeder
             'name' => 'Converse',
             'image' => '',
             'size' => '38',
-            'price' => '615000'
+            'price' => '615000',
 
         ]);
     }

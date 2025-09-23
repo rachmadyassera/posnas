@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Product;
 use App\Models\Category;
-use Yajra\DataTables\DataTables; // library untuk tampilan tabel dinamis
-use RealRashid\SweetAlert\Facades\Alert; //library untuk memperindah tampilan notifikasi
-use Illuminate\Support\Facades\DB; // library agar dapat menjalankan query kedatabase pada saat dibutuhkan
-use Illuminate\Support\Facades\Storage; // libary agar dapat mengahapus file pada folder public
-
-use Auth;
+use App\Models\Product;
+use Illuminate\Http\Request;
+// library untuk tampilan tabel dinamis
+use Illuminate\Support\Facades\DB; // library untuk memperindah tampilan notifikasi
+use Illuminate\Support\Facades\Storage; // library agar dapat menjalankan query kedatabase pada saat dibutuhkan
+use RealRashid\SweetAlert\Facades\Alert; // libary agar dapat mengahapus file pada folder public
 
 class ProductController extends Controller
 {
@@ -22,9 +20,10 @@ class ProductController extends Controller
     public function index()
     {
         $product = DB::table('product')
-                ->join('category', 'product.category_id', '=', 'category.id')
-                ->select('product.*', 'category.nama')
-                ->get();
+            ->join('category', 'product.category_id', '=', 'category.id')
+            ->select('product.*', 'category.nama')
+            ->get();
+
         return view('Product.index', compact('product'));
     }
 
@@ -36,13 +35,13 @@ class ProductController extends Controller
     public function create()
     {
         $category = Category::get();
+
         return view('Product.add', compact('category'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -54,14 +53,14 @@ class ProductController extends Controller
             'name' => $request->name,
             'size' => $request->size,
             'image' => $image,
-            'price' => $request->price
+            'price' => $request->price,
         ]);
 
         Alert::success('Success', 'You\'ve Successfully Registered');
+
         return redirect()->route('product.index');
 
     }
-
 
     /**
      * Display the specified resource.
@@ -84,13 +83,13 @@ class ProductController extends Controller
     {
         $category = Category::get();
         $product = Product::find($id);
+
         return view('Product.edit', ['category' => $category, 'product' => $product]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -101,19 +100,20 @@ class ProductController extends Controller
         $product->size = $request->size;
         $product->price = $request->price;
         if ($request->file('image')) {
-            # code...
+            // code...
             if ($request->oldImage) {
-                # code...
+                // code...
                 Storage::delete($request->oldImage);
             }
             $image = $request->file('image')->store('product-images');
             $product->image = $image;
             $product->save();
         } else {
-            # code...
+            // code...
             $product->save();
         }
         Alert::success('Success', 'You\'ve Successfully Updated');
+
         return redirect()->route('product.index');
 
     }
@@ -128,12 +128,13 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         if ($product->image) {
-            # code...
+            // code...
             Storage::delete($product->image);
         }
         $product->delete();
 
         Alert::success('Success', 'You\'ve Successfully Deleted');
+
         return redirect()->route('product.index');
     }
 }

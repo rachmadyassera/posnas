@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('history_log_activitys', function (Blueprint $table) {
             //
-            $table->unique(['id','activity_id'],'history_log_activitys_id_activityid_unique');
+            $table->unique(['id', 'activity_id'], 'history_log_activitys_id_activityid_unique');
 
         });
     }

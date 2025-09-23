@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Confrence;
 use App\Models\Location;
 use App\Models\Presence;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use PDF;
+use RealRashid\SweetAlert\Facades\Alert;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class ConfrenceController extends Controller
 {
@@ -22,7 +22,8 @@ class ConfrenceController extends Controller
     {
         //
         // dd(Auth::user()->role);
-        $presensi = Confrence::with(['user','organization','location'])->latest()->get()->where('status','enable')->where('organization_id', Auth::user()->profil->organization_id);
+        $presensi = Confrence::with(['user', 'organization', 'location'])->latest()->get()->where('status', 'enable')->where('organization_id', Auth::user()->profil->organization_id);
+
         return view('Admin.Rapat.index', compact('presensi'));
 
     }
@@ -33,7 +34,8 @@ class ConfrenceController extends Controller
     public function create()
     {
         //
-        $lokasi = Location::latest()->get()->where('status','enable');
+        $lokasi = Location::latest()->get()->where('status', 'enable');
+
         return view('Admin.Rapat.add', compact('lokasi'));
 
     }
@@ -52,11 +54,12 @@ class ConfrenceController extends Controller
             'location_id' => $request->location,
             'title' => $request->title,
             'date_confrence' => $request->date,
-            'description' => $request->description
+            'description' => $request->description,
         ]);
 
-        QrCode::generate(route('presence.check-in', $id),  public_path('presensi/qrcodes/'.$id.'.svg'));
+        QrCode::generate(route('presence.check-in', $id), public_path('presensi/qrcodes/'.$id.'.svg'));
         Alert::success('Berhasil', 'Rapat berhasil didaftarkan');
+
         return redirect()->route('confrence.index');
     }
 
@@ -67,9 +70,9 @@ class ConfrenceController extends Controller
     {
         //
         $kegiatan = Confrence::find($id);
-        $presence = Presence::with('confrence')->latest()->get()->where('status','enable')->where('confrence_id', $id);
+        $presence = Presence::with('confrence')->latest()->get()->where('status', 'enable')->where('confrence_id', $id);
 
-        return view('Admin.Rapat.kehadiran', compact('kegiatan','presence'));
+        return view('Admin.Rapat.kehadiran', compact('kegiatan', 'presence'));
     }
 
     /**
@@ -78,16 +81,17 @@ class ConfrenceController extends Controller
     public function edit(string $id)
     {
         //
-        $lokasi = Location::get()->where('status','enable');
+        $lokasi = Location::get()->where('status', 'enable');
         $presensi = Confrence::find($id);
 
         if (Auth::user()->profil->organization_id !== $presensi->organization_id) {
-            # code...
-        Alert::warning('Oops', 'Anda tidak dapat melakukan aksi ini, masalah otorisasi');
-        return redirect()->route('confrence.index');
+            // code...
+            Alert::warning('Oops', 'Anda tidak dapat melakukan aksi ini, masalah otorisasi');
+
+            return redirect()->route('confrence.index');
         }
 
-        return view('Admin.Rapat.edit', ['lokasi' => $lokasi,'pre' => $presensi]);
+        return view('Admin.Rapat.edit', ['lokasi' => $lokasi, 'pre' => $presensi]);
     }
 
     /**
@@ -105,6 +109,7 @@ class ConfrenceController extends Controller
         $pre->save();
 
         Alert::success('Berhasil', 'Data Rapat berhasil diperbaharui');
+
         return redirect()->route('confrence.index');
     }
 
@@ -118,32 +123,33 @@ class ConfrenceController extends Controller
 
     // ======================== other function =======================
 
-
     public function disable($id)
     {
         if (Auth::user()->role == 'superadmin') {
-            # code...
+            // code...
 
             $rpt = Confrence::find($id);
             if ($rpt->status == 'enable') {
-                # code...
+                // code...
                 $rpt->status = 'disable';
             } else {
-                # code...
+                // code...
                 $rpt->status = 'enable';
             }
             $rpt->save();
 
             Alert::success('Berhasil', 'Status lokasi telah diperbaharui');
+
             return back();
 
         } else {
-            # code...
+            // code...
             $rpt = Confrence::find($id);
             $rpt->status = 'disable';
             $rpt->save();
 
             Alert::success('Berhasil', 'Kegiatan berhasil dihapus');
+
             return back();
         }
 
@@ -156,18 +162,20 @@ class ConfrenceController extends Controller
         $rpt->save();
 
         Alert::success('Berhasil', 'Peserta berhasil dihapus');
+
         return back();
     }
 
     public function generate_pdf(string $id)
     {
         $rapat = Confrence::find($id);
-        $peserta = Presence::with('confrence')->latest()->get()->where('status','enable')->where('confrence_id', $id);
+        $peserta = Presence::with('confrence')->latest()->get()->where('status', 'enable')->where('confrence_id', $id);
         $title = 'Daftar Presensi Peserta '.$rapat->title.' '.Carbon::now()->isoFormat('H:m:s');
         // dd($rapat,$peserta,$title);
         // return view('Admin.Pdf.peserta', compact('rapat','peserta','title'));
 
-        $pdf = PDF::loadview('Admin.Pdf.peserta', compact('rapat','peserta','title'))->setPaper('A4', 'landscape');
+        $pdf = PDF::loadview('Admin.Pdf.peserta', compact('rapat', 'peserta', 'title'))->setPaper('A4', 'landscape');
+
         return $pdf->download($title.'.pdf');
     }
 
@@ -176,30 +184,30 @@ class ConfrenceController extends Controller
         $presensi = Confrence::find($id);
         $title = 'Qr Code Formulir Presensi '.$presensi->title;
         // dd($presensi,$peserta,$title);
-        $pdf = PDF::loadview('Admin.Pdf.qrcode', compact('presensi','title'))->setPaper('legal', 'potrait');
+        $pdf = PDF::loadview('Admin.Pdf.qrcode', compact('presensi', 'title'))->setPaper('legal', 'potrait');
+
         return $pdf->download($title.'.pdf');
         // return view('Admin.Pdf.qrcode', compact('rapat','title'));
 
     }
 
-
-    //================ function admin ======================== //
+    // ================ function admin ======================== //
 
     public function all_confrence()
     {
         //
-        $rapat = Confrence::with(['user','opd','location'])->latest()->get();
+        $rapat = Confrence::with(['user', 'opd', 'location'])->latest()->get();
 
         return view('Admin.Rapat.index', compact('rapat'));
     }
 
-
     public function generate_all_confrence_pdf()
     {
-        $rapat = Confrence::with(['user','opd','location'])->latest()->get()->where('status','enable');
+        $rapat = Confrence::with(['user', 'opd', 'location'])->latest()->get()->where('status', 'enable');
         $title = 'Data Presensi Peserta Kegiatan';
         // dd($rapat,$peserta,$title);
-        $pdf = PDF::loadview('Admin.Pdf.rapat', compact('rapat','title'))->setPaper('legal', 'potrait');
+        $pdf = PDF::loadview('Admin.Pdf.rapat', compact('rapat', 'title'))->setPaper('legal', 'potrait');
+
         return $pdf->download($title.'.pdf');
     }
 
@@ -209,6 +217,6 @@ class ConfrenceController extends Controller
         $rapat = Confrence::find($id);
         $peserta = Presence::with('confrence')->latest()->get()->where('confrence_id', $id);
 
-        return view('Admin.Rapat.peserta', compact('rapat','peserta'));
+        return view('Admin.Rapat.peserta', compact('rapat', 'peserta'));
     }
 }

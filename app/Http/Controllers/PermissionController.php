@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Permission;
 use RealRashid\SweetAlert\Facades\Alert;
+use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
@@ -14,9 +13,10 @@ class PermissionController extends Controller
      */
     public function index()
     {
-       //menampilkan semua data permission
-       $datas = Permission::orderBy('name', 'asc')->get();
-       return view('Sadmin.Permission.index',compact('datas'));
+        // menampilkan semua data permission
+        $datas = Permission::orderBy('name', 'asc')->get();
+
+        return view('Sadmin.Permission.index', compact('datas'));
     }
 
     /**
@@ -33,9 +33,10 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         //
-        Permission::create(['name' => $request->name,'module' => $request->module]);
+        Permission::create(['name' => $request->name, 'module' => $request->module]);
 
         Alert::success('Success', 'Permission has been successfully added. ');
+
         return back();
 
     }
@@ -68,6 +69,7 @@ class PermissionController extends Controller
         $permission->save();
 
         Alert::success('Success', 'Permission has been successfully updated');
+
         return redirect()->route('permission.index');
     }
 
@@ -81,6 +83,7 @@ class PermissionController extends Controller
         $pms->delete();
 
         Alert::success('Success', 'Permission has been successfully Deleted');
+
         return redirect()->route('permission.index');
     }
 }

@@ -5,8 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperConfrence
+ */
 class Confrence extends Model
-{ use HasFactory;
+{
+    use HasFactory;
 
     protected $fillable = [
         'id',
@@ -16,15 +20,16 @@ class Confrence extends Model
         'title',
         'description',
         'date_confrence',
-        'status'
+        'status',
     ];
 
-
-    public function getIncrementing(){
+    public function getIncrementing()
+    {
         return false;
     }
 
-    public function getKeyType(){
+    public function getKeyType()
+    {
         return 'string';
     }
 

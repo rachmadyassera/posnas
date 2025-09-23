@@ -9,21 +9,19 @@
         <ul class="sidebar-menu">
             <li class="menu-header">Main Menu</li>
             <li @if (Request::segment(1) == 'dashboard') class="active" @endif>
-                <a href="{{ url('/dashboard') }}" class="nav-link "><i class="fas fa-home"></i><span>Dashboard</span></a>
+                <a href="{{ url('/dashboard') }}" class="nav-link"><i class="fas fa-home"></i><span>Dashboard</span></a>
             </li>
 
             <li @if (Request::segment(1) == 'operator') class="active" @endif>
-                <a href="{{ url('/operator') }}" class="nav-link "><i
+                <a href="{{ url('/operator') }}" class="nav-link"><i
                         class="fas fa-user-tie"></i><span>Operator</span></a>
             </li>
 
             <li class="menu-header">Umum</li>
 
-            <li
-                class="nav-item dropdown
-                    @if (Request::segment(1) == 'activity') active
+            <li class="nav-item dropdown @if (Request::segment(1) == 'activity') active
                     @else @endif">
-                <a href="#" class="nav-link has-dropdown " data-toggle="dropdown"><i
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fas fa-calendar-alt"></i> <span>Agenda</span></a>
                 <ul class="dropdown-menu">
                     <li @if (Request::segment(1) == 'activity' && empty(Request::segment(2))) class="active" @endif><a class="nav-link"
@@ -36,19 +34,18 @@
             </li>
 
             <li
-                class="nav-item dropdown
-                    @if (Request::segment(1) == 'location') active
+                class="nav-item dropdown @if (Request::segment(1) == 'location') active
                     @elseif(Request::segment(1) == 'confrence') active
                     @else @endif">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i
                         class="fas fa-map-marker-alt"></i><span>Presensi</span></a>
                 <ul class="dropdown-menu">
                     <li @if (Request::segment(1) == 'location') class="active" @endif>
-                        <a href="{{ url('location') }}" class="nav-link "><span>Lokasi</span></a>
+                        <a href="{{ url('location') }}" class="nav-link"><span>Lokasi</span></a>
                     </li>
 
                     <li @if (Request::segment(1) == 'confrence') class="active" @endif>
-                        <a href="{{ url('confrence') }}" class="nav-link "><span>Data Presensi</span></a>
+                        <a href="{{ url('confrence') }}" class="nav-link"><span>Data Presensi</span></a>
                     </li>
                 </ul>
             </li>

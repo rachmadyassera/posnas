@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperOrganization
+ */
 class Organization extends Model
 {
     use HasFactory;
@@ -15,16 +18,16 @@ class Organization extends Model
         'address',
         'longitude',
         'latitude',
-        'status'
+        'status',
     ];
 
-
-    public function getIncrementing(){
+    public function getIncrementing()
+    {
         return false;
     }
 
-    public function getKeyType(){
+    public function getKeyType()
+    {
         return 'string';
     }
-
 }

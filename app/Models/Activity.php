@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperActivity
+ */
 class Activity extends Model
 {
     use HasFactory;
-    public $table = 'activitys';
 
+    public $table = 'activitys';
 
     protected $fillable = [
         'id',
@@ -21,14 +24,16 @@ class Activity extends Model
         'description',
         'accompanying_officer',
         'status_activity',
-        'status'
+        'status',
     ];
 
-    public function getIncrementing(){
+    public function getIncrementing()
+    {
         return false;
     }
 
-    public function getKeyType(){
+    public function getKeyType()
+    {
         return 'string';
     }
 
@@ -51,5 +56,4 @@ class Activity extends Model
     {
         return $this->hasMany(Historyactivity::class);
     }
-
 }

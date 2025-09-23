@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Organization;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class OrganizationController extends Controller
@@ -16,6 +15,7 @@ class OrganizationController extends Controller
     public function index()
     {
         $org = Organization::latest()->get();
+
         return view('SAdmin.Organization.index', compact('org'));
     }
 
@@ -42,6 +42,7 @@ class OrganizationController extends Controller
             'latitude' => $request->latitude,
         ]);
         Alert::success('Berhasil', 'Organisasi berhasil didaftarkan');
+
         return redirect()->route('organization.index');
     }
 
@@ -60,6 +61,7 @@ class OrganizationController extends Controller
     {
         //
         $Organization = Organization::find($id);
+
         return view('SAdmin.Organization.edit', ['org' => $Organization]);
     }
 
@@ -77,6 +79,7 @@ class OrganizationController extends Controller
         $Organization->save();
 
         Alert::success('Berhasil', 'Organisasi berhasil diperbaharui');
+
         return redirect()->route('organization.index');
     }
 
@@ -88,27 +91,24 @@ class OrganizationController extends Controller
         //
     }
 
-
     // ======================== other function =======================
-
 
     public function disable($id)
     {
         $Organization = Organization::find($id);
 
         if ($Organization->status == 'enable') {
-            # code...
+            // code...
             $Organization->status = 'disable';
         } else {
-            # code...
+            // code...
             $Organization->status = 'enable';
         }
         $Organization->save();
 
         Alert::success('Berhasil', 'Status Organisasi berhasil diperbaharui');
+
         return redirect()->route('organization.index');
 
     }
-
-
 }

@@ -5,9 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperProduct
+ */
 class Product extends Model
 {
     use HasFactory;
+
     public $table = 'product';
-    protected $fillable = ['category_id','name','image','size','price'];
+
+    protected $fillable = ['category_id', 'name', 'image', 'size', 'price'];
 }

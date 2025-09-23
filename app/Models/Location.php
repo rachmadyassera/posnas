@@ -2,13 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperLocation
+ */
 class Location extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'id',
         'user_id',
@@ -16,16 +19,18 @@ class Location extends Model
         'name',
         'address',
         'description',
-        'status'
+        'status',
     ];
 
     protected $table = 'locations';
 
-    public function getIncrementing(){
+    public function getIncrementing()
+    {
         return false;
     }
 
-    public function getKeyType(){
+    public function getKeyType()
+    {
         return 'string';
     }
 

@@ -5,9 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperNotesactivity
+ */
 class Notesactivity extends Model
 {
     use HasFactory;
+
     public $table = 'notes_activitys';
 
     protected $fillable = [
@@ -15,16 +19,19 @@ class Notesactivity extends Model
         'activity_id',
         'user_id',
         'notes',
-        'status'
+        'status',
     ];
 
-    public function getIncrementing(){
+    public function getIncrementing()
+    {
         return false;
     }
 
-    public function getKeyType(){
+    public function getKeyType()
+    {
         return 'string';
     }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -39,5 +46,4 @@ class Notesactivity extends Model
     {
         return $this->hasMany(Documentation::class);
     }
-
 }

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Category;
-use Yajra\DataTables\DataTables;
+use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryController extends Controller
@@ -17,6 +16,7 @@ class CategoryController extends Controller
     public function index()
     {
         $category = Category::get();
+
         return view('Category.index', compact('category'));
     }
 
@@ -33,15 +33,15 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         Category::create([
-            'nama' => $request->nama
+            'nama' => $request->nama,
         ]);
         Alert::success('Success', 'You\'ve Successfully Registered');
+
         return redirect()->route('category.index');
     }
 
@@ -65,13 +65,13 @@ class CategoryController extends Controller
     public function edit($id)
     {
         $category = Category::find($id);
+
         return view('Category.edit', ['category' => $category]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -82,6 +82,7 @@ class CategoryController extends Controller
         $category->save();
 
         Alert::success('Success', 'You\'ve Successfully Updated');
+
         return redirect()->route('category.index');
     }
 
@@ -97,6 +98,7 @@ class CategoryController extends Controller
         $category->delete();
 
         Alert::success('Success', 'You\'ve Successfully Deleted');
+
         return redirect()->route('category.index');
     }
 }

@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -32,9 +31,8 @@ class UsersSeeder extends Seeder
             // ]
         );
 
-
         // $permissions = Permission::whereIn('id', [1,2,3])->pluck('id','id')->all();
-        $permissions = Permission::pluck('id','id')->all();
+        $permissions = Permission::pluck('id', 'id')->all();
         // $permissions = Permission::pluck('uuid')->toArray();
         // $permissions = Permission::pluck('uuid')->toArray();
         // dd($permissions);

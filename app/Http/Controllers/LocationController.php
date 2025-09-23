@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Location;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class LocationController extends Controller
@@ -16,7 +16,8 @@ class LocationController extends Controller
     public function index()
     {
         //
-        $lokasi = Location::latest()->get()->where('status','enable');
+        $lokasi = Location::latest()->get()->where('status', 'enable');
+
         return view('Admin.Lokasi.index', compact('lokasi'));
     }
 
@@ -41,9 +42,10 @@ class LocationController extends Controller
             'user_id' => Auth::user()->id,
             'organization_id' => Auth::user()->profil->organization_id,
             'name' => $request->name,
-            'address' => $request->address
+            'address' => $request->address,
         ]);
         Alert::success('Berhasil', 'Lokasi berhasil didaftarkan');
+
         return redirect()->route('location.index');
 
     }
@@ -63,6 +65,7 @@ class LocationController extends Controller
     {
         //
         $lokasi = Location::find($id);
+
         return view('Admin.Lokasi.edit', ['lks' => $lokasi]);
     }
 
@@ -78,6 +81,7 @@ class LocationController extends Controller
         $lks->save();
 
         Alert::success('Berhasil', 'Lokasi berhasil diperbaharui');
+
         return redirect()->route('location.index');
     }
 
@@ -91,44 +95,45 @@ class LocationController extends Controller
 
     // ======================== other function =======================
 
-
     public function disable($id)
     {
 
         if (Auth::user()->role == 'superadmin') {
-            # code...
+            // code...
 
             $opd = Location::find($id);
             if ($opd->status == 'enable') {
-                # code...
+                // code...
                 $opd->status = 'disable';
             } else {
-                # code...
+                // code...
                 $opd->status = 'enable';
             }
             $opd->save();
 
             Alert::success('Berhasil', 'Status lokasi telah diperbaharui');
+
             return back();
 
         } else {
-            # code...
+            // code...
             $opd = Location::find($id);
             $opd->status = 'disable';
             $opd->save();
 
             Alert::success('Berhasil', 'Lokasi berhasil dihapus');
+
             return back();
         }
     }
 
-
-    //================ function admin ======================== //
+    // ================ function admin ======================== //
 
     public function all_location()
     {
         //
         $lokasi = Location::latest()->get();
+
         return view('Sadmin.Lokasi.index', compact('lokasi'));
     }
 }

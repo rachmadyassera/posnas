@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use RealRashid\SweetAlert\Facades\Alert;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -15,9 +14,10 @@ class RoleController extends Controller
      */
     public function index()
     {
-       //menampilkan semua data role
-        $datas = Role::get()->whereNotIn('name','superadmin');
-        return view('Sadmin.Role.index',compact('datas'));
+        // menampilkan semua data role
+        $datas = Role::get()->whereNotIn('name', 'superadmin');
+
+        return view('Sadmin.Role.index', compact('datas'));
     }
 
     /**
@@ -30,10 +30,11 @@ class RoleController extends Controller
         // dd($permissions);
 
         $groupedPermissions = Permission::all()->groupBy('module');
+
         // $groupedPermissions = $permissions->groupBy(function ($permission) {
         // return explode('-', $permission->name)[0]; // ambil nama modul
         // });
-        return view('Sadmin.Role.add',compact('groupedPermissions'));
+        return view('Sadmin.Role.add', compact('groupedPermissions'));
     }
 
     /**
@@ -44,17 +45,16 @@ class RoleController extends Controller
         //
 
         try {
-            //code...
+            // code...
 
             $request->validate([
 
                 'name' => 'required',
                 'permissions' => 'nullable|array', // jangan required
-                'permissions.*' => 'exists:permissions,id'
+                'permissions.*' => 'exists:permissions,id',
             ]);
 
             // dd($request->permissions);
-
 
             $role = Role::create(['name' => $request->name]);
             // $role->syncPermissions($request->permissions);
@@ -62,11 +62,13 @@ class RoleController extends Controller
             $role->syncPermissions($permissions);
 
             Alert::success('Success', 'Role and setting permission has been successfully added. ');
+
             return back();
 
         } catch (\Throwable $th) {
             // dd($th->getMessage());
             Alert::warning('Error', 'Something wrong, please try again.');
+
             return back();
         }
     }
@@ -91,7 +93,7 @@ class RoleController extends Controller
         $groupedPermissions = Permission::all()->groupBy('module');
 
         // dd($permissions);
-        return view('Sadmin.Role.edit',compact('role','groupedPermissions'));
+        return view('Sadmin.Role.edit', compact('role', 'groupedPermissions'));
     }
 
     /**
@@ -101,9 +103,9 @@ class RoleController extends Controller
     {
 
         try {
-            //code...
+            // code...
             $request->validate([
-                'name' => 'required|string|unique:roles,name,' . $id, // unik kecuali role ini
+                'name' => 'required|string|unique:roles,name,'.$id, // unik kecuali role ini
                 'permissions' => 'nullable|array',
                 'permissions.*' => 'exists:permissions,id',
             ]);
@@ -125,9 +127,11 @@ class RoleController extends Controller
             }
 
             Alert::success('Success', 'Role and setting permission has been successfully updated. ');
+
             return back();
         } catch (\Throwable $th) {
             Alert::warning('Error', 'Something wrong, please try again.');
+
             return back();
         }
     }

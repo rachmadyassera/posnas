@@ -5,22 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperHistoryactivity
+ */
 class Historyactivity extends Model
 {
-    use HasFactory;  public $table = 'history_log_activitys';
+    use HasFactory;
+
+    public $table = 'history_log_activitys';
 
     protected $fillable = [
         'id',
         'activity_id',
         'log',
-        'status'
+        'status',
     ];
 
-    public function getIncrementing(){
+    public function getIncrementing()
+    {
         return false;
     }
 
-    public function getKeyType(){
+    public function getKeyType()
+    {
         return 'string';
     }
 

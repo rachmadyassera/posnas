@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Profil;
 use App\Models\Organization;
-use Illuminate\Support\Str;
-use Yajra\DataTables\DataTables;
+use App\Models\Profil;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use RealRashid\SweetAlert\Facades\Alert;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -20,7 +20,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function json() //memanggil data json untuk datatable server
+    public function json() // memanggil data json untuk datatable server
     {
         return DataTables::of(User::query())->toJson();
     }
@@ -33,7 +33,8 @@ class UserController extends Controller
         // // $role->syncPermissions($permissions);
         // $userId = User::find(Auth::user()->id);
 
-        $datauser = User::with('organization')->whereNot('name','developer')->latest()->get()->whereNotIn('email','alpatester@siap.app');
+        $datauser = User::with('organization')->whereNot('name', 'developer')->latest()->get()->whereNotIn('email', 'alpatester@siap.app');
+
         return view('Sadmin.User.index', compact('datauser'));
 
         // if($userId->can('user-create')){
@@ -52,29 +53,29 @@ class UserController extends Controller
     public function create()
     {
 
-        $org = Organization::latest()->get()->where('status','enable');
+        $org = Organization::latest()->get()->where('status', 'enable');
+
         return view('Sadmin.User.add', compact('org'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $check_email = User::where('email',$request->email)->first();
+        $check_email = User::where('email', $request->email)->first();
 
-        if (empty($check_email)){
+        if (empty($check_email)) {
 
-            $newData = new User();
-            $newData ->id = Str::uuid();
-            $newData ->name =  $request->name;
-            $newData ->email = $request->email;
-            $newData ->role = 'admin';
-            $newData ->password = bcrypt('1234');
-            $newData ->save();
+            $newData = new User;
+            $newData->id = Str::uuid();
+            $newData->name = $request->name;
+            $newData->email = $request->email;
+            $newData->role = 'admin';
+            $newData->password = bcrypt('1234');
+            $newData->save();
 
             Profil::create([
                 'id' => Str::uuid(),
@@ -82,16 +83,18 @@ class UserController extends Controller
                 'organization_id' => $request->org,
                 'nip' => $request->nip,
                 'jabatan' => $request->jabatan,
-                'nohp' => $request->nohp
+                'nohp' => $request->nohp,
             ]);
 
-            $newData->assignRole( $newData->role);
+            $newData->assignRole($newData->role);
 
             Alert::success('Success', 'New admin has been successfully added');
+
             return back();
 
-        }else{
+        } else {
             Alert::warning('Error', 'Email already use.');
+
             return back();
         }
 
@@ -117,16 +120,15 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
-        $roles = Role::get()->whereNotIn('name',['superadmin']);
-        $org = Organization::latest()->get()->where('status','enable');
+        $roles = Role::get()->whereNotIn('name', ['superadmin']);
+        $org = Organization::latest()->get()->where('status', 'enable');
 
-        return view('Sadmin.User.edit', compact('org','user','roles'));
+        return view('Sadmin.User.edit', compact('org', 'user', 'roles'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -149,6 +151,7 @@ class UserController extends Controller
         $user->syncRoles($user->role);
 
         Alert::success('Success', 'User has been successfully updated');
+
         return back();
     }
 
@@ -163,16 +166,17 @@ class UserController extends Controller
         $User = User::find($id);
 
         if ($User->status == 'enable') {
-            # code...
+            // code...
             $User->status = 'disable';
         } else {
-            # code...
+            // code...
             $User->status = 'enable';
         }
         $User->save();
 
         Alert::success('Berhasil', 'Status Pengguna berhasil diperbaharui ('.$User->status.')');
-        return  back();
+
+        return back();
     }
 
     // =================== other function =================================
@@ -184,37 +188,40 @@ class UserController extends Controller
         $user->save();
 
         Alert::success('Berhasil', 'Password pengguna telah direset !');
+
         return back();
 
     }
 
     public function operator()
     {
-        $datauser = User::with('organization','profil')->whereNotIn('role',['admin'])->latest()->get()->where('profil.organization_id',Auth::user()->profil->organization_id);
+        $datauser = User::with('organization', 'profil')->whereNotIn('role', ['admin'])->latest()->get()->where('profil.organization_id', Auth::user()->profil->organization_id);
+
         return view('Admin.User.index', compact('datauser'));
     }
 
     public function create_operator()
     {
 
-        //menampilkan semua data role
-        $roles = Role::get()->whereNotIn('name',['superadmin','admin']);
-        return view('Admin.User.add',compact('roles'));
+        // menampilkan semua data role
+        $roles = Role::get()->whereNotIn('name', ['superadmin', 'admin']);
+
+        return view('Admin.User.add', compact('roles'));
     }
 
     public function store_operator(Request $request)
     {
-        $check_email = User::where('email',$request->email)->first();
+        $check_email = User::where('email', $request->email)->first();
 
-        if (empty($check_email)){
+        if (empty($check_email)) {
 
-            $newData = new User();
-            $newData ->id = Str::uuid();
-            $newData ->name =  $request->name;
-            $newData ->email = $request->email;
-            $newData ->role = 'operator';
-            $newData ->password = bcrypt('1234');
-            $newData ->save();
+            $newData = new User;
+            $newData->id = Str::uuid();
+            $newData->name = $request->name;
+            $newData->email = $request->email;
+            $newData->role = 'operator';
+            $newData->password = bcrypt('1234');
+            $newData->save();
 
             Profil::create([
                 'id' => Str::uuid(),
@@ -222,16 +229,17 @@ class UserController extends Controller
                 'organization_id' => Auth::user()->profil->organization_id,
                 'nip' => $request->nip,
                 'jabatan' => $request->jabatan,
-                'nohp' => $request->nohp
+                'nohp' => $request->nohp,
             ]);
-            $newData->assignRole( $request->role);
-
+            $newData->assignRole($request->role);
 
             Alert::success('Berhasil', 'Akun operator berhasil didaftarkan');
+
             return back();
 
-        }else{
+        } else {
             Alert::warning('Oops', 'Emailnya sudah terdaftar, silahkan gunakan email yang lain.');
+
             return back();
         }
 
@@ -239,10 +247,11 @@ class UserController extends Controller
 
     public function edit_operator($id)
     {
-        //menampilkan semua data role
-        $roles = Role::get()->whereNotIn('name',['superadmin','admin']);
+        // menampilkan semua data role
+        $roles = Role::get()->whereNotIn('name', ['superadmin', 'admin']);
         $user = User::find($id);
-        return view('Admin.User.edit', compact('user','roles'));
+
+        return view('Admin.User.edit', compact('user', 'roles'));
     }
 
     public function update_operator(Request $request)
@@ -262,6 +271,7 @@ class UserController extends Controller
         $user->syncRoles($request->role);
 
         Alert::success('Berhasil', 'Data operator berhasil diperbaharui');
+
         return back();
     }
 
@@ -270,16 +280,17 @@ class UserController extends Controller
         $User = User::find($id);
 
         if ($User->status == 'enable') {
-            # code...
+            // code...
             $User->status = 'disable';
         } else {
-            # code...
+            // code...
             $User->status = 'enable';
         }
         $User->save();
 
         Alert::success('Berhasil', 'Status operator berhasil diperbaharui ('.$User->status.')');
-        return  back();
+
+        return back();
     }
 
     public function reset_pass_operator($id)
@@ -289,6 +300,7 @@ class UserController extends Controller
         $user->save();
 
         Alert::success('Berhasil', 'Password operator telah direset !');
+
         return back();
 
     }
