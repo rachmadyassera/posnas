@@ -16,7 +16,14 @@ class LocationController extends Controller
     public function index()
     {
         //
-        $lokasi = Location::latest()->get()->where('status', 'enable');
+        $lokasi = Location::reorder('created_at','desc')->where('status', 'enable')->get();
+
+        // activity()
+        // ->causedBy(auth()->user()) // user UUID
+        // ->performedOn($lokasi->first())
+        // ->withProperties(['count' => $lokasi->count()])
+        // ->log('Melihat data lokasi presensi');
+
 
         return view('Admin.Lokasi.index', compact('lokasi'));
     }
@@ -27,7 +34,7 @@ class LocationController extends Controller
     public function create()
     {
         //
-        return view('Admin.Lokasi.add');
+        // return view('Admin.Lokasi.add');
 
     }
 
@@ -37,13 +44,22 @@ class LocationController extends Controller
     public function store(Request $request)
     {
         //
-        Location::create([
+        $lokasi = Location::create([
             'id' => Str::uuid(),
             'user_id' => Auth::user()->id,
             'organization_id' => Auth::user()->profil->organization_id,
             'name' => $request->name,
             'address' => $request->address,
         ]);
+
+
+        activity()
+        ->causedBy(auth()->user()) // user UUID
+        ->performedOn($lokasi)
+        ->withProperties(['count' => $lokasi->count()])
+        ->log('Menambahkan lokasi presensi');
+
+
         Alert::success('Berhasil', 'Lokasi berhasil didaftarkan');
 
         return redirect()->route('location.index');
@@ -66,7 +82,7 @@ class LocationController extends Controller
         //
         $lokasi = Location::find($id);
 
-        return view('Admin.Lokasi.edit', ['lks' => $lokasi]);
+        // return view('Admin.Lokasi.edit', ['lks' => $lokasi]);
     }
 
     /**
@@ -79,6 +95,12 @@ class LocationController extends Controller
         $lks->name = $request->name;
         $lks->address = $request->address;
         $lks->save();
+
+        activity()
+        ->causedBy(auth()->user()) // user UUID
+        ->performedOn($lks)
+        ->withProperties(['count' => $lks->count()])
+        ->log('Memperbaharui data lokasi presensi');
 
         Alert::success('Berhasil', 'Lokasi berhasil diperbaharui');
 
@@ -101,15 +123,21 @@ class LocationController extends Controller
         if (Auth::user()->role == 'superadmin') {
             // code...
 
-            $opd = Location::find($id);
-            if ($opd->status == 'enable') {
+            $lks = Location::find($id);
+            if ($lks->status == 'enable') {
                 // code...
-                $opd->status = 'disable';
+                $lks->status = 'disable';
             } else {
                 // code...
-                $opd->status = 'enable';
+                $lks->status = 'enable';
             }
-            $opd->save();
+            $lks->save();
+
+            activity()
+            ->causedBy(auth()->user()) // user UUID
+            ->performedOn($lks)
+            ->withProperties(['count' => $lks->count()])
+            ->log('Superadmin Memperbaharui data lokasi presensi');
 
             Alert::success('Berhasil', 'Status lokasi telah diperbaharui');
 
@@ -117,9 +145,15 @@ class LocationController extends Controller
 
         } else {
             // code...
-            $opd = Location::find($id);
-            $opd->status = 'disable';
-            $opd->save();
+            $lks = Location::find($id);
+            $lks->status = 'disable';
+            $lks->save();
+
+            activity()
+            ->causedBy(auth()->user()) // user UUID
+            ->performedOn($lks)
+            ->withProperties(['data' => $lks])
+            ->log('Melakukan disable data lokasi presensi');
 
             Alert::success('Berhasil', 'Lokasi berhasil dihapus');
 
